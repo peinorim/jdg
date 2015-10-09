@@ -10,4 +10,7 @@
     <string name="all_videos">Toutes les vidéos</string>
     <string name="papy_videos">Papy Grenier</string>
     <string name="hs_videos">Hors séries</string>
+
+    <string name="api_key">AIzaSyA9lKLIH3Eqb3oZ3qQTCf7LkI_WePcvnyg</string>
+    <string name="channel_jdg_id">UC_yP2DpIgs5Y1uWC0T03Chw</string>
 </resources>

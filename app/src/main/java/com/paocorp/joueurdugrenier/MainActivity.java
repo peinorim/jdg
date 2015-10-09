@@ -1,6 +1,7 @@
 package com.paocorp.joueurdugrenier;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
+import com.paocorp.joueurdugrenier.youtube.Channels.JDGData;
+import com.paocorp.joueurdugrenier.youtube.YoutubeChannelVideos;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +40,12 @@ public class MainActivity extends AppCompatActivity
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment();
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
+        }
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            YoutubeChannelVideos jdg = new YoutubeChannelVideos(new JDGData());
+            jdg.fetchLastVideos();
         }
     }
 
