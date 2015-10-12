@@ -21,8 +21,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.paocorp.joueurdugrenier.R;
 
 /**
@@ -65,18 +63,7 @@ public class ContentFragment extends Fragment {
         Bundle args = getArguments();
 
         if (args != null) {
-            TextView title = (TextView) view.findViewById(R.id.item_title);
-            title.setText("Title: " + args.getCharSequence(KEY_TITLE));
 
-            int indicatorColor = args.getInt(KEY_INDICATOR_COLOR);
-            TextView indicatorColorView = (TextView) view.findViewById(R.id.item_indicator_color);
-            indicatorColorView.setText("Indicator: #" + Integer.toHexString(indicatorColor));
-            indicatorColorView.setTextColor(indicatorColor);
-
-            int dividerColor = args.getInt(KEY_DIVIDER_COLOR);
-            TextView dividerColorView = (TextView) view.findViewById(R.id.item_divider_color);
-            dividerColorView.setText("Divider: #" + Integer.toHexString(dividerColor));
-            dividerColorView.setTextColor(dividerColor);
         }
     }
 }

@@ -8,15 +8,7 @@ public class YoutubeVideo {
     private Date date;
     private String title;
     private String description;
-    private String thumbnail;
-
-    public YoutubeVideo(String id, Date date, String title, String description, String thumbnail) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.thumbnail = thumbnail;
-    }
+    private String thumbnailURL;
 
     public String getId() {
         return id;
@@ -24,6 +16,30 @@ public class YoutubeVideo {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public void setThumbnailURL(String thumbnail) {
+        this.thumbnailURL = thumbnail;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -34,7 +50,4 @@ public class YoutubeVideo {
         return description;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
-    }
 }
