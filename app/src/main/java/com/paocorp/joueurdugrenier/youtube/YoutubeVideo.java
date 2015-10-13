@@ -1,11 +1,14 @@
 package com.paocorp.joueurdugrenier.youtube;
 
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class YoutubeVideo {
+import com.google.api.client.util.DateTime;
+
+public class YoutubeVideo implements Parcelable {
     private String id;
-    private Date date;
+    private DateTime date;
     private String title;
     private String description;
     private String thumbnailURL;
@@ -14,7 +17,7 @@ public class YoutubeVideo {
         return id;
     }
 
-    public Date getDate() {
+    public DateTime getDate() {
         return date;
     }
 
@@ -34,7 +37,7 @@ public class YoutubeVideo {
         this.title = title;
     }
 
-    public void setDate(Date date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 
@@ -50,4 +53,17 @@ public class YoutubeVideo {
         return description;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(description);
+        dest.writeString(title);
+        dest.writeString(thumbnailURL);
+        dest.writeValue(date);
+    }
 }

@@ -1,7 +1,6 @@
 package com.paocorp.joueurdugrenier;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -12,27 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
 import com.paocorp.joueurdugrenier.youtube.Channels.JDGData;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
-import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ListView videosFound;
-    private List<YoutubeVideo> searchResults;
-    private Handler handler;
+    private ArrayList<YoutubeVideo> lastResults;
+    private ArrayList<YoutubeVideo> second;
+    private ArrayList<YoutubeVideo> third;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,50 +42,26 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment();
-            transaction.replace(R.id.sample_content_fragment, fragment);
-            transaction.commit();
-        }
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            videosFound = (ListView) findViewById(R.id.videos_found);
-            handler = new Handler();
-            getLastVideos(new JDGData(MainActivity.this).getChannel_id());
+            this.lastResults = searchVideos(new JDGData(this).getChannel_id(), null);
+            this.second = searchVideos(new JDGData(this).getChannel_id(), getResources().getString(R.string.papy_keyword));
+            this.third = searchVideos(new JDGData(this).getChannel_id(), getResources().getString(R.string.hs_keyword));
         }
 
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third);
+            transaction.replace(R.id.sample_content_fragment, fragment);
+            transaction.commit();
+        }
     }
 
-    private void getLastVideos(final String keywords) {
-        YoutubeConnector yc = new YoutubeConnector(MainActivity.this, keywords);
-        searchResults = yc.search(keywords);
-        updateVideosFound();
-    }
-
-    private void updateVideosFound() {
-        ArrayAdapter<YoutubeVideo> adapter = new ArrayAdapter<YoutubeVideo>(getApplicationContext(), R.layout.video_item, searchResults) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-                    convertView = getLayoutInflater().inflate(R.layout.video_item, parent, false);
-                }
-                ImageView thumbnail = (ImageView) convertView.findViewById(R.id.video_thumbnail);
-                TextView title = (TextView) convertView.findViewById(R.id.video_title);
-                TextView description = (TextView) convertView.findViewById(R.id.video_description);
-
-                YoutubeVideo searchResult = searchResults.get(position);
-
-                Picasso.with(getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
-                title.setText(searchResult.getTitle());
-                description.setText(searchResult.getDescription());
-                return convertView;
-            }
-        };
-
-        videosFound.setAdapter(adapter);
+    private ArrayList<YoutubeVideo> searchVideos(final String channel_id, final String keywords) {
+        YoutubeConnector yc = new YoutubeConnector(this, channel_id, keywords);
+        return yc.search(keywords);
     }
 
     @Override

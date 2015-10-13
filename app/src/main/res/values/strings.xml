@@ -8,9 +8,12 @@
 
     <string name="last_videos">Dernières vidéos</string>
     <string name="all_videos">Toutes les vidéos</string>
-    <string name="papy_videos">Papy Grenier</string>
-    <string name="hs_videos">Hors séries</string>
+    <string name="papy">Papy Grenier</string>
+    <string name="hs_videos">Hors Séries</string>
+    <string name="hs_keyword">Spécial</string>
+    <string name="papy_keyword">Papy</string>
 
     <string name="api_key">AIzaSyA9lKLIH3Eqb3oZ3qQTCf7LkI_WePcvnyg</string>
+    <string name="api_android_key">AIzaSyD4nrzFgdDFw4FtnkFLUjhe7kw3UDouEcI</string>
     <string name="channel_jdg_id">UC_yP2DpIgs5Y1uWC0T03Chw</string>
 </resources>

@@ -19,7 +19,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/video_thumbnail"
-        android:textSize="25sp"
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/black"
         android:textStyle="bold" />
 
     <TextView
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/video_title"
         android:layout_toRightOf="@+id/video_thumbnail"
-        android:textSize="15sp" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/normal_text_size" />
 
 </RelativeLayout>

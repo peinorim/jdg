@@ -19,11 +19,13 @@ import java.util.List;
 public class YoutubeConnector {
     private YouTube youtube;
     private YouTube.Search.List query;
+    private String channel_id;
+    private String keywords;
 
     // Your developer key goes here
     private String KEY;
 
-    public YoutubeConnector(Context context, String channel_id) {
+    public YoutubeConnector(Context context, String channel_id, String keywords) {
         youtube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), new HttpRequestInitializer() {
             @Override
@@ -32,27 +34,30 @@ public class YoutubeConnector {
         }).setApplicationName(context.getString(R.string.app_name)).build();
 
         this.KEY = context.getString(R.string.api_key);
+        this.channel_id = channel_id;
+        this.keywords = keywords;
+    }
 
+    public ArrayList<YoutubeVideo> search(String keywords) {
         try {
             query = youtube.search().list("id,snippet");
             query.setKey(this.KEY);
             query.setOrder("date");
             query.setType("video");
-            query.setChannelId(channel_id);
-            query.setMaxResults((long) 20);
+            if(keywords != null) {
+                query.setQ(keywords);
+            }
+            query.setChannelId(this.channel_id);
+            query.setMaxResults((long) 10);
             query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
         } catch (IOException e) {
             Log.d("YC", "Could not initialize: " + e);
         }
-    }
-
-    public List<YoutubeVideo> search(String keywords) {
-        //query.setQ(keywords);
         try {
             SearchListResponse response = query.execute();
             List<SearchResult> results = response.getItems();
 
-            List<YoutubeVideo> items = new ArrayList<YoutubeVideo>();
+            ArrayList<YoutubeVideo> items = new ArrayList<YoutubeVideo>();
             for (SearchResult result : results) {
                 YoutubeVideo item = new YoutubeVideo();
                 item.setTitle(result.getSnippet().getTitle());

@@ -16,6 +16,7 @@
 
 package com.paocorp.joueurdugrenier.slidingtabscolors;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import android.view.ViewGroup;
 
 import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.common.view.SlidingTabLayout;
+import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,18 @@ import java.util.List;
  */
 public class SlidingTabsColorsFragment extends Fragment {
 
+    private final List<YoutubeVideo> lastResults;
+    private final List<YoutubeVideo> second;
+    private final List<YoutubeVideo> third;
+
+    @SuppressLint("ValidFragment")
+    public SlidingTabsColorsFragment(List<YoutubeVideo> lastResults, List<YoutubeVideo> second, List<YoutubeVideo> third) {
+
+        this.lastResults = lastResults;
+        this.second = second;
+        this.third = third;
+    }
+
     /**
      * This class represents a tab to be displayed by {@link ViewPager} and it's associated
      * {@link SlidingTabLayout}.
@@ -47,18 +61,20 @@ public class SlidingTabsColorsFragment extends Fragment {
         private final CharSequence mTitle;
         private final int mIndicatorColor;
         private final int mDividerColor;
+        private final List<YoutubeVideo> mLastResults;
 
-        SamplePagerItem(CharSequence title, int indicatorColor, int dividerColor) {
+        SamplePagerItem(CharSequence title, int indicatorColor, int dividerColor, List<YoutubeVideo> lastResults) {
             mTitle = title;
             mIndicatorColor = indicatorColor;
             mDividerColor = dividerColor;
+            mLastResults = lastResults;
         }
 
         /**
          * @return A new {@link Fragment} to be displayed by a {@link ViewPager}
          */
         Fragment createFragment() {
-            return ContentFragment.newInstance(mTitle, mIndicatorColor, mDividerColor);
+            return ContentFragment.newInstance(mTitle, mIndicatorColor, mDividerColor, mLastResults);
         }
 
         /**
@@ -81,6 +97,13 @@ public class SlidingTabsColorsFragment extends Fragment {
          */
         int getDividerColor() {
             return mDividerColor;
+        }
+
+        /**
+         * @return the last results to be used for right divider on the {@link SlidingTabLayout}
+         */
+        List<YoutubeVideo> getLastResults() {
+            return mLastResults;
         }
     }
 
@@ -114,25 +137,29 @@ public class SlidingTabsColorsFragment extends Fragment {
         mTabs.add(new SamplePagerItem(
                 getString(R.string.last_videos), // Title
                 Color.BLUE, // Indicator color
-                Color.GRAY // Divider color
+                Color.GRAY, // Divider color,
+                this.lastResults
         ));
 
         mTabs.add(new SamplePagerItem(
-                getString(R.string.all_videos), // Title
-                Color.RED, // Indicator color
-                Color.GRAY // Divider color
-        ));
-
-        mTabs.add(new SamplePagerItem(
-                getString(R.string.papy_videos), // Title
+                getString(R.string.papy), // Title
                 Color.YELLOW, // Indicator color
-                Color.GRAY // Divider color
+                Color.GRAY, // Divider color,
+                this.second
         ));
 
         mTabs.add(new SamplePagerItem(
                 getString(R.string.hs_videos), // Title
                 Color.GREEN, // Indicator color
-                Color.GRAY // Divider color
+                Color.GRAY, // Divider color,
+                this.third
+        ));
+
+        mTabs.add(new SamplePagerItem(
+                getString(R.string.all_videos), // Title
+                Color.RED, // Indicator color
+                Color.GRAY, // Divider color,
+                this.lastResults
         ));
         // END_INCLUDE (populate_tabs)
     }
