@@ -27,10 +27,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.paocorp.joueurdugrenier.MainActivity;
 import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.youtube.Channels.JDGData;
-import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
 

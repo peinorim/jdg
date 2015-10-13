@@ -8,6 +8,8 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.Channel;
+import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.paocorp.joueurdugrenier.R;
@@ -18,24 +20,49 @@ import java.util.List;
 
 public class YoutubeConnector {
     private YouTube youtube;
+    private YouTube.Channels.List channelQuery;
     private YouTube.Search.List query;
     private String channel_id;
-    private String keywords;
-
-    // Your developer key goes here
     private String KEY;
+    private ChannelData channel = new ChannelData();
 
-    public YoutubeConnector(Context context, String channel_id, String keywords) {
+    public YoutubeConnector(final Context context, final String channel_id) {
+
+        this.KEY = context.getString(R.string.api_key);
+        this.channel_id = channel_id;
+
         youtube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), new HttpRequestInitializer() {
             @Override
             public void initialize(HttpRequest hr) throws IOException {
             }
         }).setApplicationName(context.getString(R.string.app_name)).build();
+        initChannel();
+    }
 
-        this.KEY = context.getString(R.string.api_key);
-        this.channel_id = channel_id;
-        this.keywords = keywords;
+    public void initChannel(){
+        try {
+            channelQuery = youtube.channels().list("id,snippet");
+            channelQuery.setKey(this.KEY);
+            channelQuery.setId(this.channel_id);
+            channelQuery.setFields("items(id,snippet/title,snippet/description,snippet/thumbnails/default/url)");
+        } catch (IOException e) {
+            Log.d("YC", "Could not initialize: " + e);
+        }
+
+        try {
+            ChannelListResponse response = channelQuery.execute();
+            List<Channel> results = response.getItems();
+
+            for (Channel result : results) {
+                channel.setChannel_id(this.channel_id);
+                channel.setTitle(result.getSnippet().getTitle());
+                channel.setDescription(result.getSnippet().getDescription());
+                channel.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
+            }
+        } catch (IOException e) {
+            Log.d("YC", "Could not search: " + e);
+        }
     }
 
     public ArrayList<YoutubeVideo> search(String keywords) {
@@ -71,6 +98,10 @@ public class YoutubeConnector {
             Log.d("YC", "Could not search: " + e);
             return null;
         }
+    }
+
+    public ChannelData getChannel() {
+        return channel;
     }
 }
 

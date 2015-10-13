@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
-import com.paocorp.joueurdugrenier.youtube.Channels.JDGData;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 
@@ -22,6 +21,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    private YoutubeConnector yc;
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
@@ -46,9 +47,12 @@ public class MainActivity extends AppCompatActivity
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            this.lastResults = searchVideos(new JDGData(this).getChannel_id(), null);
-            this.second = searchVideos(new JDGData(this).getChannel_id(), getResources().getString(R.string.papy_keyword));
-            this.third = searchVideos(new JDGData(this).getChannel_id(), getResources().getString(R.string.hs_keyword));
+            yc = new YoutubeConnector(this, getResources().getString(R.string.channel_jdg_id));
+
+            this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null);
+            this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword));
+            this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword));
+            setTitle(yc.getChannel().getTitle());
         }
 
         if (savedInstanceState == null) {
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private ArrayList<YoutubeVideo> searchVideos(final String channel_id, final String keywords) {
-        YoutubeConnector yc = new YoutubeConnector(this, channel_id, keywords);
+        yc = new YoutubeConnector(this, channel_id);
         return yc.search(keywords);
     }
 
