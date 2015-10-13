@@ -24,7 +24,7 @@ public class YoutubeConnector {
     private YouTube.Search.List query;
     private String channel_id;
     private String KEY;
-    private ChannelData channel = new ChannelData();
+    private YoutubeChannel channel = new YoutubeChannel();
 
     public YoutubeConnector(final Context context, final String channel_id) {
 
@@ -45,7 +45,7 @@ public class YoutubeConnector {
             channelQuery = youtube.channels().list("id,snippet");
             channelQuery.setKey(this.KEY);
             channelQuery.setId(this.channel_id);
-            channelQuery.setFields("items(id,snippet/title,snippet/description,snippet/thumbnails/default/url)");
+            channelQuery.setFields("items(id,snippet/title,snippet/description,snippet/thumbnails)");
         } catch (IOException e) {
             Log.d("YC", "Could not initialize: " + e);
         }
@@ -58,7 +58,7 @@ public class YoutubeConnector {
                 channel.setChannel_id(this.channel_id);
                 channel.setTitle(result.getSnippet().getTitle());
                 channel.setDescription(result.getSnippet().getDescription());
-                channel.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
+                channel.setThumbnailURL(result.getSnippet().getThumbnails().getHigh().getUrl());
             }
         } catch (IOException e) {
             Log.d("YC", "Could not search: " + e);
@@ -76,7 +76,7 @@ public class YoutubeConnector {
             }
             query.setChannelId(this.channel_id);
             query.setMaxResults((long) 10);
-            query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
+            query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
         } catch (IOException e) {
             Log.d("YC", "Could not initialize: " + e);
         }
@@ -100,7 +100,7 @@ public class YoutubeConnector {
         }
     }
 
-    public ChannelData getChannel() {
+    public YoutubeChannel getChannel() {
         return channel;
     }
 }

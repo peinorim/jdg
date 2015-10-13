@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu android:id="@+id/menu_drawer" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/channel_jdg" android:icon="@android:drawable/ic_menu_camera"
+        <item android:id="@+id/channel_jdg"
             android:title="@string/channel_jdg" />
-        <item android:id="@+id/channel_bazar" android:icon="@android:drawable/ic_menu_gallery"
+        <item android:id="@+id/channel_bazar"
             android:title="@string/channel_bazar" />
     </group>
 

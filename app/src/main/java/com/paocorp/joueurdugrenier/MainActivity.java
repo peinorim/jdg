@@ -11,10 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -40,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -52,7 +56,12 @@ public class MainActivity extends AppCompatActivity
             this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null);
             this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword));
             this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword));
-            setTitle(yc.getChannel().getTitle());
+            setTitle(getResources().getString(R.string.channel_jdg));
+
+            ImageView img1 = (ImageView) findViewById(R.id.imageView);
+            Picasso.with(this).load(yc.getChannel().getThumbnailURL()).into(img1);
+            TextView tv = (TextView) findViewById(R.id.channel_desc);
+            tv.setText(yc.getChannel().getDescription());
         }
 
         if (savedInstanceState == null) {

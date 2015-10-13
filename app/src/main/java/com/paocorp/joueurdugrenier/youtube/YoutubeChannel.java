@@ -1,13 +1,13 @@
 package com.paocorp.joueurdugrenier.youtube;
 
-public class ChannelData {
+public class YoutubeChannel {
 
     protected String channel_id;
     protected String title;
     protected String description;
     protected String thumbnailURL;
 
-    public ChannelData() {
+    public YoutubeChannel() {
     }
 
     public void setThumbnailURL(String thumbnailURL) {

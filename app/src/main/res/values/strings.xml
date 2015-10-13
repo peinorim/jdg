@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="channel_jdg">Joueur du grenier</string>
     <string name="channel_bazar">Bazar du grenier</string>
+    <string name="app_desc">Fan App Joueur du Grenier</string>
+    <string name="app_url">paocorp.com</string>
 
     <string name="last_videos">Dernières vidéos</string>
     <string name="all_videos">Toutes les vidéos</string>
