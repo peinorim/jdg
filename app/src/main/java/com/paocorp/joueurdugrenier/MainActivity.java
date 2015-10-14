@@ -1,5 +1,6 @@
 package com.paocorp.joueurdugrenier;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
@@ -46,17 +47,33 @@ public class MainActivity extends AppCompatActivity
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        String channel_name = getResources().getString(R.string.channel_jdg);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            yc = new YoutubeConnector(this, getResources().getString(R.string.channel_jdg_id));
+            String channel_id;
+            Bundle b = getIntent().getExtras();
+            if(b != null) {
+                b = getIntent().getExtras();
+                channel_id = b.getString("channel_id");
+            } else {
+                channel_id = getResources().getString(R.string.channel_jdg_id);
+                channel_name = getResources().getString(R.string.channel_bazar);
+            }
+
+            yc = new YoutubeConnector(this, channel_id);
 
             this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null);
-            this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword));
-            this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword));
-            setTitle(getResources().getString(R.string.channel_jdg));
+            if(channel_id == getResources().getString(R.string.channel_jdg_id)) {
+                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword));
+                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword));
+            } else {
+                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword));
+                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword));
+            }
+            setTitle(yc.getChannel().getTitle());
 
             ImageView img1 = (ImageView) findViewById(R.id.imageView);
             Picasso.with(this).load(yc.getChannel().getThumbnailURL()).into(img1);
@@ -66,7 +83,8 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third);
+
+            SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third, channel_name);
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
@@ -114,11 +132,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        Bundle b = new Bundle();
 
         if (id == R.id.channel_jdg) {
-
+            b.putString("channel_id", getResources().getString(R.string.channel_jdg_id));
         } else if (id == R.id.channel_bazar) {
-
+            b.putString("channel_id", getResources().getString(R.string.channel_bazar_id));
         } else if (id == R.id.nav_fb) {
 
         } else if (id == R.id.nav_tw) {
@@ -127,6 +147,8 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        intent.putExtras(b);
+        startActivity(intent);
         return true;
     }
 }

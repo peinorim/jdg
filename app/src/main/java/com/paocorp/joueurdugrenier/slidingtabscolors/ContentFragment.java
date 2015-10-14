@@ -16,17 +16,20 @@
 
 package com.paocorp.joueurdugrenier.slidingtabscolors;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.paocorp.joueurdugrenier.PlayerActivity;
 import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
@@ -81,6 +84,7 @@ public class ContentFragment extends Fragment {
             this.searchResults = args.getParcelableArrayList(LAST_RESULTS);
             videosFound = (ListView) view.findViewById(R.id.videos_found);
             updateVideosFound();
+            addClickListener();
         }
 
     }
@@ -106,5 +110,18 @@ public class ContentFragment extends Fragment {
         };
 
         videosFound.setAdapter(adapter);
+    }
+
+    private void addClickListener(){
+        videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos,
+                                    long id) {
+                Intent intent = new Intent(getContext(), PlayerActivity.class);
+                intent.putExtra("VIDEO_ID", searchResults.get(pos).getId());
+                startActivity(intent);
+            }
+
+        });
     }
 }

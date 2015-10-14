@@ -44,13 +44,15 @@ public class SlidingTabsColorsFragment extends Fragment {
     private final List<YoutubeVideo> lastResults;
     private final List<YoutubeVideo> second;
     private final List<YoutubeVideo> third;
+    private final String channel_name;
 
     @SuppressLint("ValidFragment")
-    public SlidingTabsColorsFragment(List<YoutubeVideo> lastResults, List<YoutubeVideo> second, List<YoutubeVideo> third) {
+    public SlidingTabsColorsFragment(List<YoutubeVideo> lastResults, List<YoutubeVideo> second, List<YoutubeVideo> third, String channel_name) {
 
         this.lastResults = lastResults;
         this.second = second;
         this.third = third;
+        this.channel_name = channel_name;
     }
 
     /**
@@ -134,6 +136,14 @@ public class SlidingTabsColorsFragment extends Fragment {
          * Populate our tab list with tabs. Each item contains a title, indicator color and divider
          * color, which are used by {@link SlidingTabLayout}.
          */
+        String second_tab = getString(R.string.papy);
+        String third_tab = getString(R.string.hs_videos);
+
+        if(this.channel_name == getResources().getString(R.string.channel_bazar)){
+            second_tab = getString(R.string.aventures);
+            third_tab = getString(R.string.play);
+        }
+
         mTabs.add(new SamplePagerItem(
                 getString(R.string.last_videos), // Title
                 Color.BLUE, // Indicator color
@@ -142,14 +152,14 @@ public class SlidingTabsColorsFragment extends Fragment {
         ));
 
         mTabs.add(new SamplePagerItem(
-                getString(R.string.papy), // Title
+                second_tab, // Title
                 Color.YELLOW, // Indicator color
                 Color.GRAY, // Divider color,
                 this.second
         ));
 
         mTabs.add(new SamplePagerItem(
-                getString(R.string.hs_videos), // Title
+                third_tab, // Title
                 Color.GREEN, // Indicator color
                 Color.GRAY, // Divider color,
                 this.third
