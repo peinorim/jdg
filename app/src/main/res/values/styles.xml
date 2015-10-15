@@ -17,6 +17,21 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
+    <!-- Base application theme. -->
+    <style name="AppTheme.Bazar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/yellow_darken3</item>
+    </style>
+
+    <style name="AppTheme.Bazar.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Bazar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

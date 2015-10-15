@@ -1,6 +1,9 @@
 package com.paocorp.joueurdugrenier;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
@@ -13,8 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
@@ -31,10 +34,25 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
+    ProgressDialog dialog;
+    PackageInfo pInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String channel_id = getResources().getString(R.string.channel_jdg_id);
+        String channel_name = getResources().getString(R.string.channel_jdg);
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            b = getIntent().getExtras();
+            channel_id = b.getString("channel_id");
+            if(channel_id.equals(getResources().getString(R.string.channel_bazar_id))) {
+                channel_name = getResources().getString(R.string.channel_bazar);
+                setTheme(R.style.AppTheme_Bazar);
+            }
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,31 +65,21 @@ public class MainActivity extends AppCompatActivity
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        String channel_name = getResources().getString(R.string.channel_jdg);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            String channel_id;
-            Bundle b = getIntent().getExtras();
-            if(b != null) {
-                b = getIntent().getExtras();
-                channel_id = b.getString("channel_id");
-            } else {
-                channel_id = getResources().getString(R.string.channel_jdg_id);
-                channel_name = getResources().getString(R.string.channel_bazar);
-            }
-
             yc = new YoutubeConnector(this, channel_id);
 
             this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null);
-            if(channel_id == getResources().getString(R.string.channel_jdg_id)) {
+            if(channel_id.equals(getResources().getString(R.string.channel_jdg_id))) {
                 this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword));
                 this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword));
             } else {
                 this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword));
                 this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword));
+                changeTextViewBackground();
             }
             setTitle(yc.getChannel().getTitle());
 
@@ -88,6 +96,25 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            TextView txv = (TextView) findViewById(R.id.app_desc);
+            String APPINFO = txv.getText()+ " v" + pInfo.versionName;
+            txv.setText(APPINFO);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void changeTextViewBackground(){
+        LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
+        ly.setBackgroundResource(R.drawable.side_nav_bar_yellow);
+        TextView tv_desc = (TextView) findViewById(R.id.channel_desc);
+        tv_desc.setTextColor(this.getResources().getColor(R.color.black));
+        TextView tv_app_desc = (TextView) findViewById(R.id.app_desc);
+        tv_app_desc.setTextColor(this.getResources().getColor(R.color.black));
+        TextView tv_credits = (TextView) findViewById(R.id.credits);
+        tv_credits.setTextColor(this.getResources().getColor(R.color.black));
     }
 
     private ArrayList<YoutubeVideo> searchVideos(final String channel_id, final String keywords) {
@@ -131,6 +158,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(this.getResources().getString(R.string.loading));
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
         int id = item.getItemId();
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         Bundle b = new Bundle();

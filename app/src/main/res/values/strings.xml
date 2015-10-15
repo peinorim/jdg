@@ -8,6 +8,7 @@
     <string name="app_desc">Fan App Joueur du Grenier</string>
     <string name="app_url">paocorp.com</string>
     <string name="failed">Erreur dans le chargement de la vidéo</string>
+    <string name="loading">Veuillez patienter svp...</string>
 
     <string name="last_videos">Dernières vidéos</string>
     <string name="all_videos">Toutes les vidéos</string>
