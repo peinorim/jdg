@@ -39,21 +39,26 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
 
         String channel_id = getResources().getString(R.string.channel_jdg_id);
         String channel_name = getResources().getString(R.string.channel_jdg);
         Bundle b = getIntent().getExtras();
-        if(b != null) {
+        if (b != null) {
             b = getIntent().getExtras();
             channel_id = b.getString("channel_id");
-            if(channel_id.equals(getResources().getString(R.string.channel_bazar_id))) {
+            if (channel_id.equals(getResources().getString(R.string.channel_bazar_id))) {
                 channel_name = getResources().getString(R.string.channel_bazar);
-                setTheme(R.style.AppTheme_Bazar);
+                super.setTheme(R.style.AppTheme_Bazar_NoActionBar);
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main_bazar);
             }
+        } else {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
         }
 
-        setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity
             yc = new YoutubeConnector(this, channel_id);
 
             this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null);
-            if(channel_id.equals(getResources().getString(R.string.channel_jdg_id))) {
+            if (channel_id.equals(getResources().getString(R.string.channel_jdg_id))) {
                 this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword));
                 this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword));
             } else {
@@ -99,14 +104,14 @@ public class MainActivity extends AppCompatActivity
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             TextView txv = (TextView) findViewById(R.id.app_desc);
-            String APPINFO = txv.getText()+ " v" + pInfo.versionName;
+            String APPINFO = txv.getText() + " v" + pInfo.versionName;
             txv.setText(APPINFO);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private void changeTextViewBackground(){
+    private void changeTextViewBackground() {
         LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
         ly.setBackgroundResource(R.drawable.side_nav_bar_yellow);
         TextView tv_desc = (TextView) findViewById(R.id.channel_desc);

@@ -20,7 +20,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme.Bazar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/yellow_darken3</item>
+        <item name="colorPrimary">@color/yellow_darken2</item>
+        <item name="colorPrimaryDark">@color/yellow_darken4</item>
     </style>
 
     <style name="AppTheme.Bazar.NoActionBar">
@@ -28,7 +29,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.Bazar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+    <style name="AppTheme.AppBarOverlay.Bazar">
         <item name="android:textColorPrimary">@color/black</item>
     </style>
 
