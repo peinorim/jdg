@@ -52,12 +52,16 @@ public class MainActivity extends AppCompatActivity
                 super.setTheme(R.style.AppTheme_Bazar_NoActionBar);
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_main_bazar);
+            } else {
+                super.setTheme(R.style.AppTheme_NoActionBar);
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_main);
             }
         } else {
+            super.setTheme(R.style.AppTheme_NoActionBar);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
         }
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,6 +96,7 @@ public class MainActivity extends AppCompatActivity
             Picasso.with(this).load(yc.getChannel().getThumbnailURL()).into(img1);
             TextView tv = (TextView) findViewById(R.id.channel_desc);
             tv.setText(yc.getChannel().getDescription());
+
         }
 
         if (savedInstanceState == null) {
@@ -187,6 +192,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         intent.putExtras(b);
         startActivity(intent);
+        dialog.hide();
         return true;
     }
 }
