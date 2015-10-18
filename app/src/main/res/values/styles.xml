@@ -17,9 +17,7 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
-    <!-- Base application theme. -->
     <style name="AppTheme.Bazar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/yellow_darken2</item>
         <item name="colorPrimaryDark">@color/yellow_darken4</item>
     </style>
@@ -31,6 +29,11 @@
 
     <style name="AppTheme.AppBarOverlay.Bazar">
         <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="AppTheme.Youtube" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/red_darken2</item>
+        <item name="colorPrimaryDark">@color/red_darken4</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier;
+package com.paocorp.joueurdugrenier.youtube;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -7,6 +7,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.paocorp.joueurdugrenier.R;
 
 public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 

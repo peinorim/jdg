@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.paocorp.joueurdugrenier.PlayerActivity;
+import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;

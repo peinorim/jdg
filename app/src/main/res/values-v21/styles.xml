@@ -15,6 +15,12 @@
         <item name="android:navigationBarColor">@color/yellow_darken4</item>
     </style>
 
+    <style name="AppTheme.Youtube">
+        <item name="colorPrimary">@color/red_darken2</item>
+        <item name="colorPrimaryDark">@color/red_darken4</item>
+        <item name="android:navigationBarColor">@color/red_darken4</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
         <item name="android:textColorPrimary">@color/white</item>
     </style>
