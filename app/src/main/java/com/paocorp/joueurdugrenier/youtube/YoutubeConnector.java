@@ -40,7 +40,7 @@ public class YoutubeConnector {
         initChannel();
     }
 
-    public void initChannel(){
+    public void initChannel() {
         try {
             channelQuery = youtube.channels().list("id,snippet");
             channelQuery.setKey(this.KEY);
@@ -65,18 +65,18 @@ public class YoutubeConnector {
         }
     }
 
-    public ArrayList<YoutubeVideo> search(String keywords) {
+    public ArrayList<YoutubeVideo> search(String keywords, int max) {
         try {
             query = youtube.search().list("id,snippet");
             query.setKey(this.KEY);
             query.setOrder("date");
             query.setType("video");
-            if(keywords != null) {
+            if (keywords != null) {
                 query.setQ(keywords);
             }
             query.setChannelId(this.channel_id);
-            query.setMaxResults((long) 10);
-            query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
+            query.setMaxResults((long) max);
+            query.setFields("nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
         } catch (IOException e) {
             Log.d("YC", "Could not initialize: " + e);
         }
@@ -91,6 +91,52 @@ public class YoutubeConnector {
                 item.setDescription(result.getSnippet().getDescription());
                 item.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
                 item.setId(result.getId().getVideoId());
+                item.setNextPageToken(response.getNextPageToken());
+                if (keywords != null) {
+                    item.setKeyword(keywords);
+                }
+                item.setChannel_id(this.channel_id);
+                items.add(item);
+            }
+            return items;
+        } catch (IOException e) {
+            Log.d("YC", "Could not search: " + e);
+            return null;
+        }
+    }
+
+    public ArrayList<YoutubeVideo> loadMore(String offset, String keyword) {
+        try {
+            query = youtube.search().list("id,snippet");
+            query.setKey(this.KEY);
+            query.setOrder("date");
+            query.setType("video");
+            query.setChannelId(this.channel_id);
+            if (keyword != null) {
+                query.setQ(keyword);
+            }
+            query.setPageToken(offset);
+            query.setMaxResults((long) 10);
+            query.setFields("nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
+        } catch (IOException e) {
+            Log.d("YC", "Could not initialize: " + e);
+        }
+        try {
+            SearchListResponse response = query.execute();
+            List<SearchResult> results = response.getItems();
+
+            ArrayList<YoutubeVideo> items = new ArrayList<YoutubeVideo>();
+            for (SearchResult result : results) {
+                YoutubeVideo item = new YoutubeVideo();
+                item.setTitle(result.getSnippet().getTitle());
+                item.setDescription(result.getSnippet().getDescription());
+                item.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
+                item.setId(result.getId().getVideoId());
+                item.setNextPageToken(response.getNextPageToken());
+                if (keyword != null) {
+                    item.setKeyword(keyword);
+                }
+                item.setChannel_id(this.channel_id);
                 items.add(item);
             }
             return items;

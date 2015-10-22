@@ -81,18 +81,18 @@ public class MainActivity extends AppCompatActivity
 
             yc = new YoutubeConnector(this, channel_id);
 
-            this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null);
+            this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null, 10);
             if (channel_id.equals(getResources().getString(R.string.channel_jdg_id))) {
-                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword));
-                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword));
+                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword), 10);
+                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword), 10);
             } else {
-                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword));
-                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword));
+                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword), 10);
+                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword), 10);
                 changeTextViewBackground();
             }
             setTitle(yc.getChannel().getTitle());
 
-            ImageView img1 = (ImageView) findViewById(R.id.imageView);
+            ImageView img1 = (ImageView) findViewById(R.id.channel_img);
             Picasso.with(this).load(yc.getChannel().getThumbnailURL()).into(img1);
             TextView tv = (TextView) findViewById(R.id.channel_desc);
             tv.setText(yc.getChannel().getDescription());
@@ -127,9 +127,8 @@ public class MainActivity extends AppCompatActivity
         tv_credits.setTextColor(this.getResources().getColor(R.color.black));
     }
 
-    private ArrayList<YoutubeVideo> searchVideos(final String channel_id, final String keywords) {
-        yc = new YoutubeConnector(this, channel_id);
-        return yc.search(keywords);
+    private ArrayList<YoutubeVideo> searchVideos(final String channel_id, final String keywords, final int max) {
+        return yc.search(keywords, max);
     }
 
     @Override

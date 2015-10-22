@@ -23,14 +23,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.R;
+import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
 
@@ -41,14 +44,19 @@ import java.util.List;
  * Simple Fragment used to display some meaningful content for each page in the sample's
  * {@link android.support.v4.view.ViewPager}.
  */
-public class ContentFragment extends Fragment {
+public class ContentFragment extends Fragment implements AbsListView.OnScrollListener {
 
     private static final String KEY_TITLE = "title";
     private static final String KEY_INDICATOR_COLOR = "indicator_color";
     private static final String KEY_DIVIDER_COLOR = "divider_color";
     private static final String LAST_RESULTS = "last_results";
     private ArrayList<YoutubeVideo> searchResults;
+    private ArrayAdapter<YoutubeVideo> adapter;
     private ListView videosFound;
+    private String channel_id;
+    private String nextPageToken;
+    private String keyword;
+    private int preLast;
 
     /**
      * @return a new instance of {@link ContentFragment}, adding the parameters into a bundle and
@@ -83,14 +91,49 @@ public class ContentFragment extends Fragment {
         if (args != null) {
             this.searchResults = args.getParcelableArrayList(LAST_RESULTS);
             videosFound = (ListView) view.findViewById(R.id.videos_found);
-            updateVideosFound();
+            updateVideosFound(searchResults);
             addClickListener();
+            videosFound.setOnScrollListener(this);
         }
 
     }
 
-    private void updateVideosFound() {
-        ArrayAdapter<YoutubeVideo> adapter = new ArrayAdapter<YoutubeVideo>(getContext(), R.layout.video_item, searchResults) {
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView lw, final int firstVisibleItem,
+                         final int visibleItemCount, final int totalItemCount) {
+
+        switch (lw.getId()) {
+            case R.id.videos_found:
+
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if (lastItem == totalItemCount) {
+                    if (preLast != lastItem) { //to avoid multiple calls for last item
+                        preLast = lastItem;
+                    } else {
+                        if (nextPageToken != null) {
+                            ArrayList<YoutubeVideo> more = customLoadMoreDataFromApi(nextPageToken, keyword);
+                            nextPageToken = more.get(more.size() - 1).getNextPageToken();
+                            for (int i = 0; i < more.size(); i++) {
+                                adapter.add(more.get(i));
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    public ArrayList<YoutubeVideo> customLoadMoreDataFromApi(String offset, String keyword) {
+        YoutubeConnector yc = new YoutubeConnector(this.getContext(), channel_id);
+        return yc.loadMore(offset, keyword);
+    }
+
+    private void updateVideosFound(final ArrayList<YoutubeVideo> ay) {
+        adapter = new ArrayAdapter<YoutubeVideo>(getContext(), R.layout.video_item, ay) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
@@ -100,7 +143,10 @@ public class ContentFragment extends Fragment {
                 TextView title = (TextView) convertView.findViewById(R.id.video_title);
                 TextView description = (TextView) convertView.findViewById(R.id.video_description);
 
-                YoutubeVideo searchResult = searchResults.get(position);
+                YoutubeVideo searchResult = ay.get(position);
+                nextPageToken = searchResult.getNextPageToken();
+                keyword = searchResult.getKeyword();
+                channel_id = searchResult.getChannel_id();
 
                 Picasso.with(getContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
                 title.setText(searchResult.getTitle());
@@ -112,7 +158,7 @@ public class ContentFragment extends Fragment {
         videosFound.setAdapter(adapter);
     }
 
-    private void addClickListener(){
+    private void addClickListener() {
         videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int pos,

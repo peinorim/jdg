@@ -1,20 +1,45 @@
 package com.paocorp.joueurdugrenier.youtube;
 
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.api.client.util.DateTime;
 
+@SuppressLint("ParcelCreator")
 public class YoutubeVideo implements Parcelable {
     private String id;
+    private String channel_id;
     private DateTime date;
     private String title;
     private String description;
     private String thumbnailURL;
+    private String nextPageToken;
+    private String keyword;
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public String getId() {
         return id;
+    }
+
+    public void setChannel_id(String channel_id) {
+        this.channel_id = channel_id;
+    }
+
+    public String getChannel_id() {
+        return channel_id;
+    }
+
+    public void setNextPageToken(String nextPageToken) {
+        this.nextPageToken = nextPageToken;
     }
 
     public DateTime getDate() {
@@ -47,6 +72,10 @@ public class YoutubeVideo implements Parcelable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getNextPageToken() {
+        return nextPageToken;
     }
 
     public String getDescription() {
