@@ -22,7 +22,10 @@
     <string name="aventures_keyword">aventures</string>
     <string name="play_keyword">play</string>
 
+    <string name="api_key">AIzaSyCsW0XdL_p2jxd7tyuYW-mQ1sXVu5MBeIk</string>
+    <string name="api_key2">AIzaSyCC7WAqSep61Vjc_uZ8pHfu7F2lsRvI1lU</string>
     <string name="api_android_key">AIzaSyD4nrzFgdDFw4FtnkFLUjhe7kw3UDouEcI</string>
+    <string name="api_android_key2">AIzaSyCJMaC4i9xAomsWyMXDrU18gsyl0jN2HXY</string>
     <string name="channel_jdg_id">UC_yP2DpIgs5Y1uWC0T03Chw</string>
     <string name="channel_bazar_id">UCCMxHHciWRBBouzk-PGzmtQ</string>
     <string name="title_activity_player">PlayerActivity</string>

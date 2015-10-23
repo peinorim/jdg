@@ -47,12 +47,12 @@ public class YoutubeConnector {
 
         ChannelListResponse response = null;
         try {
-            channelQuery = youtube.channels().list("id,snippet");
+            channelQuery = youtube.channels().list("id,snippet,brandingSettings");
             channelQuery.setKey(this.KEY);
             channelQuery.setId(this.channel_id);
-            channelQuery.setFields("items(id,snippet/title,snippet/description,snippet/thumbnails)");
+            channelQuery.setFields("items(id,brandingSettings,snippet/title,snippet/description,snippet/thumbnails)");
         } catch (IOException e) {
-            Log.d("YC", "Could not initialize: " + e);
+            Log.d("YC", "Could not init: " + e);
         }
 
         try {
@@ -66,7 +66,7 @@ public class YoutubeConnector {
                     try {
                         response = channelQuery.execute();
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        Log.d("YC-KEY2", "Could not initialize: " + e1.getMessage());
                     }
             }
         } catch (IOException e) {
@@ -79,6 +79,7 @@ public class YoutubeConnector {
             channel.setTitle(result.getSnippet().getTitle());
             channel.setDescription(result.getSnippet().getDescription());
             channel.setThumbnailURL(result.getSnippet().getThumbnails().getHigh().getUrl());
+            channel.setBannerURL(result.getBrandingSettings().getImage().getBannerImageUrl());
         }
     }
 
@@ -95,7 +96,7 @@ public class YoutubeConnector {
             query.setMaxResults((long) max);
             query.setFields("nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
         } catch (IOException e) {
-            Log.d("YC", "Could not initialize: " + e.getMessage());
+            Log.d("SEARCH", "Could not initialize search: " + e.getMessage());
         }
 
         SearchListResponse response = null;
@@ -110,7 +111,7 @@ public class YoutubeConnector {
                     try {
                         response = query.execute();
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        Log.d("SEARCH-KEY2", "Could not initialize: " + e1.getMessage());
                     }
             }
         } catch (IOException e) {
@@ -150,7 +151,7 @@ public class YoutubeConnector {
             query.setMaxResults((long) 10);
             query.setFields("nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
         } catch (IOException e) {
-            Log.d("YC", "Could not initialize: " + e.getMessage());
+            Log.d("MORE", "Could not load more: " + e.getMessage());
         }
 
         SearchListResponse response = null;
@@ -165,11 +166,11 @@ public class YoutubeConnector {
                     try {
                         response = query.execute();
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        Log.d("MORE-KEY2", "Could not initialize: " + e1.getMessage());
                     }
             }
         } catch (IOException e) {
-            Log.d("YC", "Could not search: " + e.getMessage());
+            Log.d("MORE", "Could not execute more: " + e.getMessage());
             return null;
         }
         List<SearchResult> results = response.getItems();

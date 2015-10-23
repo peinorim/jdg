@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity
                 TextView tv = (TextView) findViewById(R.id.channel_desc);
                 tv.setText(yc.getChannel().getDescription());
 
-                /*ImageView ban = (ImageView) findViewById(R.id.channel_banner);
-                Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);*/
+                ImageView ban = (ImageView) findViewById(R.id.channel_banner);
+                Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);
 
             }
 
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void refreshApp(View v){
+    public void refreshApp(View v) {
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

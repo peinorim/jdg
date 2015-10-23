@@ -6,8 +6,17 @@ public class YoutubeChannel {
     protected String title;
     protected String description;
     protected String thumbnailURL;
+    protected String bannerURL;
 
     public YoutubeChannel() {
+    }
+
+    public String getBannerURL() {
+        return bannerURL;
+    }
+
+    public void setBannerURL(String bannerURL) {
+        this.bannerURL = bannerURL;
     }
 
     public void setThumbnailURL(String thumbnailURL) {
