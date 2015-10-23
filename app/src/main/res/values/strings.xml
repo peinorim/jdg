@@ -9,6 +9,7 @@
     <string name="app_url">paocorp.com</string>
     <string name="failed">Erreur dans le chargement de la vidéo</string>
     <string name="loading">Veuillez patienter svp...</string>
+    <string name="offline">Vous devez disposer d\'une connexion internet pour utiliser cette application.</string>
 
     <string name="last_videos">Dernières vidéos</string>
     <string name="all_videos">Toutes les vidéos</string>
@@ -21,7 +22,6 @@
     <string name="aventures_keyword">aventures</string>
     <string name="play_keyword">play</string>
 
-    <string name="api_key">AIzaSyA9lKLIH3Eqb3oZ3qQTCf7LkI_WePcvnyg</string>
     <string name="api_android_key">AIzaSyD4nrzFgdDFw4FtnkFLUjhe7kw3UDouEcI</string>
     <string name="channel_jdg_id">UC_yP2DpIgs5Y1uWC0T03Chw</string>
     <string name="channel_bazar_id">UCCMxHHciWRBBouzk-PGzmtQ</string>

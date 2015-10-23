@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,27 +82,36 @@ public class MainActivity extends AppCompatActivity
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            yc = new YoutubeConnector(this, channel_id);
+            if (isNetworkAvailable()) {
 
-            this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null, 10);
-            if (channel_id.equals(getResources().getString(R.string.channel_jdg_id))) {
-                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword), 10);
-                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword), 10);
-            } else {
-                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword), 10);
-                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword), 10);
-                changeTextViewBackground();
+                findViewById(R.id.content_offline).setVisibility(View.GONE);
+
+                yc = new YoutubeConnector(this, channel_id);
+
+                this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null, 10);
+                if (channel_id.equals(getResources().getString(R.string.channel_jdg_id))) {
+                    this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword), 10);
+                    this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword), 10);
+                } else {
+                    this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword), 10);
+                    this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword), 10);
+                    changeTextViewBackground();
+                }
+                setTitle(yc.getChannel().getTitle());
+
+                ImageView img1 = (ImageView) findViewById(R.id.channel_img);
+                Picasso.with(this).load(yc.getChannel().getThumbnailURL()).into(img1);
+                TextView tv = (TextView) findViewById(R.id.channel_desc);
+                tv.setText(yc.getChannel().getDescription());
+
+                /*ImageView ban = (ImageView) findViewById(R.id.channel_banner);
+                Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);*/
+
             }
-            setTitle(yc.getChannel().getTitle());
-
-            ImageView img1 = (ImageView) findViewById(R.id.channel_img);
-            Picasso.with(this).load(yc.getChannel().getThumbnailURL()).into(img1);
-            TextView tv = (TextView) findViewById(R.id.channel_desc);
-            tv.setText(yc.getChannel().getDescription());
 
         }
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && isNetworkAvailable()) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third, channel_name);
@@ -114,6 +126,19 @@ public class MainActivity extends AppCompatActivity
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void refreshApp(View v){
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void changeTextViewBackground() {
