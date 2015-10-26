@@ -15,6 +15,22 @@
         <item name="android:navigationBarColor">@color/yellow_darken4</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay.Bazar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="AppTheme.Twitter.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_darken2</item>
+        <item name="android:navigationBarColor">@color/blue_darken2</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay.Twitter" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
     <style name="AppTheme.Youtube">
         <item name="colorPrimary">@color/red_darken2</item>
         <item name="colorPrimaryDark">@color/red_darken4</item>
@@ -25,7 +41,4 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay.Bazar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
-        <item name="android:textColorPrimary">@color/black</item>
-    </style>
 </resources>

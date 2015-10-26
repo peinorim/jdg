@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
+import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
@@ -204,17 +205,19 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.channel_jdg) {
             b.putString("channel_id", getResources().getString(R.string.channel_jdg_id));
+            intent.putExtras(b);
         } else if (id == R.id.channel_bazar) {
             b.putString("channel_id", getResources().getString(R.string.channel_bazar_id));
+            intent.putExtras(b);
         } else if (id == R.id.nav_fb) {
 
         } else if (id == R.id.nav_tw) {
-
+            intent = new Intent(MainActivity.this, TwitterActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        intent.putExtras(b);
         startActivity(intent);
         dialog.hide();
         return true;

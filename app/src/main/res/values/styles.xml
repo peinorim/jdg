@@ -31,6 +31,20 @@
         <item name="android:textColorPrimary">@color/black</item>
     </style>
 
+    <style name="AppTheme.Twitter">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_darken2</item>
+    </style>
+
+    <style name="AppTheme.Twitter.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay.Twitter">
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
     <style name="AppTheme.Youtube" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/red_darken2</item>
         <item name="colorPrimaryDark">@color/red_darken4</item>
