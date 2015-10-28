@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+import com.paocorp.joueurdugrenier.MainActivity;
 import com.paocorp.joueurdugrenier.R;
 
 import java.io.InputStream;
@@ -67,12 +69,12 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
     private TextView userName;
     private View loginLayout;
     private View shareLayout;
+    ProgressDialog dialog;
 
     private String consumerKey = null;
     private String consumerSecret = null;
     private String callbackUrl = null;
     private String oAuthVerifier = null;
-    public static String EXTRA_URL = "extra_url";
     private ArrayAdapter<Status> adapter;
     private ListView feed;
 
@@ -110,7 +112,7 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
         navigationView.setNavigationItemSelectedListener(this);
 
         loginLayout = (RelativeLayout) findViewById(R.id.login_layout);
-        shareLayout = (LinearLayout) findViewById(R.id.feed_layout);
+        shareLayout = (RelativeLayout) findViewById(R.id.feed_layout);
         //mShareEditText = (EditText) findViewById(R.id.share_text);
         //userName = (TextView) findViewById(R.id.user_name);
 
@@ -131,7 +133,7 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
         boolean isLoggedIn = mSharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
 
 		/*  if already logged in, then hide login layout and show share layout */
-        if (isLoggedIn) {
+        if (true) {
             loginLayout.setVisibility(View.GONE);
             shareLayout.setVisibility(View.VISIBLE);
 
@@ -264,8 +266,8 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
                  *  Loading twitter login page on webview for authorization
                  *  Once authorized, results are received at onActivityResult
                  *  */
-                final Intent intent = new Intent(this, TwitterActivity.class);
-                intent.putExtra(TwitterActivity.EXTRA_URL, requestToken.getAuthenticationURL());
+                final Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.EXTRA_URL, requestToken.getAuthenticationURL());
                 startActivityForResult(intent, WEBVIEW_REQUEST_CODE);
 
             } catch (TwitterException e) {
@@ -294,8 +296,7 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
 
                 loginLayout.setVisibility(View.GONE);
                 shareLayout.setVisibility(View.VISIBLE);
-                userName.setText(TwitterActivity.this.getResources().getString(
-                        R.string.hello) + username);
+                userName.setText(TwitterActivity.this.getResources().getString(R.string.hello) + username);
 
             } catch (Exception e) {
                 Log.e("Twitter Login Failed", e.getMessage());
@@ -323,9 +324,38 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        return false;
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(this.getResources().getString(R.string.loading));
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+        int id = item.getItemId();
+        Intent intent = new Intent(TwitterActivity.this, MainActivity.class);
+        Bundle b = new Bundle();
+
+        if (id == R.id.channel_jdg) {
+            b.putString("channel_id", getResources().getString(R.string.channel_jdg_id));
+            intent.putExtras(b);
+        } else if (id == R.id.channel_bazar) {
+            b.putString("channel_id", getResources().getString(R.string.channel_bazar_id));
+            intent.putExtras(b);
+        } else if (id == R.id.nav_fb) {
+
+        } else if (id == R.id.nav_tw) {
+            intent = new Intent(TwitterActivity.this, TwitterActivity.class);
+            startActivity(intent);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        startActivity(intent);
+        dialog.hide();
+        return true;
     }
 
     class updateTwitterStatus extends AsyncTask<String, String, Void> {

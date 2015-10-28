@@ -46,6 +46,11 @@
                 android:host="t4jsample"
                 android:scheme="oauth" />
         </activity>
+        <activity
+            android:name=".twitter.WebViewActivity"
+            android:label="@string/login_instructions"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
