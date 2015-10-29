@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +43,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import com.paocorp.joueurdugrenier.MainActivity;
 import com.paocorp.joueurdugrenier.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -146,6 +149,15 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
                 ArrayList<Status> statuses = (ArrayList<Status>) twitter.getUserTimeline(this.getResources().getString(R.string.twitter_jdg_id), paging);
                 feed = (ListView) findViewById(R.id.jdg_feed);
                 updateTwitterFeed(statuses);
+
+                LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
+                ly.setBackgroundResource(R.drawable.side_nav_bar_twitter);
+
+                Status sta = statuses.get(0);
+                ImageView img1 = (ImageView) findViewById(R.id.channel_img);
+                Picasso.with(this).load(sta.getUser().getOriginalProfileImageURL()).into(img1);
+                TextView tv = (TextView) findViewById(R.id.channel_desc);
+                tv.setText(sta.getUser().getDescription());
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
