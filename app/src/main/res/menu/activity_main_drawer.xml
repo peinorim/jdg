@@ -8,12 +8,23 @@
             android:title="@string/channel_bazar" />
     </group>
 
+    <item android:title="Internet">
+        <menu>
+            <item android:id="@+id/site_jdg"
+                android:title="@string/site_jdg" />
+            <item android:id="@+id/site_aventures"
+                android:title="@string/site_aventures" />
+        </menu>
+    </item>
+
     <item android:title="Réseaux sociaux">
         <menu>
-            <item android:id="@+id/nav_fb" android:icon="@android:drawable/ic_menu_share"
-                android:title="Facebook" />
-            <item android:id="@+id/nav_tw" android:icon="@drawable/twitter"
-                android:title="Twitter" />
+            <item android:id="@+id/nav_fb_jdg" android:icon="@android:drawable/ic_menu_share"
+                android:title="@string/fb_jdg" />
+            <item android:id="@+id/nav_tw_jdg" android:icon="@drawable/twitter"
+                android:title="@string/twitter_jdg" />
+            <item android:id="@+id/nav_fb_aventures" android:icon="@android:drawable/ic_menu_share"
+                android:title="@string/fb_aventures" />
         </menu>
     </item>
 

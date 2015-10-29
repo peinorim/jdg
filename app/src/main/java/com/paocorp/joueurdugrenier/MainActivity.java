@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
+import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -200,7 +201,7 @@ public class MainActivity extends AppCompatActivity
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
         int id = item.getItemId();
-        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         Bundle b = new Bundle();
 
         if (id == R.id.channel_jdg) {
@@ -209,11 +210,24 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.channel_bazar) {
             b.putString("channel_id", getResources().getString(R.string.channel_bazar_id));
             intent.putExtras(b);
-        } else if (id == R.id.nav_fb) {
 
-        } else if (id == R.id.nav_tw) {
-            intent = new Intent(MainActivity.this, TwitterActivity.class);
+        } else if (id == R.id.site_jdg) {
+            intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
             startActivity(intent);
+        } else if (id == R.id.site_aventures) {
+            intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
+            startActivity(intent);
+
+        } else if (id == R.id.nav_fb_jdg) {
+
+        } else if (id == R.id.nav_tw_jdg) {
+            intent = new Intent(this, TwitterActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_fb_aventures) {
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

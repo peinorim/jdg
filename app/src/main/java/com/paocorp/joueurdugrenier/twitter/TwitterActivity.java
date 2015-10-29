@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,6 +43,7 @@ import com.paocorp.joueurdugrenier.MainActivity;
 import com.paocorp.joueurdugrenier.R;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class TwitterActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -143,7 +143,7 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
             Twitter twitter = new TwitterFactory(cb.build()).getInstance();
             Paging paging = new Paging(1, 100);
             try {
-                ArrayList<Status> statuses = (ArrayList<Status>) twitter.getUserTimeline("frederic_molas", paging);
+                ArrayList<Status> statuses = (ArrayList<Status>) twitter.getUserTimeline(this.getResources().getString(R.string.twitter_jdg_id), paging);
                 feed = (ListView) findViewById(R.id.jdg_feed);
                 updateTwitterFeed(statuses);
             } catch (TwitterException e) {
@@ -199,6 +199,9 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
 
                 TextView username = (TextView) convertView.findViewById(R.id.twitter_username);
                 username.setText(" - " + sta.getUser().getName());
+
+                TextView date = (TextView) convertView.findViewById(R.id.tweet_date);
+                date.setText(new SimpleDateFormat("dd MMMM - H:mm").format(sta.getCreatedAt()));
 
                 TextView msg = (TextView) convertView.findViewById(R.id.tweet_msg);
                 msg.setText(sta.getText());
@@ -344,11 +347,23 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
         } else if (id == R.id.channel_bazar) {
             b.putString("channel_id", getResources().getString(R.string.channel_bazar_id));
             intent.putExtras(b);
-        } else if (id == R.id.nav_fb) {
-
-        } else if (id == R.id.nav_tw) {
-            intent = new Intent(TwitterActivity.this, TwitterActivity.class);
+        } else if (id == R.id.site_jdg) {
+            intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
             startActivity(intent);
+        } else if (id == R.id.site_aventures) {
+            intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
+            startActivity(intent);
+
+        } else if (id == R.id.nav_fb_jdg) {
+
+        } else if (id == R.id.nav_tw_jdg) {
+            intent = new Intent(this, TwitterActivity.class);
+            startActivity(intent);
+
+        } else if (id == R.id.nav_fb_aventures) {
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

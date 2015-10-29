@@ -3,8 +3,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
-    <string name="channel_jdg">Joueur du grenier</string>
-    <string name="channel_bazar">Bazar du grenier</string>
+    <string name="channel_jdg">Youtube Joueur du grenier</string>
+    <string name="channel_bazar">Youtube Bazar du grenier</string>
     <string name="app_desc">Fan App Joueur du Grenier</string>
     <string name="app_url">paocorp.com</string>
     <string name="failed">Erreur dans le chargement de la vidéo</string>
@@ -28,14 +28,25 @@
     <string name="api_android_key2">AIzaSyCJMaC4i9xAomsWyMXDrU18gsyl0jN2HXY</string>
     <string name="channel_jdg_id">UC_yP2DpIgs5Y1uWC0T03Chw</string>
     <string name="channel_bazar_id">UCCMxHHciWRBBouzk-PGzmtQ</string>
-    <string name="title_activity_player">PlayerActivity</string>
-    <string name="title_activity_twitter">Twitter JDG</string>
+    <string name="title_activity_player">Lecteur Youtube</string>
 
     <string name="hello">Hello, </string>
     <string name="login_instructions">Se connecter à Twitter</string>
     <string name="btn_login">Se connecter à Twitter</string>
 
+    <!-- Menu drawer -->
+    <string name="fb_jdg">Facebook JDG</string>
+    <string name="fb_jdg_url">https://www.facebook.com/Joueur-du-Grenier-133349966719915</string>
+    <string name="fb_aventures">Facebook Aventures</string>
+    <string name="fb_aventures_url">https://www.facebook.com/aventuresJDR</string>
+    <string name="twitter_jdg">Twitter JDG</string>
+    <string name="site_jdg">Site web JDG</string>
+    <string name="site_jdg_url">http://www.joueurdugrenier.fr/</string>
+    <string name="site_aventures">Site web Aventures</string>
+    <string name="site_aventures_url">http://www.reussitecritique.fr/aventures/</string>
+
     <!-- Twitter Configurations -->
+    <string name="twitter_jdg_id">frederic_molas</string>
     <string name="twitter_callback">http://paocorp.com</string>
     <string name="twitter_consumer_key">AKMOt4FJn3fPRwbsFL6L52X0j</string>
     <string name="twitter_consumer_secret">KXUMBOQyDjL2iQaHPIYvnEG2nx25PjZPtGJBjaSyw7vFGeFhOf</string>

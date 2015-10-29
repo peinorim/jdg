@@ -32,7 +32,7 @@
     </style>
 
     <style name="AppTheme.Twitter">
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/blue_twitter</item>
         <item name="colorPrimaryDark">@color/blue_darken2</item>
     </style>
 

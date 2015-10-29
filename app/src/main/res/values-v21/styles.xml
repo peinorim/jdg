@@ -22,7 +22,7 @@
     <style name="AppTheme.Twitter.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/blue_twitter</item>
         <item name="colorPrimaryDark">@color/blue_darken2</item>
         <item name="android:navigationBarColor">@color/blue_darken2</item>
     </style>
