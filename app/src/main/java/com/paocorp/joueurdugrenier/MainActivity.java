@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +23,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
+    private InterstitialAd mInterstitialAd;
     ProgressDialog dialog;
     PackageInfo pInfo;
 
@@ -108,6 +114,22 @@ public class MainActivity extends AppCompatActivity
 
                 ImageView ban = (ImageView) findViewById(R.id.channel_banner);
                 Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);
+
+                final ShowAdsApplication hideAdObj = ((ShowAdsApplication) getApplicationContext());
+                boolean hideAd = hideAdObj.getHideAd();
+
+                if (!hideAd) {
+                    mInterstitialAd = new InterstitialAd(this);
+                    mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
+                    requestNewInterstitial();
+                    mInterstitialAd.setAdListener(new AdListener() {
+                        @Override
+                        public void onAdLoaded() {
+                            showInterstitial();
+                            hideAdObj.setHideAd(true);
+                        }
+                    });
+                }
 
             }
 
@@ -221,13 +243,16 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_fb_jdg) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
+            startActivity(browserIntent);
 
         } else if (id == R.id.nav_tw_jdg) {
             intent = new Intent(this, TwitterActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_fb_aventures) {
-
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
+            startActivity(browserIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -235,5 +260,16 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
         dialog.hide();
         return true;
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mInterstitialAd.loadAd(adRequest);
+    }
+
+    private void showInterstitial() {
+        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 }

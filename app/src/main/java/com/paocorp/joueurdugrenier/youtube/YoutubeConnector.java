@@ -1,6 +1,7 @@
 package com.paocorp.joueurdugrenier.youtube;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -79,7 +80,11 @@ public class YoutubeConnector {
             channel.setTitle(result.getSnippet().getTitle());
             channel.setDescription(result.getSnippet().getDescription());
             channel.setThumbnailURL(result.getSnippet().getThumbnails().getHigh().getUrl());
-            channel.setBannerURL(result.getBrandingSettings().getImage().getBannerImageUrl());
+            if (isTablet(this.context)) {
+                channel.setBannerURL(result.getBrandingSettings().getImage().getBannerTabletImageUrl());
+            } else {
+                channel.setBannerURL(result.getBrandingSettings().getImage().getBannerImageUrl());
+            }
         }
     }
 
@@ -125,7 +130,7 @@ public class YoutubeConnector {
             YoutubeVideo item = new YoutubeVideo();
             item.setTitle(result.getSnippet().getTitle());
             item.setDescription(result.getSnippet().getDescription());
-            item.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
+            item.setThumbnailURL(result.getSnippet().getThumbnails().getMedium().getUrl());
             item.setId(result.getId().getVideoId());
             item.setNextPageToken(response.getNextPageToken());
             if (keywords != null) {
@@ -180,7 +185,7 @@ public class YoutubeConnector {
             YoutubeVideo item = new YoutubeVideo();
             item.setTitle(result.getSnippet().getTitle());
             item.setDescription(result.getSnippet().getDescription());
-            item.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
+            item.setThumbnailURL(result.getSnippet().getThumbnails().getMedium().getUrl());
             item.setId(result.getId().getVideoId());
             item.setNextPageToken(response.getNextPageToken());
             if (keyword != null) {
@@ -194,6 +199,12 @@ public class YoutubeConnector {
 
     public YoutubeChannel getChannel() {
         return channel;
+    }
+
+    public static boolean isTablet(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }
 
