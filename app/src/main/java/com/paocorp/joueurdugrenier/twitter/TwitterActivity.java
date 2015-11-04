@@ -41,7 +41,8 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-import com.paocorp.joueurdugrenier.MainActivity;
+import com.paocorp.joueurdugrenier.BazarActivity;
+import com.paocorp.joueurdugrenier.JDGActivity;
 import com.paocorp.joueurdugrenier.R;
 import com.squareup.picasso.Picasso;
 
@@ -350,32 +351,24 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
         int id = item.getItemId();
-        Intent intent = new Intent(TwitterActivity.this, MainActivity.class);
-        Bundle b = new Bundle();
+        Intent intent = new Intent(TwitterActivity.this, JDGActivity.class);
 
         if (id == R.id.channel_jdg) {
-            b.putString("channel_id", getResources().getString(R.string.channel_jdg_id));
-            intent.putExtras(b);
+            intent = new Intent(this, JDGActivity.class);
         } else if (id == R.id.channel_bazar) {
-            b.putString("channel_id", getResources().getString(R.string.channel_bazar_id));
-            intent.putExtras(b);
+            intent = new Intent(this, BazarActivity.class);
         } else if (id == R.id.site_jdg) {
             intent = new Intent(this, WebViewActivity.class);
             intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
-            startActivity(intent);
         } else if (id == R.id.site_aventures) {
             intent = new Intent(this, WebViewActivity.class);
             intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
-            startActivity(intent);
-
         } else if (id == R.id.nav_fb_jdg) {
-
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
         } else if (id == R.id.nav_tw_jdg) {
             intent = new Intent(this, TwitterActivity.class);
-            startActivity(intent);
-
         } else if (id == R.id.nav_fb_aventures) {
-
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

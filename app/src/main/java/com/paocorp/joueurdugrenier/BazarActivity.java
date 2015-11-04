@@ -36,9 +36,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+public class BazarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private YoutubeConnector yc;
     private ArrayList<YoutubeVideo> lastResults;
@@ -50,29 +48,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_bazar);
 
-
-        String channel_id = getResources().getString(R.string.channel_jdg_id);
-        String channel_name = getResources().getString(R.string.channel_jdg);
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            b = getIntent().getExtras();
-            channel_id = b.getString("channel_id");
-            if (channel_id.equals(getResources().getString(R.string.channel_bazar_id))) {
-                channel_name = getResources().getString(R.string.channel_bazar);
-                super.setTheme(R.style.AppTheme_Bazar_NoActionBar);
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_main_bazar);
-            } else {
-                super.setTheme(R.style.AppTheme_NoActionBar);
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_main);
-            }
-        } else {
-            super.setTheme(R.style.AppTheme_NoActionBar);
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-        }
+        String channel_id = getResources().getString(R.string.channel_bazar_id);
+        String channel_name = getResources().getString(R.string.channel_bazar);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,14 +77,11 @@ public class MainActivity extends AppCompatActivity
                 yc = new YoutubeConnector(this, channel_id);
 
                 this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null, 10);
-                if (channel_id.equals(getResources().getString(R.string.channel_jdg_id))) {
-                    this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword), 10);
-                    this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword), 10);
-                } else {
-                    this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword), 10);
-                    this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword), 10);
-                    changeTextViewBackground();
-                }
+                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword), 10);
+                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword), 10);
+
+                changeTextViewBackground();
+
                 setTitle(yc.getChannel().getTitle());
 
                 ImageView img1 = (ImageView) findViewById(R.id.channel_img);
@@ -153,7 +130,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void refreshApp(View v) {
-        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, BazarActivity.class);
         startActivity(intent);
         finish();
     }
@@ -223,36 +200,23 @@ public class MainActivity extends AppCompatActivity
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
         int id = item.getItemId();
-        Intent intent = new Intent(this, MainActivity.class);
-        Bundle b = new Bundle();
+        Intent intent = new Intent(this, BazarActivity.class);
 
         if (id == R.id.channel_jdg) {
-            b.putString("channel_id", getResources().getString(R.string.channel_jdg_id));
-            intent.putExtras(b);
+            intent = new Intent(this, JDGActivity.class);
         } else if (id == R.id.channel_bazar) {
-            b.putString("channel_id", getResources().getString(R.string.channel_bazar_id));
-            intent.putExtras(b);
-
         } else if (id == R.id.site_jdg) {
             intent = new Intent(this, WebViewActivity.class);
             intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
-            startActivity(intent);
         } else if (id == R.id.site_aventures) {
             intent = new Intent(this, WebViewActivity.class);
             intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
-            startActivity(intent);
-
         } else if (id == R.id.nav_fb_jdg) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
-            startActivity(browserIntent);
-
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
         } else if (id == R.id.nav_tw_jdg) {
             intent = new Intent(this, TwitterActivity.class);
-            startActivity(intent);
-
         } else if (id == R.id.nav_fb_aventures) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
-            startActivity(browserIntent);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
