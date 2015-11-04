@@ -8,7 +8,7 @@
             android:title="@string/channel_bazar" />
     </group>
 
-    <item android:title="Internet">
+    <item android:title="@string/internet_title">
         <menu>
             <item android:id="@+id/site_jdg"
                 android:title="@string/site_jdg" />
@@ -17,7 +17,7 @@
         </menu>
     </item>
 
-    <item android:title="Réseaux sociaux">
+    <item android:title="@string/social_title">
         <menu>
             <item android:id="@+id/nav_fb_jdg" android:icon="@drawable/com_facebook_button_icon"
                 android:title="@string/fb_jdg" />

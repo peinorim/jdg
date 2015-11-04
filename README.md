@@ -1,4 +1,4 @@
 JDG
 =====
 
-* v1.0 : Init
+* v1.0 : App launch

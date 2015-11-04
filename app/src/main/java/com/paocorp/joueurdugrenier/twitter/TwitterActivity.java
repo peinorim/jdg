@@ -114,6 +114,7 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().findItem(R.id.nav_tw_jdg).setChecked(true);
 
         loginLayout = (RelativeLayout) findViewById(R.id.login_layout);
         shareLayout = (RelativeLayout) findViewById(R.id.feed_layout);
