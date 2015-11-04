@@ -30,6 +30,7 @@
     <string name="channel_jdg_id">UC_yP2DpIgs5Y1uWC0T03Chw</string>
     <string name="channel_bazar_id">UCCMxHHciWRBBouzk-PGzmtQ</string>
     <string name="title_activity_player">Lecteur Youtube</string>
+    <string name="title_activity_bazar">Bazar du grenier</string>
 
     <string name="hello">Hello, </string>
     <string name="login_instructions">Se connecter à Twitter</string>
