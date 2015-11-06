@@ -35,6 +35,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class JDGActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,6 +53,13 @@ public class JDGActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(this.getResources().getString(R.string.loading));
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
 
         String channel_id = getResources().getString(R.string.channel_jdg_id);
         String channel_name = getResources().getString(R.string.channel_jdg);
@@ -84,8 +93,8 @@ public class JDGActivity extends AppCompatActivity
 
                 setTitle(yc.getChannel().getTitle());
 
-                ImageView img1 = (ImageView) findViewById(R.id.channel_img);
-                Picasso.with(this).load(yc.getChannel().getThumbnailURL()).into(img1);
+                CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
+                Picasso.with(this).load(yc.getChannel().getThumbnailURL()).noFade().into(img1);
                 TextView tv = (TextView) findViewById(R.id.channel_desc);
                 tv.setText(yc.getChannel().getDescription());
 
@@ -118,6 +127,7 @@ public class JDGActivity extends AppCompatActivity
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third, channel_name);
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
+            dialog.hide();
         }
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -182,12 +192,6 @@ public class JDGActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage(this.getResources().getString(R.string.loading));
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
         int id = item.getItemId();
         Intent intent = new Intent(this, JDGActivity.class);
 
@@ -211,7 +215,6 @@ public class JDGActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         startActivity(intent);
-        dialog.hide();
         return true;
     }
 

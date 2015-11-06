@@ -47,7 +47,7 @@
     <string name="site_aventures">Site web Aventures</string>
     <string name="site_aventures_url">http://www.reussitecritique.fr/aventures/</string>
     <string name="internet_title">Internet</string>
-    <string name="social_title">Internet</string>
+    <string name="social_title">Réseaux sociaux</string>
 
     <!-- Twitter Configurations -->
     <string name="twitter_jdg_id">frederic_molas</string>

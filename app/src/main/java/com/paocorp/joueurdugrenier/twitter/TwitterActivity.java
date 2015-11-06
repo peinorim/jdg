@@ -22,13 +22,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.StatusUpdate;
@@ -156,7 +156,7 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
                 ly.setBackgroundResource(R.drawable.side_nav_bar_twitter);
 
                 Status sta = statuses.get(0);
-                ImageView img1 = (ImageView) findViewById(R.id.channel_img);
+                CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
                 Picasso.with(this).load(sta.getUser().getOriginalProfileImageURL()).into(img1);
                 TextView tv = (TextView) findViewById(R.id.channel_desc);
                 tv.setText(sta.getUser().getDescription());

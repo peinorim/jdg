@@ -17,15 +17,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/channel_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxHeight="60sp"
-            android:maxWidth="60sp"
-            android:minHeight="60sp"
-            android:minWidth="60sp"
-            android:paddingTop="@dimen/nav_header_vertical_spacing" />
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="10sp"
+            android:maxHeight="96dp"
+            android:maxWidth="96dp"
+            android:minHeight="96dp"
+            android:minWidth="96dp"/>
 
         <TextView
             android:id="@+id/channel_desc"
