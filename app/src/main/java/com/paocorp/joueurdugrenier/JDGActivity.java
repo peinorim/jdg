@@ -1,6 +1,5 @@
 package com.paocorp.joueurdugrenier;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -16,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,20 +46,13 @@ public class JDGActivity extends AppCompatActivity
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
     private InterstitialAd mInterstitialAd;
-    ProgressDialog dialog;
+    View headerLayout;
     PackageInfo pInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage(this.getResources().getString(R.string.loading));
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
 
         String channel_id = getResources().getString(R.string.channel_jdg_id);
         String channel_name = getResources().getString(R.string.channel_jdg);
@@ -92,6 +85,8 @@ public class JDGActivity extends AppCompatActivity
                 this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword), 10);
 
                 setTitle(yc.getChannel().getTitle());
+
+                LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
                 CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
                 Picasso.with(this).load(yc.getChannel().getThumbnailURL()).noFade().into(img1);
@@ -127,7 +122,6 @@ public class JDGActivity extends AppCompatActivity
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third, channel_name);
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
-            dialog.hide();
         }
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);

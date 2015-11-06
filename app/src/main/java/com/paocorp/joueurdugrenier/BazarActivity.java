@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,20 +46,12 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
     private InterstitialAd mInterstitialAd;
-    ProgressDialog dialog;
     PackageInfo pInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_bazar);
-
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage(this.getResources().getString(R.string.loading));
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
 
         String channel_id = getResources().getString(R.string.channel_bazar_id);
         String channel_name = getResources().getString(R.string.channel_bazar);
@@ -89,6 +82,8 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
                 this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null, 10);
                 this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword), 10);
                 this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword), 10);
+
+                LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
                 changeTextViewBackground();
 
@@ -128,7 +123,6 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
             SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third, channel_name);
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
-            dialog.hide();
         }
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -204,12 +198,6 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage(this.getResources().getString(R.string.loading));
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
         int id = item.getItemId();
         Intent intent = new Intent(this, BazarActivity.class);
 
@@ -233,7 +221,6 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         startActivity(intent);
-        dialog.hide();
         return true;
     }
 

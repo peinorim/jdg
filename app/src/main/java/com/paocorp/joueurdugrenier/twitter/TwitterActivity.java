@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,10 +153,13 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
                 feed = (ListView) findViewById(R.id.jdg_feed);
                 updateTwitterFeed(statuses);
 
+                LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
+
                 LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
                 ly.setBackgroundResource(R.drawable.side_nav_bar_twitter);
 
                 Status sta = statuses.get(0);
+
                 CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
                 Picasso.with(this).load(sta.getUser().getOriginalProfileImageURL()).into(img1);
                 TextView tv = (TextView) findViewById(R.id.channel_desc);
