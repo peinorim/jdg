@@ -46,7 +46,6 @@ public class JDGActivity extends AppCompatActivity
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
     private InterstitialAd mInterstitialAd;
-    View headerLayout;
     PackageInfo pInfo;
 
     @Override

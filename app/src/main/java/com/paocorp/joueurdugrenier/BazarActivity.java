@@ -1,6 +1,5 @@
 package com.paocorp.joueurdugrenier;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
