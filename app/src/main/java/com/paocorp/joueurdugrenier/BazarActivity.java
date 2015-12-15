@@ -78,9 +78,9 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
 
                 yc = new YoutubeConnector(this, channel_id);
 
-                this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null, 10);
-                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.aventures_keyword), 10);
-                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.play_keyword), 10);
+                this.lastResults = searchVideos(null, 10);
+                this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
+                this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
 
                 LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
@@ -157,7 +157,7 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
         tv_credits.setTextColor(this.getResources().getColor(R.color.black));
     }
 
-    private ArrayList<YoutubeVideo> searchVideos(final String channel_id, final String keywords, final int max) {
+    private ArrayList<YoutubeVideo> searchVideos(final String keywords, final int max) {
         return yc.search(keywords, max);
     }
 

@@ -79,9 +79,9 @@ public class JDGActivity extends AppCompatActivity
 
                 yc = new YoutubeConnector(this, channel_id);
 
-                this.lastResults = searchVideos(yc.getChannel().getChannel_id(), null, 10);
-                this.second = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.papy_keyword), 10);
-                this.third = searchVideos(yc.getChannel().getChannel_id(), getResources().getString(R.string.hs_keyword), 10);
+                this.lastResults = searchVideos(null, 10);
+                this.second = searchVideos(getResources().getString(R.string.papy_keyword), 10);
+                this.third = searchVideos(getResources().getString(R.string.hs_keyword), 10);
 
                 setTitle(yc.getChannel().getTitle());
 
@@ -111,6 +111,14 @@ public class JDGActivity extends AppCompatActivity
                     });
                 }
 
+                try {
+                    pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                    TextView txv = (TextView) findViewById(R.id.app_desc);
+                    String APPINFO = txv.getText() + " v" + pInfo.versionName;
+                    txv.setText(APPINFO);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
 
         }
@@ -122,20 +130,14 @@ public class JDGActivity extends AppCompatActivity
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            TextView txv = (TextView) findViewById(R.id.app_desc);
-            String APPINFO = txv.getText() + " v" + pInfo.versionName;
-            txv.setText(APPINFO);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     public void refreshApp(View v) {
-        Intent intent = new Intent(JDGActivity.this, JDGActivity.class);
-        startActivity(intent);
-        finish();
+        if(isNetworkAvailable()) {
+            Intent intent = new Intent(JDGActivity.this, JDGActivity.class);
+            finish();
+            startActivity(intent);
+        }
     }
 
     private boolean isNetworkAvailable() {
@@ -145,7 +147,7 @@ public class JDGActivity extends AppCompatActivity
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private ArrayList<YoutubeVideo> searchVideos(final String channel_id, final String keywords, final int max) {
+    private ArrayList<YoutubeVideo> searchVideos(final String keywords, final int max) {
         return yc.search(keywords, max);
     }
 
