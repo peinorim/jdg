@@ -13,7 +13,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +43,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import com.paocorp.joueurdugrenier.BazarActivity;
 import com.paocorp.joueurdugrenier.JDGActivity;
+import com.paocorp.joueurdugrenier.ParentActivity;
 import com.paocorp.joueurdugrenier.R;
 import com.squareup.picasso.Picasso;
 
@@ -51,7 +51,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class TwitterActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class TwitterActivity extends ParentActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     /* Shared preference keys */
     private static final String PREF_NAME = "sample_twitter_pref";
@@ -143,8 +143,8 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
             loginLayout.setVisibility(View.GONE);
             shareLayout.setVisibility(View.VISIBLE);
 
-           // String username = mSharedPreferences.getString(PREF_USER_NAME, "");
-           // userName.setText(getResources().getString(R.string.hello) + username);
+            // String username = mSharedPreferences.getString(PREF_USER_NAME, "");
+            // userName.setText(getResources().getString(R.string.hello) + username);
 
             Twitter twitter = new TwitterFactory(cb.build()).getInstance();
             Paging paging = new Paging(1, 100);
@@ -348,34 +348,37 @@ public class TwitterActivity extends AppCompatActivity implements View.OnClickLi
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        Intent intent = new Intent(TwitterActivity.this, JDGActivity.class);
+        if (isNetworkAvailable()) {
+            // Handle navigation view item clicks here.
+            int id = item.getItemId();
+            Intent intent = new Intent(TwitterActivity.this, JDGActivity.class);
 
-        if (id == R.id.channel_jdg) {
-            intent = new Intent(this, JDGActivity.class);
-        } else if (id == R.id.channel_bazar) {
-            intent = new Intent(this, BazarActivity.class);
-        } else if (id == R.id.site_jdg) {
-            intent = new Intent(this, WebViewActivity.class);
-            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
-        } else if (id == R.id.site_aventures) {
-            intent = new Intent(this, WebViewActivity.class);
-            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
-        } else if (id == R.id.nav_fb_jdg) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
-        } else if (id == R.id.nav_tw_jdg) {
-            intent = new Intent(this, TwitterActivity.class);
-        } else if (id == R.id.nav_fb_aventures) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
+            if (id == R.id.channel_jdg) {
+                intent = new Intent(this, JDGActivity.class);
+            } else if (id == R.id.channel_bazar) {
+                intent = new Intent(this, BazarActivity.class);
+            } else if (id == R.id.site_jdg) {
+                intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
+            } else if (id == R.id.site_aventures) {
+                intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
+            } else if (id == R.id.nav_fb_jdg) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
+            } else if (id == R.id.nav_tw_jdg) {
+            } else if (id == R.id.nav_fb_aventures) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
+            }
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            startActivity(intent);
+        } else {
+            loadToast(this.getResources().getString(R.string.offline));
         }
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        startActivity(intent);
         return true;
     }
 

@@ -3,8 +3,6 @@ package com.paocorp.joueurdugrenier;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -13,7 +11,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
@@ -38,7 +34,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class BazarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BazarActivity extends ParentActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private YoutubeConnector yc;
     private ArrayList<YoutubeVideo> lastResults;
@@ -139,13 +135,6 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
         finish();
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
     private void changeTextViewBackground() {
         LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
         ly.setBackgroundResource(R.drawable.side_nav_bar_yellow);
@@ -197,43 +186,36 @@ public class BazarActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        Intent intent = new Intent(this, BazarActivity.class);
+        if(isNetworkAvailable()) {
+            int id = item.getItemId();
+            Intent intent = new Intent(this, BazarActivity.class);
 
-        if (id == R.id.channel_jdg) {
-            intent = new Intent(this, JDGActivity.class);
-        } else if (id == R.id.channel_bazar) {
-        } else if (id == R.id.site_jdg) {
-            intent = new Intent(this, WebViewActivity.class);
-            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
-        } else if (id == R.id.site_aventures) {
-            intent = new Intent(this, WebViewActivity.class);
-            intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
-        } else if (id == R.id.nav_fb_jdg) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
-        } else if (id == R.id.nav_tw_jdg) {
-            intent = new Intent(this, TwitterActivity.class);
-        } else if (id == R.id.nav_fb_aventures) {
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
+            if (id == R.id.channel_jdg) {
+                intent = new Intent(this, JDGActivity.class);
+            } else if (id == R.id.channel_bazar) {
+            } else if (id == R.id.site_jdg) {
+                intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
+            } else if (id == R.id.site_aventures) {
+                intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
+            } else if (id == R.id.nav_fb_jdg) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
+            } else if (id == R.id.nav_tw_jdg) {
+                intent = new Intent(this, TwitterActivity.class);
+            } else if (id == R.id.nav_fb_aventures) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
+            }
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            startActivity(intent);
+        } else {
+            loadToast(this.getResources().getString(R.string.offline));
         }
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        startActivity(intent);
         return true;
-    }
-
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mInterstitialAd.loadAd(adRequest);
-    }
-
-    private void showInterstitial() {
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
     }
 }
