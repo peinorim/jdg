@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -80,7 +79,7 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
 
                 LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
-                changeTextViewBackground();
+                changeTextViewBackground(true);
 
                 setTitle(yc.getChannel().getTitle());
 
@@ -133,17 +132,6 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
         Intent intent = new Intent(this, BazarActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private void changeTextViewBackground() {
-        LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
-        ly.setBackgroundResource(R.drawable.side_nav_bar_yellow);
-        TextView tv_desc = (TextView) findViewById(R.id.channel_desc);
-        tv_desc.setTextColor(this.getResources().getColor(R.color.black));
-        TextView tv_app_desc = (TextView) findViewById(R.id.app_desc);
-        tv_app_desc.setTextColor(this.getResources().getColor(R.color.black));
-        TextView tv_credits = (TextView) findViewById(R.id.credits);
-        tv_credits.setTextColor(this.getResources().getColor(R.color.black));
     }
 
     private ArrayList<YoutubeVideo> searchVideos(final String keywords, final int max) {

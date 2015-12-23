@@ -8,12 +8,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class ParentActivity extends AppCompatActivity {
+public abstract class ParentActivity extends AppCompatActivity {
 
     protected InterstitialAd mInterstitialAd;
 
@@ -22,7 +24,7 @@ public class ParentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    public boolean isNetworkAvailable() {
+    protected boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -38,23 +40,36 @@ public class ParentActivity extends AppCompatActivity {
         }
     }
 
-    public void requestNewInterstitial() {
+    protected void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder().build();
         mInterstitialAd.loadAd(adRequest);
     }
 
-    public void showInterstitial() {
+    protected void showInterstitial() {
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         }
     }
 
-    public void loadToast(String mess) {
+    protected void loadToast(String mess) {
         Context context = getApplicationContext();
         CharSequence text = mess;
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, text, duration);
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    protected void changeTextViewBackground(boolean changeSideBar) {
+        if(changeSideBar) {
+            LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
+            ly.setBackgroundResource(R.drawable.side_nav_bar_green);
+        }
+        TextView tv_desc = (TextView) findViewById(R.id.channel_desc);
+        tv_desc.setTextColor(this.getResources().getColor(R.color.white));
+        TextView tv_app_desc = (TextView) findViewById(R.id.app_desc);
+        tv_app_desc.setTextColor(this.getResources().getColor(R.color.white));
+        TextView tv_credits = (TextView) findViewById(R.id.credits);
+        tv_credits.setTextColor(this.getResources().getColor(R.color.white));
     }
 }

@@ -164,6 +164,8 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                 Picasso.with(this).load(sta.getUser().getOriginalProfileImageURL()).into(img1);
                 TextView tv = (TextView) findViewById(R.id.channel_desc);
                 tv.setText(sta.getUser().getDescription());
+                this.changeTextViewBackground(false);
+
             } catch (TwitterException e) {
                 e.printStackTrace();
             }

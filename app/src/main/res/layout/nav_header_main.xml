@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginLeft="16sp"
+            android:textColor="@color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:paddingTop="16sp"/>
     </LinearLayout>
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="16sp"
         android:text="@string/app_desc"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/credits"
@@ -52,6 +53,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_url"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
 </LinearLayout>
