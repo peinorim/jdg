@@ -138,37 +138,39 @@ public class SlidingTabsColorsFragment extends Fragment {
          */
         String second_tab = getString(R.string.papy);
         String third_tab = getString(R.string.hs_videos);
+        Integer color = this.getResources().getColor(R.color.green_darken1);
 
         if(this.channel_name == getResources().getString(R.string.channel_bazar)){
             second_tab = getString(R.string.aventures);
             third_tab = getString(R.string.play);
+            color = this.getResources().getColor(R.color.yellow_darken1);
         }
 
         mTabs.add(new SamplePagerItem(
                 getString(R.string.last_videos), // Title
-                Color.BLUE, // Indicator color
-                Color.GRAY, // Divider color,
+                color, // Indicator color
+                color, // Divider color,
                 this.lastResults
         ));
 
         mTabs.add(new SamplePagerItem(
                 second_tab, // Title
-                Color.YELLOW, // Indicator color
-                Color.GRAY, // Divider color,
+                color, // Indicator color
+                color, // Divider color,
                 this.second
         ));
 
         mTabs.add(new SamplePagerItem(
                 third_tab, // Title
-                Color.GREEN, // Indicator color
-                Color.GRAY, // Divider color,
+                color, // Indicator color
+                color, // Divider color,
                 this.third
         ));
 
         mTabs.add(new SamplePagerItem(
                 getString(R.string.all_videos), // Title
-                Color.RED, // Indicator color
-                Color.GRAY, // Divider color,
+                color, // Indicator color
+                color, // Divider color,
                 this.lastResults
         ));
         // END_INCLUDE (populate_tabs)
