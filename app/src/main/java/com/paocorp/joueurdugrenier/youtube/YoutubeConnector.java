@@ -17,8 +17,11 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.paocorp.joueurdugrenier.R;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class YoutubeConnector {
     private YouTube youtube;
@@ -27,6 +30,7 @@ public class YoutubeConnector {
     private String channel_id;
     private String KEY;
     private Context context;
+    private String queryParams = "nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails,snippet/publishedAt)";
     private YoutubeChannel channel = new YoutubeChannel();
 
     public YoutubeConnector(final Context context, final String channel_id) {
@@ -99,7 +103,7 @@ public class YoutubeConnector {
             }
             query.setChannelId(this.channel_id);
             query.setMaxResults((long) max);
-            query.setFields("nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
+            query.setFields(queryParams);
         } catch (IOException e) {
             Log.d("SEARCH", "Could not initialize search: " + e.getMessage());
         }
@@ -136,6 +140,11 @@ public class YoutubeConnector {
             if (keywords != null) {
                 item.setKeyword(keywords);
             }
+            try {
+                item.setDate(getDateFormat().parse(result.getSnippet().getPublishedAt().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             item.setChannel_id(this.channel_id);
             items.add(item);
         }
@@ -154,7 +163,7 @@ public class YoutubeConnector {
             }
             query.setPageToken(offset);
             query.setMaxResults((long) 10);
-            query.setFields("nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails)");
+            query.setFields(queryParams);
         } catch (IOException e) {
             Log.d("MORE", "Could not load more: " + e.getMessage());
         }
@@ -191,6 +200,11 @@ public class YoutubeConnector {
             if (keyword != null) {
                 item.setKeyword(keyword);
             }
+            try {
+                item.setDate(getDateFormat().parse(result.getSnippet().getPublishedAt().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             item.setChannel_id(this.channel_id);
             items.add(item);
         }
@@ -205,6 +219,10 @@ public class YoutubeConnector {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    private SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
     }
 }
 

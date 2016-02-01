@@ -18,10 +18,10 @@
     <string name="hs_videos">Hors Séries</string>
     <string name="aventures">Aventures</string>
     <string name="play">Let\'s Play !</string>
-    <string name="hs_keyword">Spécial</string>
+    <string name="hs_keyword">Spécial|hors|Hors</string>
     <string name="papy_keyword">Papy</string>
-    <string name="aventures_keyword">aventures</string>
-    <string name="play_keyword">play</string>
+    <string name="aventures_keyword">Aventures|aventures|starventures|Starventures</string>
+    <string name="play_keyword">play|LP|Let</string>
 
     <string name="api_key">AIzaSyCPT3DO51yUycDF3geQBiiMJpsEuqJx4PA</string>
     <string name="api_key2">AIzaSyDsn0NM-sTvi4dE5FvO4rAnLIgrB1aENL4</string>

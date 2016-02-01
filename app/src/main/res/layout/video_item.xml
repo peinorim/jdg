@@ -19,17 +19,28 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/video_thumbnail"
-        android:textSize="@dimen/title_text_size"
         android:textColor="@color/black"
+        android:textSize="@dimen/subheading_text_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/video_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/video_title"
+        android:layout_toRightOf="@+id/video_thumbnail"
+        android:textColor="@color/grey_darken2"
+        android:textSize="@dimen/reduced_text_size"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/video_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/video_title"
+        android:layout_below="@+id/video_date"
         android:layout_toRightOf="@+id/video_thumbnail"
         android:textColor="@color/black"
+        android:autoLink="web"
         android:textSize="@dimen/normal_text_size" />
 
 </RelativeLayout>

@@ -167,12 +167,6 @@ public class SlidingTabsColorsFragment extends Fragment {
                 this.third
         ));
 
-        mTabs.add(new SamplePagerItem(
-                getString(R.string.all_videos), // Title
-                color, // Indicator color
-                color, // Divider color,
-                this.lastResults
-        ));
         // END_INCLUDE (populate_tabs)
     }
 

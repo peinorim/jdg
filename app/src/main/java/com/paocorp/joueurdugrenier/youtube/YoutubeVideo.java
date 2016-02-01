@@ -7,11 +7,13 @@ import android.os.Parcelable;
 
 import com.google.api.client.util.DateTime;
 
+import java.util.Date;
+
 @SuppressLint("ParcelCreator")
 public class YoutubeVideo implements Parcelable {
     private String id;
     private String channel_id;
-    private DateTime date;
+    private Date date;
     private String title;
     private String description;
     private String thumbnailURL;
@@ -42,7 +44,7 @@ public class YoutubeVideo implements Parcelable {
         this.nextPageToken = nextPageToken;
     }
 
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -62,7 +64,7 @@ public class YoutubeVideo implements Parcelable {
         this.title = title;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

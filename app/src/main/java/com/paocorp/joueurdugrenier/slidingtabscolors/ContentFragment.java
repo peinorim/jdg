@@ -37,8 +37,10 @@ import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Simple Fragment used to display some meaningful content for each page in the sample's
@@ -141,6 +143,7 @@ public class ContentFragment extends Fragment implements AbsListView.OnScrollLis
                 }
                 ImageView thumbnail = (ImageView) convertView.findViewById(R.id.video_thumbnail);
                 TextView title = (TextView) convertView.findViewById(R.id.video_title);
+                TextView date = (TextView) convertView.findViewById(R.id.video_date);
                 TextView description = (TextView) convertView.findViewById(R.id.video_description);
 
                 YoutubeVideo searchResult = ay.get(position);
@@ -150,6 +153,7 @@ public class ContentFragment extends Fragment implements AbsListView.OnScrollLis
 
                 Picasso.with(getContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
                 title.setText(searchResult.getTitle());
+                date.setText(getDateFormat().format(searchResult.getDate()));
                 description.setText(searchResult.getDescription());
                 return convertView;
             }
@@ -169,5 +173,9 @@ public class ContentFragment extends Fragment implements AbsListView.OnScrollLis
             }
 
         });
+    }
+
+    private SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("dd MMMM yyyy à HH'h'mm", Locale.getDefault());
     }
 }
