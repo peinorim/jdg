@@ -1,5 +1,7 @@
 package com.paocorp.joueurdugrenier;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,20 +13,25 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.InterstitialAd;
+import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
+import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
@@ -41,6 +48,7 @@ public class JDGActivity extends ParentActivity
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
+    private ListView videosFound;
     PackageInfo pInfo;
 
     @Override
@@ -128,13 +136,12 @@ public class JDGActivity extends ParentActivity
     }
 
     public void refreshApp(View v) {
-        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             Intent intent = new Intent(JDGActivity.this, JDGActivity.class);
             finish();
             startActivity(intent);
         }
     }
-
 
 
     private ArrayList<YoutubeVideo> searchVideos(final String keywords, final int max) {
@@ -144,7 +151,49 @@ public class JDGActivity extends ParentActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                if (query.length() >= 3) {
+                    findViewById(R.id.sample_content_fragment).setVisibility(View.GONE);
+                    findViewById(R.id.channel_banner).setVisibility(View.GONE);
+                    findViewById(R.id.videos_search_container).setVisibility(View.VISIBLE);
+                    videosFound = (ListView) findViewById(R.id.videos_search_found);
+                    final ArrayList<YoutubeVideo> searchResults = searchVideos(query, 50);
+                    SearchAdapter searchAdapter = new SearchAdapter(getApplicationContext(), searchResults);
+
+                    videosFound.setAdapter(searchAdapter);
+
+                    videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> av, View v, int pos,
+                                                long id) {
+                            Intent intent = new Intent(getBaseContext(), PlayerActivity.class);
+                            intent.putExtra("VIDEO_ID", searchResults.get(pos).getId());
+                            startActivity(intent);
+                        }
+                    });
+                } else if (query.length() == 0) {
+                    findViewById(R.id.videos_search_container).setVisibility(View.GONE);
+                    findViewById(R.id.sample_content_fragment).setVisibility(View.VISIBLE);
+                    findViewById(R.id.channel_banner).setVisibility(View.VISIBLE);
+                }
+                return true;
+            }
+
+        });
         return true;
     }
 
@@ -156,7 +205,7 @@ public class JDGActivity extends ParentActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_search) {
             return true;
         }
 
@@ -167,7 +216,7 @@ public class JDGActivity extends ParentActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             int id = item.getItemId();
             Intent intent = new Intent(this, JDGActivity.class);
 

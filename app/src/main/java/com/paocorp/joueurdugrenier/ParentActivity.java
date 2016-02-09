@@ -30,6 +30,7 @@ public abstract class ParentActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -61,7 +62,7 @@ public abstract class ParentActivity extends AppCompatActivity {
     }
 
     protected void changeTextViewBackground(boolean changeSideBar) {
-        if(changeSideBar) {
+        if (changeSideBar) {
             LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
             ly.setBackgroundResource(R.drawable.side_nav_bar_green);
         }

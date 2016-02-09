@@ -17,7 +17,6 @@
 package com.paocorp.joueurdugrenier.slidingtabscolors;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

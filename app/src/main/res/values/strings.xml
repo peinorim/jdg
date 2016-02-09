@@ -35,6 +35,7 @@
     <string name="hello">Hello, </string>
     <string name="login_instructions">Se connecter à Twitter</string>
     <string name="btn_login">Se connecter à Twitter</string>
+    <string name="search">Rechercher une vidéo</string>
 
     <!-- Menu drawer -->
     <string name="fb_jdg">Facebook JDG</string>
