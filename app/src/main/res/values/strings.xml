@@ -19,9 +19,9 @@
     <string name="aventures">Aventures</string>
     <string name="play">Let\'s Play !</string>
     <string name="hs_keyword">Spécial|hors|Hors</string>
-    <string name="papy_keyword">Papy</string>
+    <string name="papy_keyword">Papy|papy</string>
     <string name="aventures_keyword">Aventures|aventures|starventures|Starventures</string>
-    <string name="play_keyword">play|LP|Let</string>
+    <string name="play_keyword">play|LP|Let|découverte|Découverte</string>
 
     <string name="api_key">AIzaSyCPT3DO51yUycDF3geQBiiMJpsEuqJx4PA</string>
     <string name="api_key2">AIzaSyDsn0NM-sTvi4dE5FvO4rAnLIgrB1aENL4</string>

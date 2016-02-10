@@ -54,6 +54,13 @@ public class SlidingTabsColorsFragment extends Fragment {
         this.channel_name = channel_name;
     }
 
+    public SlidingTabsColorsFragment() {
+        this.lastResults = null;
+        this.second = null;
+        this.third = null;
+        this.channel_name = null;
+    }
+
     /**
      * This class represents a tab to be displayed by {@link ViewPager} and it's associated
      * {@link SlidingTabLayout}.
@@ -139,7 +146,7 @@ public class SlidingTabsColorsFragment extends Fragment {
         String third_tab = getString(R.string.hs_videos);
         Integer color = this.getResources().getColor(R.color.green_darken1);
 
-        if(this.channel_name == getResources().getString(R.string.channel_bazar)){
+        if (this.channel_name == getResources().getString(R.string.channel_bazar)) {
             second_tab = getString(R.string.aventures);
             third_tab = getString(R.string.play);
             color = this.getResources().getColor(R.color.yellow_darken1);
@@ -175,15 +182,16 @@ public class SlidingTabsColorsFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_sample, container, false);
     }
 
     // BEGIN_INCLUDE (fragment_onviewcreated)
+
     /**
      * This is called after the {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} has finished.
      * Here we can pick out the {@link View}s we need to configure from the content view.
-     *
+     * <p/>
      * We set the {@link ViewPager}'s adapter to be an instance of
      * {@link SampleFragmentPagerAdapter}. The {@link SlidingTabLayout} is then given the
      * {@link ViewPager} so that it can populate itself.
@@ -229,7 +237,7 @@ public class SlidingTabsColorsFragment extends Fragment {
      * The {@link FragmentPagerAdapter} used to display pages in this sample. The individual pages
      * are instances of {@link ContentFragment} which just display three lines of text. Each page is
      * created by the relevant {@link SamplePagerItem} for the requested position.
-     * <p>
+     * <p/>
      * The important section of this class is the {@link #getPageTitle(int)} method which controls
      * what is displayed in the {@link SlidingTabLayout}.
      */
@@ -241,7 +249,7 @@ public class SlidingTabsColorsFragment extends Fragment {
 
         /**
          * Return the {@link android.support.v4.app.Fragment} to be displayed at {@code position}.
-         * <p>
+         * <p/>
          * Here we return the value returned from {@link SamplePagerItem#createFragment()}.
          */
         @Override
@@ -255,10 +263,11 @@ public class SlidingTabsColorsFragment extends Fragment {
         }
 
         // BEGIN_INCLUDE (pageradapter_getpagetitle)
+
         /**
          * Return the title of the item at {@code position}. This is important as what this method
          * returns is what is displayed in the {@link SlidingTabLayout}.
-         * <p>
+         * <p/>
          * Here we return the value returned from {@link SamplePagerItem#getTitle()}.
          */
         @Override

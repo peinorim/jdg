@@ -6,7 +6,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class SearchAdapter  extends BaseAdapter {
+public class SearchAdapter extends ArrayAdapter {
 
     private Context context;
     private List<YoutubeVideo> searchItems;
 
-    public SearchAdapter(Context context, List<YoutubeVideo> navDrawerItems) {
+    public SearchAdapter(Context context, int resource, List<YoutubeVideo> navDrawerItems) {
+        super(context, resource, navDrawerItems);
         this.context = context;
         this.searchItems = navDrawerItems;
     }
