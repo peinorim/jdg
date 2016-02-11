@@ -1,6 +1,7 @@
 JDG
 =====
 
+* v1.2.1 : Scroll bug fix
 * v1.2 : Research videos
 * v1.1 : Add video publication dates and 'all videos' tab deletion
 * v1.0.4 : Color theme changes

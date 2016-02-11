@@ -152,7 +152,7 @@ public class YoutubeConnector {
         return items;
     }
 
-    public ArrayList<YoutubeVideo> loadMore(String offset, String keyword) {
+    public ArrayList<YoutubeVideo> loadMore(String offset, String keyword, int max) {
         try {
             query = youtube.search().list("id,snippet");
             query.setKey(this.KEY);
@@ -163,7 +163,7 @@ public class YoutubeConnector {
                 query.setQ(keyword);
             }
             query.setPageToken(offset);
-            query.setMaxResults((long) 10);
+            query.setMaxResults((long) max);
             query.setFields(queryParams);
         } catch (IOException e) {
             Log.d("MORE", "Could not load more: " + e.getMessage());

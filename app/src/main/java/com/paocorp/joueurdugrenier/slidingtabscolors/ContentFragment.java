@@ -113,7 +113,7 @@ public class ContentFragment extends Fragment implements AbsListView.OnScrollLis
             case R.id.videos_found:
 
                 final int lastItem = firstVisibleItem + visibleItemCount;
-                if (lastItem == totalItemCount) {
+                if (lastItem == totalItemCount && (totalItemCount % 10) == 0) {
                     if (preLast != lastItem) { //to avoid multiple calls for last item
                         preLast = lastItem;
                     } else {
@@ -131,7 +131,7 @@ public class ContentFragment extends Fragment implements AbsListView.OnScrollLis
 
     public ArrayList<YoutubeVideo> customLoadMoreDataFromApi(String offset, String keyword) {
         YoutubeConnector yc = new YoutubeConnector(this.getContext(), channel_id);
-        return yc.loadMore(offset, keyword);
+        return yc.loadMore(offset, keyword, 10);
     }
 
     private void updateVideosFound(final ArrayList<YoutubeVideo> ay) {

@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,6 +49,8 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
     private ArrayList<YoutubeVideo> third;
     private InterstitialAd mInterstitialAd;
     private ListView videosFound;
+    private int preLast;
+    private String nextPageToken;
     PackageInfo pInfo;
 
     @Override
@@ -179,10 +182,50 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
                     findViewById(R.id.channel_banner).setVisibility(View.GONE);
                     findViewById(R.id.videos_search_container).setVisibility(View.VISIBLE);
                     videosFound = (ListView) findViewById(R.id.videos_search_found);
-                    final ArrayList<YoutubeVideo> searchResults = searchVideos(query, 50);
+                    final ArrayList<YoutubeVideo> searchResults = searchVideos(query, 15);
                     final SearchAdapter searchAdapter = new SearchAdapter(getApplicationContext(), R.layout.video_item, searchResults);
 
                     videosFound.setAdapter(searchAdapter);
+
+                    if (searchAdapter.getCount() > 0) {
+                        YoutubeVideo lastItem = (YoutubeVideo) searchAdapter.getItem(searchAdapter.getCount() - 1);
+                        nextPageToken = lastItem.getNextPageToken();
+                    }
+
+                    videosFound.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+                        @Override
+                        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                        }
+
+                        @Override
+                        public void onScroll(AbsListView view, int firstVisibleItem,
+                                             int visibleItemCount, int totalItemCount) {
+
+                            switch (view.getId()) {
+                                case R.id.videos_search_found:
+
+                                    final int lastItem = firstVisibleItem + visibleItemCount;
+                                    if (lastItem == totalItemCount && (totalItemCount % 15) == 0) {
+                                        if (preLast != lastItem) { //to avoid multiple calls for last item
+                                            preLast = lastItem;
+                                        } else {
+                                            if (nextPageToken != null) {
+                                                ArrayList<YoutubeVideo> more = yc.loadMore(nextPageToken, query, 15);
+                                                if (more.size() > 0) {
+                                                    nextPageToken = more.get(more.size() - 1).getNextPageToken();
+                                                    for (int i = 0; i < more.size(); i++) {
+                                                        searchAdapter.add(more.get(i));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+                    });
 
                     videosFound.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
