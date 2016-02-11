@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.InterstitialAd;
@@ -38,6 +39,7 @@ import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -169,7 +171,7 @@ public class JDGActivity extends ParentActivity
 
             @Override
             public boolean onQueryTextChange(final String query) {
-                if (query.length() >= 3) {
+                if (query.length() >= 3 && isNetworkAvailable()) {
                     findViewById(R.id.sample_content_fragment).setVisibility(View.GONE);
                     findViewById(R.id.channel_banner).setVisibility(View.GONE);
                     findViewById(R.id.videos_search_container).setVisibility(View.VISIBLE);

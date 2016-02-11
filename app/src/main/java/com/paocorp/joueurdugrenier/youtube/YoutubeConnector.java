@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class YoutubeConnector {
     private YouTube youtube;
@@ -222,7 +223,9 @@ public class YoutubeConnector {
     }
 
     private SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        isoFormat.setTimeZone(TimeZone.getDefault());
+        return isoFormat;
     }
 }
 

@@ -50,6 +50,8 @@ import com.squareup.picasso.Picasso;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class TwitterActivity extends ParentActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -221,7 +223,9 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                 username.setText(" - " + sta.getUser().getName());
 
                 TextView date = (TextView) convertView.findViewById(R.id.tweet_date);
-                date.setText(new SimpleDateFormat("dd MMMM - H:mm").format(sta.getCreatedAt()));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM - H:mm", Locale.getDefault());
+                dateFormat.setTimeZone(TimeZone.getDefault());
+                date.setText(dateFormat.format(sta.getCreatedAt()));
 
                 TextView msg = (TextView) convertView.findViewById(R.id.tweet_msg);
                 msg.setText(sta.getText());

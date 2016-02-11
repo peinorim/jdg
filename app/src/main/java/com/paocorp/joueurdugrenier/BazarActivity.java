@@ -177,7 +177,7 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
 
             @Override
             public boolean onQueryTextChange(final String query) {
-                if (query.length() >= 3) {
+                if (query.length() >= 3 && isNetworkAvailable()) {
                     findViewById(R.id.sample_content_fragment).setVisibility(View.GONE);
                     findViewById(R.id.channel_banner).setVisibility(View.GONE);
                     findViewById(R.id.videos_search_container).setVisibility(View.VISIBLE);
