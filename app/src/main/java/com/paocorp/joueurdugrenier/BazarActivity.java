@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.InterstitialAd;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
@@ -47,7 +46,6 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
-    private InterstitialAd mInterstitialAd;
     private ListView videosFound;
     private int preLast;
     private String nextPageToken;
@@ -106,7 +104,6 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
                 boolean hideAd = hideAdObj.getHideAd();
 
                 if (!hideAd) {
-                    mInterstitialAd = new InterstitialAd(this);
                     mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
                     requestNewInterstitial();
                     mInterstitialAd.setAdListener(new AdListener() {

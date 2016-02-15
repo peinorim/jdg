@@ -17,7 +17,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 public abstract class ParentActivity extends AppCompatActivity {
 
-    protected InterstitialAd mInterstitialAd;
+    protected InterstitialAd mInterstitialAd = new InterstitialAd(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

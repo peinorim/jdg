@@ -224,7 +224,7 @@ public class YoutubeConnector {
 
     private SimpleDateFormat getDateFormat() {
         SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-        isoFormat.setTimeZone(TimeZone.getDefault());
+        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return isoFormat;
     }
 }

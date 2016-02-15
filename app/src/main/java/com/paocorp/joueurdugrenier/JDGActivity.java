@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.InterstitialAd;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
 import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
@@ -105,7 +104,6 @@ public class JDGActivity extends ParentActivity
                 boolean hideAd = hideAdObj.getHideAd();
 
                 if (!hideAd) {
-                    mInterstitialAd = new InterstitialAd(this);
                     mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
                     requestNewInterstitial();
                     mInterstitialAd.setAdListener(new AdListener() {
