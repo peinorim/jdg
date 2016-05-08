@@ -5,9 +5,10 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.api.client.util.DateTime;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @SuppressLint("ParcelCreator")
 public class YoutubeVideo implements Parcelable {
@@ -19,6 +20,22 @@ public class YoutubeVideo implements Parcelable {
     private String thumbnailURL;
     private String nextPageToken;
     private String keyword;
+
+    public YoutubeVideo(Parcel in) {
+        this.id = in.readString();
+        this.description = in.readString();
+        this.title = in.readString();
+        this.thumbnailURL = in.readString();
+        try {
+            this.date = getDateFormat().parse(in.readString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public YoutubeVideo() {
+
+    }
 
     public String getKeyword() {
         return keyword;
@@ -95,6 +112,20 @@ public class YoutubeVideo implements Parcelable {
         dest.writeString(description);
         dest.writeString(title);
         dest.writeString(thumbnailURL);
-        dest.writeValue(date);
+        dest.writeString(getDateFormat().format(date));
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator<YoutubeVideo>() {
+        public YoutubeVideo createFromParcel(Parcel in) {
+            return new YoutubeVideo(in);
+        }
+
+        public YoutubeVideo[] newArray(int size) {
+            return new YoutubeVideo[size];
+        }
+    };
+
+    private SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("dd MMMM yyyy à HH'h'mm", Locale.getDefault());
     }
 }

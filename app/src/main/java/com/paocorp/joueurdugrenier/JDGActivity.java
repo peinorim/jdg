@@ -44,7 +44,6 @@ public class JDGActivity extends ParentActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private YoutubeConnector yc;
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
@@ -84,9 +83,9 @@ public class JDGActivity extends ParentActivity
 
                 yc = new YoutubeConnector(this, channel_id);
 
-                this.lastResults = searchVideos(null, 10);
-                this.second = searchVideos(getResources().getString(R.string.papy_keyword), 10);
-                this.third = searchVideos(getResources().getString(R.string.hs_keyword), 10);
+                this.lastResults = getIntent().getParcelableArrayListExtra("lastResults");
+                this.second = getIntent().getParcelableArrayListExtra("second");
+                this.third = getIntent().getParcelableArrayListExtra("third");
 
                 setTitle(yc.getChannel().getTitle());
 
@@ -138,15 +137,10 @@ public class JDGActivity extends ParentActivity
 
     public void refreshApp(View v) {
         if (isNetworkAvailable()) {
-            Intent intent = new Intent(JDGActivity.this, JDGActivity.class);
+            Intent intent = new Intent(this, SplashActivity.class);
             finish();
             startActivity(intent);
         }
-    }
-
-
-    private ArrayList<YoutubeVideo> searchVideos(final String keywords, final int max) {
-        return yc.search(keywords, max);
     }
 
     @Override

@@ -42,7 +42,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BazarActivity extends ParentActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private YoutubeConnector yc;
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
@@ -140,10 +139,6 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
         Intent intent = new Intent(this, BazarActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private ArrayList<YoutubeVideo> searchVideos(final String keywords, final int max) {
-        return yc.search(keywords, max);
     }
 
     @Override

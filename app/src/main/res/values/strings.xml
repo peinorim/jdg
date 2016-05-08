@@ -23,6 +23,10 @@
     <string name="aventures_keyword">Aventures|aventures|starventures|Starventures</string>
     <string name="play_keyword">play|LP|Let|découverte|Découverte</string>
 
+    <string name="api_key">AIzaSyCPT3DO51yUycDF3geQBiiMJpsEuqJx4PA</string>
+    <string name="api_key2">AIzaSyDsn0NM-sTvi4dE5FvO4rAnLIgrB1aENL4</string>
+    <string name="api_android_key">AIzaSyD4nrzFgdDFw4FtnkFLUjhe7kw3UDouEcI</string>
+    <string name="api_android_key2">AIzaSyCJMaC4i9xAomsWyMXDrU18gsyl0jN2HXY</string>
     <string name="channel_jdg_id">UC_yP2DpIgs5Y1uWC0T03Chw</string>
     <string name="channel_bazar_id">UCCMxHHciWRBBouzk-PGzmtQ</string>
     <string name="title_activity_player">Lecteur Youtube</string>

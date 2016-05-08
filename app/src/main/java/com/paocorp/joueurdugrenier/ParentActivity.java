@@ -14,10 +14,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
+import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+
+import java.util.ArrayList;
 
 public abstract class ParentActivity extends AppCompatActivity {
 
     protected InterstitialAd mInterstitialAd = new InterstitialAd(this);
+    protected YoutubeConnector yc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,10 @@ public abstract class ParentActivity extends AppCompatActivity {
                 = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    protected ArrayList<YoutubeVideo> searchVideos(final String keywords, final int max) {
+        return yc.search(keywords, max);
     }
 
     @Override

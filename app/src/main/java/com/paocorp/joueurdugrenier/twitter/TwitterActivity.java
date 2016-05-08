@@ -199,7 +199,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                     shareLayout.setVisibility(View.VISIBLE);
 
                 } catch (Exception e) {
-                    Log.e("Failed to login Twitter!!", e.getMessage());
+                    Log.e("Failed to login Twitter", e.getMessage());
                 }
             }
 
@@ -418,7 +418,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
 
                 // Update status
                 StatusUpdate statusUpdate = new StatusUpdate(status);
-                InputStream is = getResources().openRawResource(R.raw.jdg);
+                InputStream is = getResources().openRawResource(R.raw.logo);
                 statusUpdate.setMedia("test.jpg", is);
 
                 twitter4j.Status response = twitter.updateStatus(statusUpdate);
