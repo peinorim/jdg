@@ -26,6 +26,9 @@ public class YoutubeVideo implements Parcelable {
         this.description = in.readString();
         this.title = in.readString();
         this.thumbnailURL = in.readString();
+        this.nextPageToken = in.readString();
+        this.channel_id = in.readString();
+        this.keyword = in.readString();
         try {
             this.date = getDateFormat().parse(in.readString());
         } catch (ParseException e) {
@@ -112,6 +115,9 @@ public class YoutubeVideo implements Parcelable {
         dest.writeString(description);
         dest.writeString(title);
         dest.writeString(thumbnailURL);
+        dest.writeString(nextPageToken);
+        dest.writeString(channel_id);
+        dest.writeString(keyword);
         dest.writeString(getDateFormat().format(date));
     }
 
