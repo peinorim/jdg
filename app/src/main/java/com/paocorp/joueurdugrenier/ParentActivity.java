@@ -81,5 +81,6 @@ public abstract class ParentActivity extends AppCompatActivity {
         tv_app_desc.setTextColor(this.getResources().getColor(R.color.white));
         TextView tv_credits = (TextView) findViewById(R.id.credits);
         tv_credits.setTextColor(this.getResources().getColor(R.color.white));
+        tv_credits.setLinkTextColor(this.getResources().getColor(R.color.white));
     }
 }
