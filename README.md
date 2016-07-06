@@ -1,6 +1,7 @@
 JDG
 =====
 
+* v1.5 : Video description and stats on player page
 * v1.4.1 : Scroll issue because of next page token null
 * v1.4 : Splash screen while loading youtube data
 * v1.3 : Dates according to local timezone.
