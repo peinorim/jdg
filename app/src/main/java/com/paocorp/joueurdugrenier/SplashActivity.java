@@ -55,7 +55,7 @@ public class SplashActivity extends ParentActivity {
                 if (isNetworkAvailable()) {
                     String channel_id = getResources().getString(R.string.channel_jdg_id);
 
-                    yc = new YoutubeConnector(SplashActivity.this, channel_id);
+                    yc = new YoutubeConnector(SplashActivity.this, channel_id, null);
 
                     this.lastResults = searchVideos(null, 10);
                     this.second = searchVideos(getResources().getString(R.string.papy_keyword), 10);

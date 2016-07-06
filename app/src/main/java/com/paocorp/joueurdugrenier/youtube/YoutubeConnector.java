@@ -14,9 +14,13 @@ import com.google.api.services.youtube.model.Channel;
 import com.google.api.services.youtube.model.ChannelListResponse;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.api.services.youtube.model.Video;
+import com.google.api.services.youtube.model.VideoListResponse;
+import com.google.api.services.youtube.model.VideoStatistics;
 import com.paocorp.joueurdugrenier.R;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,15 +33,16 @@ public class YoutubeConnector {
     private YouTube.Channels.List channelQuery;
     private YouTube.Search.List query;
     private String channel_id;
+    private String video_id;
     private String KEY;
     private Context context;
     private String queryParams = "nextPageToken, items(id/videoId,snippet/title,snippet/description,snippet/thumbnails,snippet/publishedAt)";
     private YoutubeChannel channel = new YoutubeChannel();
+    private YouTube.Videos.List videoQuery;
 
-    public YoutubeConnector(final Context context, final String channel_id) {
+    public YoutubeConnector(final Context context, final String channel_id, final String video_id) {
 
         this.KEY = context.getString(R.string.api_key);
-        this.channel_id = channel_id;
         this.context = context;
 
         youtube = new YouTube.Builder(new NetHttpTransport(),
@@ -46,7 +51,14 @@ public class YoutubeConnector {
             public void initialize(HttpRequest hr) throws IOException {
             }
         }).setApplicationName(context.getString(R.string.app_name)).build();
-        initChannel();
+
+        if (channel_id != null) {
+            this.channel_id = channel_id;
+            initChannel();
+        }
+        if (video_id != null) {
+            this.video_id = video_id;
+        }
     }
 
     public void initChannel() {
@@ -134,6 +146,7 @@ public class YoutubeConnector {
         for (SearchResult result : results) {
             YoutubeVideo item = new YoutubeVideo();
             item.setTitle(result.getSnippet().getTitle());
+
             item.setDescription(result.getSnippet().getDescription());
             item.setThumbnailURL(result.getSnippet().getThumbnails().getMedium().getUrl());
             item.setId(result.getId().getVideoId());
@@ -210,6 +223,37 @@ public class YoutubeConnector {
             items.add(item);
         }
         return items;
+    }
+
+    public Video getVideo() {
+        if (this.video_id != null) {
+            try {
+                videoQuery = youtube.videos().list("id,snippet,statistics");
+                videoQuery.setKey(this.KEY);
+                videoQuery.setId(this.video_id);
+            } catch (IOException e) {
+                Log.d("Videos.List", "Could not initialize Videos.List: " + e.getMessage());
+            }
+
+            VideoListResponse response;
+
+            try {
+                response = videoQuery.execute();
+            } catch (IOException e) {
+                Log.d("Videos.List", "Could not get video: " + e.getMessage());
+                return null;
+            }
+
+            List<Video> videos = response.getItems();
+
+            for (Video video : videos) {
+                VideoStatistics stats = video.getStatistics();
+                if (stats != null) {
+                    return video;
+                }
+            }
+        }
+        return null;
     }
 
     public YoutubeChannel getChannel() {

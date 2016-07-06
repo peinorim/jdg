@@ -36,6 +36,7 @@
     <string name="login_instructions">Se connecter à Twitter</string>
     <string name="btn_login">Se connecter à Twitter</string>
     <string name="search">Rechercher une vidéo</string>
+    <string name="views">%1$s vues</string>
 
     <!-- Menu drawer -->
     <string name="fb_jdg">Facebook JDG</string>
@@ -49,6 +50,8 @@
     <string name="site_aventures_url">http://www.reussitecritique.fr/aventures/</string>
     <string name="internet_title">Internet</string>
     <string name="social_title">Réseaux sociaux</string>
+    <string name="rate_app">Noter cette application</string>
+    <string name="store_url">https://play.google.com/store/apps/details?id=com.paocorp.joueurdugrenier</string>
 
     <!-- Twitter Configurations -->
     <string name="twitter_jdg_id">frederic_molas</string>

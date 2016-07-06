@@ -130,7 +130,7 @@ public class ContentFragment extends Fragment implements AbsListView.OnScrollLis
     }
 
     public ArrayList<YoutubeVideo> customLoadMoreDataFromApi(String offset, String keyword) {
-        YoutubeConnector yc = new YoutubeConnector(this.getContext(), channel_id);
+        YoutubeConnector yc = new YoutubeConnector(this.getContext(), channel_id, null);
         return yc.loadMore(offset, keyword, 10);
     }
 
@@ -169,6 +169,9 @@ public class ContentFragment extends Fragment implements AbsListView.OnScrollLis
                                     long id) {
                 Intent intent = new Intent(getContext(), PlayerActivity.class);
                 intent.putExtra("VIDEO_ID", searchResults.get(pos).getId());
+                intent.putExtra("VIDEO_TITLE", searchResults.get(pos).getTitle());
+                intent.putExtra("VIDEO_DATE", getDateFormat().format(searchResults.get(pos).getDate()));
+                intent.putExtra("VIDEO_DESC", searchResults.get(pos).getDescription());
                 startActivity(intent);
             }
 

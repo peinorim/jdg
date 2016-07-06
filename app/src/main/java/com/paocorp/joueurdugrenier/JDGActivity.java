@@ -81,7 +81,7 @@ public class JDGActivity extends ParentActivity
 
                 findViewById(R.id.content_offline).setVisibility(View.GONE);
 
-                yc = new YoutubeConnector(this, channel_id);
+                yc = new YoutubeConnector(this, channel_id, null);
 
                 this.lastResults = getIntent().getParcelableArrayListExtra("lastResults");
                 this.second = getIntent().getParcelableArrayListExtra("second");
@@ -217,6 +217,9 @@ public class JDGActivity extends ParentActivity
                                                 long id) {
                             Intent intent = new Intent(getBaseContext(), PlayerActivity.class);
                             intent.putExtra("VIDEO_ID", searchResults.get(pos).getId());
+                            intent.putExtra("VIDEO_TITLE", searchResults.get(pos).getTitle());
+                            intent.putExtra("VIDEO_DATE", getDateFormat().format(searchResults.get(pos).getDate()));
+                            intent.putExtra("VIDEO_DESC", searchResults.get(pos).getDescription());
                             startActivity(intent);
                         }
                     });
@@ -270,6 +273,8 @@ public class JDGActivity extends ParentActivity
                 intent = new Intent(this, TwitterActivity.class);
             } else if (id == R.id.nav_fb_aventures) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
+            } else if (id == R.id.nav_rate) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.store_url)));
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

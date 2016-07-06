@@ -17,7 +17,9 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public abstract class ParentActivity extends AppCompatActivity {
 
@@ -82,5 +84,9 @@ public abstract class ParentActivity extends AppCompatActivity {
         TextView tv_credits = (TextView) findViewById(R.id.credits);
         tv_credits.setTextColor(this.getResources().getColor(R.color.white));
         tv_credits.setLinkTextColor(this.getResources().getColor(R.color.white));
+    }
+
+    protected SimpleDateFormat getDateFormat() {
+        return new SimpleDateFormat("dd MMMM yyyy à HH'h'mm", Locale.getDefault());
     }
 }

@@ -374,6 +374,8 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
             } else if (id == R.id.nav_tw_jdg) {
             } else if (id == R.id.nav_fb_aventures) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
+            } else if (id == R.id.nav_rate) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.store_url)));
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
