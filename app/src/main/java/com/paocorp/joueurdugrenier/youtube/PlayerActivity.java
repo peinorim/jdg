@@ -11,6 +11,8 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.api.services.youtube.model.Video;
 import com.paocorp.joueurdugrenier.R;
 
+import java.text.NumberFormat;
+
 public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private YouTubePlayerView playerView;
@@ -39,7 +41,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
         tx_desc.setText(vid_desc);
 
         if(video != null) {
-            String vid_views = getResources().getString(R.string.views, String.valueOf(video.getStatistics().getViewCount()));
+            String vid_views = getResources().getString(R.string.views, String.valueOf(NumberFormat.getInstance().format(video.getStatistics().getViewCount())));
             TextView tx_views = (TextView) findViewById(R.id.vid_views);
             tx_views.setText(vid_views);
             tx_views.setVisibility(TextView.VISIBLE);
