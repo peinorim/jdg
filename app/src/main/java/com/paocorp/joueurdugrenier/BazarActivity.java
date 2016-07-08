@@ -269,6 +269,8 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
             if (id == R.id.channel_jdg) {
                 intent = new Intent(this, JDGActivity.class);
             } else if (id == R.id.channel_bazar) {
+            } else if (id == R.id.news) {
+                intent = new Intent(this, NewsActivity.class);
             } else if (id == R.id.site_jdg) {
                 intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));

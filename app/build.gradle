@@ -8,8 +8,8 @@ android {
         applicationId "com.paocorp.joueurdugrenier"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 29
-        versionName "1.5"
+        versionCode 30
+        versionName "1.6"
     }
     buildTypes {
         release {
@@ -31,4 +31,5 @@ dependencies {
     compile 'org.twitter4j:twitter4j-core:4.0.4'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.google.apis:google-api-services-youtube:v3-rev176-1.22.0'
+    compile 'com.einmalfel:earl:1.0.0'
 }

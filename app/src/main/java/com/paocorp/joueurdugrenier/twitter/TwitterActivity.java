@@ -43,6 +43,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import com.paocorp.joueurdugrenier.BazarActivity;
 import com.paocorp.joueurdugrenier.JDGActivity;
+import com.paocorp.joueurdugrenier.NewsActivity;
 import com.paocorp.joueurdugrenier.ParentActivity;
 import com.paocorp.joueurdugrenier.R;
 import com.squareup.picasso.Picasso;
@@ -363,6 +364,9 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                 intent = new Intent(this, JDGActivity.class);
             } else if (id == R.id.channel_bazar) {
                 intent = new Intent(this, BazarActivity.class);
+            } else if (id == R.id.news) {
+                intent = new Intent(this, NewsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             } else if (id == R.id.site_jdg) {
                 intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));

@@ -6,6 +6,8 @@
             android:title="@string/channel_jdg" />
         <item android:id="@+id/channel_bazar"
             android:title="@string/channel_bazar" />
+        <item android:id="@+id/news"
+            android:title="@string/news" />
     </group>
 
     <item android:title="@string/internet_title">

@@ -261,6 +261,8 @@ public class JDGActivity extends ParentActivity
             if (id == R.id.channel_jdg) {
             } else if (id == R.id.channel_bazar) {
                 intent = new Intent(this, BazarActivity.class);
+            } else if (id == R.id.news) {
+                intent = new Intent(this, NewsActivity.class);
             } else if (id == R.id.site_jdg) {
                 intent = new Intent(this, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
