@@ -55,7 +55,7 @@ public class NewsActivity extends ParentActivity
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().findItem(R.id.channel_jdg).setChecked(true);
+        navigationView.getMenu().findItem(R.id.news).setChecked(true);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

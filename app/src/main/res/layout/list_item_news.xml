@@ -10,8 +10,8 @@
         android:id="@+id/newstitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/green_darken2"
+        android:textSize="@dimen/subheading_text_size"
         android:paddingBottom="5sp"
         android:textStyle="bold" />
 

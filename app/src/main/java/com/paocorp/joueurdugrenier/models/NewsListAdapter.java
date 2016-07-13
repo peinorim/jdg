@@ -60,7 +60,7 @@ public class NewsListAdapter extends ArrayAdapter {
             newsdate.setText(getDateFormat().format(newsItem.getDate()));
 
             TextView newsdesc = (TextView) convertView.findViewById(R.id.newsdesc);
-            newsdesc.setText(Html.fromHtml(newsItem.getDesc()));
+            newsdesc.setText(Html.fromHtml(newsItem.getDesc()).toString().trim());
 
             TextView newslink = (TextView) convertView.findViewById(R.id.newslink);
             newslink.setText(newsItem.getLink());
