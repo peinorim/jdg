@@ -5,13 +5,28 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:id="@+id/videos_container"
+    android:layout_below="@+id/channel_banner"
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/videos_found"
+        android:id="@+id/first_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:dividerHeight="5dp" />
+    <ListView
+        android:id="@+id/second_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:dividerHeight="5dp" />
+    <ListView
+        android:id="@+id/third_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
         android:dividerHeight="5dp" />
 
 </LinearLayout>

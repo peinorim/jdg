@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v4.app.FragmentTransaction;
+import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,24 +28,32 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdListener;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
-import com.paocorp.joueurdugrenier.slidingtabscolors.SlidingTabsColorsFragment;
+import com.paocorp.joueurdugrenier.models.VideosListAdapter;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class BazarActivity extends ParentActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BazarActivity extends ParentActivity {
 
     private ArrayList<YoutubeVideo> lastResults;
     private ArrayList<YoutubeVideo> second;
     private ArrayList<YoutubeVideo> third;
     private ListView videosFound;
+    private ListView listViewFirst;
+    private ListView listViewSecond;
+    private ListView listViewThird;
+    private VideosListAdapter adapter1;
+    private VideosListAdapter adapter2;
+    private VideosListAdapter adapter3;
     private int preLast;
     private String nextPageToken;
     PackageInfo pInfo;
@@ -119,11 +127,61 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
         }
 
         if (savedInstanceState == null && isNetworkAvailable()) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            /************************************FIRST LIST****************************************/
+            listViewFirst = (ListView) findViewById(R.id.first_list);
+            adapter1 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.lastResults);
+            listViewFirst.setAdapter(adapter1);
 
-            SlidingTabsColorsFragment fragment = new SlidingTabsColorsFragment(lastResults, second, third, channel_name);
-            transaction.replace(R.id.sample_content_fragment, fragment);
-            transaction.commit();
+            if (adapter1.getCount() > 0) {
+                YoutubeVideo lastItem = (YoutubeVideo) adapter1.getItem(adapter1.getCount() - 1);
+                nextPageToken = lastItem.getNextPageToken();
+            }
+
+            setupList(listViewFirst, nextPageToken, null, this.lastResults, adapter1, preLast);
+
+            /***********************************SECOND LIST****************************************/
+            listViewSecond = (ListView) findViewById(R.id.second_list);
+            adapter2 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.second);
+            listViewSecond.setAdapter(adapter2);
+
+            if (adapter2.getCount() > 0) {
+                YoutubeVideo lastItem = (YoutubeVideo) adapter2.getItem(adapter2.getCount() - 1);
+                nextPageToken = lastItem.getNextPageToken();
+            }
+
+            setupList(listViewSecond, nextPageToken, getResources().getString(R.string.papy_keyword), this.second, adapter2, preLast);
+
+            /************************************THIRD LIST****************************************/
+            listViewThird = (ListView) findViewById(R.id.third_list);
+            adapter3 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.third);
+            listViewThird.setAdapter(adapter3);
+
+            if (adapter2.getCount() > 0) {
+                YoutubeVideo lastItem = (YoutubeVideo) adapter3.getItem(adapter3.getCount() - 1);
+                nextPageToken = lastItem.getNextPageToken();
+            }
+
+            setupList(listViewThird, nextPageToken, getResources().getString(R.string.hs_keyword), this.third, adapter3, preLast);
+
+            BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBarBazar);
+            bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+                @Override
+                public void onTabSelected(@IdRes int tabId) {
+                    if (tabId == R.id.tab_first) {
+                        findViewById(R.id.first_list).setVisibility(View.VISIBLE);
+                        findViewById(R.id.second_list).setVisibility(View.GONE);
+                        findViewById(R.id.third_list).setVisibility(View.GONE);
+                    } else if (tabId == R.id.tab_second) {
+                        findViewById(R.id.first_list).setVisibility(View.GONE);
+                        findViewById(R.id.second_list).setVisibility(View.VISIBLE);
+                        findViewById(R.id.third_list).setVisibility(View.GONE);
+                    } else if (tabId == R.id.tab_third) {
+                        findViewById(R.id.first_list).setVisibility(View.GONE);
+                        findViewById(R.id.second_list).setVisibility(View.GONE);
+                        findViewById(R.id.third_list).setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -170,9 +228,11 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
             @Override
             public boolean onQueryTextChange(final String query) {
                 if (query.length() >= 3 && isNetworkAvailable()) {
-                    findViewById(R.id.sample_content_fragment).setVisibility(View.GONE);
                     findViewById(R.id.channel_banner).setVisibility(View.GONE);
                     findViewById(R.id.videos_search_container).setVisibility(View.VISIBLE);
+                    findViewById(R.id.first_list).setVisibility(View.GONE);
+                    findViewById(R.id.second_list).setVisibility(View.GONE);
+                    findViewById(R.id.third_list).setVisibility(View.GONE);
                     videosFound = (ListView) findViewById(R.id.videos_search_found);
                     final ArrayList<YoutubeVideo> searchResults = searchVideos(query, 15);
                     final SearchAdapter searchAdapter = new SearchAdapter(getApplicationContext(), R.layout.video_item, searchResults);
@@ -233,8 +293,10 @@ public class BazarActivity extends ParentActivity implements NavigationView.OnNa
                     });
                 } else if (query.length() == 0) {
                     findViewById(R.id.videos_search_container).setVisibility(View.GONE);
-                    findViewById(R.id.sample_content_fragment).setVisibility(View.VISIBLE);
                     findViewById(R.id.channel_banner).setVisibility(View.VISIBLE);
+                    findViewById(R.id.first_list).setVisibility(View.VISIBLE);
+                    findViewById(R.id.second_list).setVisibility(View.GONE);
+                    findViewById(R.id.third_list).setVisibility(View.GONE);
                 }
                 return true;
             }

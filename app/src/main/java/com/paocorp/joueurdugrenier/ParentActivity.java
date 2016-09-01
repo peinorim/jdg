@@ -1,19 +1,27 @@
 package com.paocorp.joueurdugrenier;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.paocorp.joueurdugrenier.models.VideosListAdapter;
+import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 
@@ -21,10 +29,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public abstract class ParentActivity extends AppCompatActivity {
+public abstract class ParentActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     protected InterstitialAd mInterstitialAd = new InterstitialAd(this);
     protected YoutubeConnector yc;
+    protected String channel_id;
+    protected int preLast;
+    protected String nextPageToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +44,7 @@ public abstract class ParentActivity extends AppCompatActivity {
 
     protected boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
@@ -88,5 +99,54 @@ public abstract class ParentActivity extends AppCompatActivity {
 
     protected SimpleDateFormat getDateFormat() {
         return new SimpleDateFormat("dd MMMM yyyy à HH'h'mm", Locale.getDefault());
+    }
+
+    public ArrayList<YoutubeVideo> customLoadMoreDataFromApi(String offset, String keyword) {
+        YoutubeConnector yc = new YoutubeConnector(getBaseContext(), channel_id, null);
+        return yc.loadMore(offset, keyword, 10);
+    }
+
+    protected void setupList(ListView listview, final String nnextPageToken, final String keyword, final ArrayList<YoutubeVideo> results, final VideosListAdapter adapter, final int ppreLast) {
+
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            public int preLast = ppreLast;
+            public String nextPageToken = nnextPageToken;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if (lastItem == totalItemCount && (totalItemCount % 10) == 0) {
+                    if (preLast != lastItem) { //to avoid multiple calls for last item
+                        preLast = lastItem;
+                    } else {
+                        ArrayList<YoutubeVideo> more = customLoadMoreDataFromApi(nextPageToken, keyword);
+                        nextPageToken = more.get(more.size() - 1).getNextPageToken();
+                        for (int i = 0; i < more.size(); i++) {
+                            adapter.add(more.get(i));
+                        }
+                    }
+                }
+            }
+        });
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int pos,
+                                    long id) {
+                Intent intent = new Intent(getBaseContext(), PlayerActivity.class);
+                intent.putExtra("VIDEO_ID", results.get(pos).getId());
+                intent.putExtra("VIDEO_TITLE", results.get(pos).getTitle());
+                intent.putExtra("VIDEO_DATE", getDateFormat().format(results.get(pos).getDate()));
+                intent.putExtra("VIDEO_DESC", results.get(pos).getDescription());
+                startActivity(intent);
+            }
+        });
     }
 }

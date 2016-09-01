@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_first"
+        icon="@drawable/ic_restore_black_24dp"
+        title="@string/last_videos"
+        inActiveColor="@color/white"
+        activeColor="@color/yellow"
+        barColorWhenSelected="@color/green_darken2"/>
+    <tab
+        id="@+id/tab_second"
+        icon="@drawable/ic_video_label_black_24dp"
+        title="@string/aventures"
+        inActiveColor="@color/white"
+        activeColor="@color/yellow"
+        barColorWhenSelected="@color/green_darken2"/>
+    <tab
+        id="@+id/tab_third"
+        icon="@drawable/ic_video_label_black_24dp"
+        title="@string/play"
+        inActiveColor="@color/white"
+        activeColor="@color/yellow"
+        barColorWhenSelected="@color/green_darken2"/>
+</tabs>
