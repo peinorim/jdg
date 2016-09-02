@@ -9,6 +9,7 @@ import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -76,13 +77,23 @@ public class NewsActivity extends ParentActivity
                 TextView tv = (TextView) findViewById(R.id.channel_desc);
                 tv.setText(yc.getChannel().getDescription());
 
-                nc = new NewsConnector(getBaseContext());
-                listItems = nc.getItemsList();
-                if(listItems.size() > 0) {
-                    listViewNews = (ListView) findViewById(R.id.list_view_news);
-                    adapter = new NewsListAdapter(getBaseContext(), R.layout.list_item_news, listItems);
-                    listViewNews.setAdapter(adapter);
-                }
+                swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_news);
+
+                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+                    @Override
+                    public void onRefresh() {
+                        fetchNews();
+                    }
+
+                });
+
+                swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                        android.R.color.holo_green_light,
+                        android.R.color.holo_orange_light,
+                        android.R.color.holo_red_light);
+
+                fetchNews();
 
                 try {
                     pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -146,5 +157,19 @@ public class NewsActivity extends ParentActivity
             loadToast(this.getResources().getString(R.string.offline));
         }
         return true;
+    }
+
+    protected void fetchNews() {
+        swipeRefreshLayout.setRefreshing(true);
+        if (isNetworkAvailable()) {
+            nc = new NewsConnector(getBaseContext());
+            listItems = nc.getItemsList();
+            if(listItems.size() > 0) {
+                listViewNews = (ListView) findViewById(R.id.list_view_news);
+                adapter = new NewsListAdapter(getBaseContext(), R.layout.list_item_news, listItems);
+                listViewNews.setAdapter(adapter);
+            }
+        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

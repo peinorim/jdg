@@ -12,6 +12,7 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -28,7 +29,6 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdListener;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
-import com.paocorp.joueurdugrenier.models.VideosListAdapter;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
@@ -44,16 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BazarActivity extends ParentActivity {
 
-    private ArrayList<YoutubeVideo> lastResults;
-    private ArrayList<YoutubeVideo> second;
-    private ArrayList<YoutubeVideo> third;
     private ListView videosFound;
-    private ListView listViewFirst;
-    private ListView listViewSecond;
-    private ListView listViewThird;
-    private VideosListAdapter adapter1;
-    private VideosListAdapter adapter2;
-    private VideosListAdapter adapter3;
     private int preLast;
     private String nextPageToken;
     PackageInfo pInfo;
@@ -78,6 +69,22 @@ public class BazarActivity extends ParentActivity {
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().findItem(R.id.channel_bazar).setChecked(true);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                fetchVideos(false, getResources().getString(R.string.aventures_keyword), getResources().getString(R.string.play_keyword));
+            }
+
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -127,41 +134,8 @@ public class BazarActivity extends ParentActivity {
         }
 
         if (savedInstanceState == null && isNetworkAvailable()) {
-            /************************************FIRST LIST****************************************/
-            listViewFirst = (ListView) findViewById(R.id.first_list);
-            adapter1 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.lastResults);
-            listViewFirst.setAdapter(adapter1);
 
-            if (adapter1.getCount() > 0) {
-                YoutubeVideo lastItem = (YoutubeVideo) adapter1.getItem(adapter1.getCount() - 1);
-                nextPageToken = lastItem.getNextPageToken();
-            }
-
-            setupList(listViewFirst, nextPageToken, null, this.lastResults, adapter1, preLast);
-
-            /***********************************SECOND LIST****************************************/
-            listViewSecond = (ListView) findViewById(R.id.second_list);
-            adapter2 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.second);
-            listViewSecond.setAdapter(adapter2);
-
-            if (adapter2.getCount() > 0) {
-                YoutubeVideo lastItem = (YoutubeVideo) adapter2.getItem(adapter2.getCount() - 1);
-                nextPageToken = lastItem.getNextPageToken();
-            }
-
-            setupList(listViewSecond, nextPageToken, getResources().getString(R.string.papy_keyword), this.second, adapter2, preLast);
-
-            /************************************THIRD LIST****************************************/
-            listViewThird = (ListView) findViewById(R.id.third_list);
-            adapter3 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.third);
-            listViewThird.setAdapter(adapter3);
-
-            if (adapter2.getCount() > 0) {
-                YoutubeVideo lastItem = (YoutubeVideo) adapter3.getItem(adapter3.getCount() - 1);
-                nextPageToken = lastItem.getNextPageToken();
-            }
-
-            setupList(listViewThird, nextPageToken, getResources().getString(R.string.hs_keyword), this.third, adapter3, preLast);
+            fetchVideos(false, getResources().getString(R.string.aventures_keyword), getResources().getString(R.string.play_keyword));
 
             BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBarBazar);
             bottomBar.setOnTabSelectListener(new OnTabSelectListener() {

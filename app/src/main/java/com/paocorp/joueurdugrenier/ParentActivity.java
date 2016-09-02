@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -36,6 +37,17 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
     protected String channel_id;
     protected int preLast;
     protected String nextPageToken;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+
+    protected ArrayList<YoutubeVideo> lastResults;
+    protected ArrayList<YoutubeVideo> second;
+    protected ArrayList<YoutubeVideo> third;
+    protected ListView listViewFirst;
+    protected ListView listViewSecond;
+    protected ListView listViewThird;
+    protected VideosListAdapter adapter1;
+    protected VideosListAdapter adapter2;
+    protected VideosListAdapter adapter3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +118,7 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
         return yc.loadMore(offset, keyword, 10);
     }
 
-    protected void setupList(ListView listview, final String nnextPageToken, final String keyword, final ArrayList<YoutubeVideo> results, final VideosListAdapter adapter, final int ppreLast) {
+    protected void setupList(final ListView listview, final String nnextPageToken, final String keyword, final ArrayList<YoutubeVideo> results, final VideosListAdapter adapter, final int ppreLast) {
 
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             public int preLast = ppreLast;
@@ -120,6 +132,9 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
+
+                int topRowVerticalPosition = (listview == null || listview.getChildCount() == 0) ? 0 : listview.getChildAt(0).getTop();
+                swipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
 
                 final int lastItem = firstVisibleItem + visibleItemCount;
                 if (lastItem == totalItemCount && (totalItemCount % 10) == 0) {
@@ -148,5 +163,55 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
                 startActivity(intent);
             }
         });
+    }
+
+    protected void fetchVideos(boolean fromSplash, String keyword1, String keyword2) {
+
+        swipeRefreshLayout.setRefreshing(true);
+        if (isNetworkAvailable()) {
+
+            if (!fromSplash) {
+                this.lastResults = searchVideos(null, 10);
+                this.second = searchVideos(keyword1, 10);
+                this.third = searchVideos(keyword2, 10);
+            }
+
+            /************************************FIRST LIST****************************************/
+            listViewFirst = (ListView) findViewById(R.id.first_list);
+            adapter1 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.lastResults);
+            listViewFirst.setAdapter(adapter1);
+
+            if (adapter1.getCount() > 0) {
+                YoutubeVideo lastItem = (YoutubeVideo) adapter1.getItem(adapter1.getCount() - 1);
+                nextPageToken = lastItem.getNextPageToken();
+            }
+
+            setupList(listViewFirst, nextPageToken, null, this.lastResults, adapter1, preLast);
+
+            /***********************************SECOND LIST****************************************/
+            listViewSecond = (ListView) findViewById(R.id.second_list);
+            adapter2 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.second);
+            listViewSecond.setAdapter(adapter2);
+
+            if (adapter2.getCount() > 0) {
+                YoutubeVideo lastItem = (YoutubeVideo) adapter2.getItem(adapter2.getCount() - 1);
+                nextPageToken = lastItem.getNextPageToken();
+            }
+
+            setupList(listViewSecond, nextPageToken, keyword1, this.second, adapter2, preLast);
+
+            /************************************THIRD LIST****************************************/
+            listViewThird = (ListView) findViewById(R.id.third_list);
+            adapter3 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.third);
+            listViewThird.setAdapter(adapter3);
+
+            if (adapter3.getCount() > 0) {
+                YoutubeVideo lastItem = (YoutubeVideo) adapter3.getItem(adapter3.getCount() - 1);
+                nextPageToken = lastItem.getNextPageToken();
+            }
+
+            setupList(listViewThird, nextPageToken, keyword2, this.third, adapter3, preLast);
+        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
