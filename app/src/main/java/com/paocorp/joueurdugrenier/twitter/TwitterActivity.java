@@ -12,6 +12,7 @@ import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -85,6 +86,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
     private String oAuthVerifier = null;
     private ArrayAdapter<Status> adapter;
     private ListView feed;
+    String jdg_id;
 
     @SuppressLint("NewApi")
     @Override
@@ -142,69 +144,64 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
         boolean isLoggedIn = mSharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
 
 		/*  if already logged in, then hide login layout and show share layout */
-        if (true) {
-            loginLayout.setVisibility(View.GONE);
-            shareLayout.setVisibility(View.VISIBLE);
 
-            // String username = mSharedPreferences.getString(PREF_USER_NAME, "");
-            // userName.setText(getResources().getString(R.string.hello) + username);
+        loginLayout.setVisibility(View.GONE);
+        shareLayout.setVisibility(View.VISIBLE);
 
-            Twitter twitter = new TwitterFactory(cb.build()).getInstance();
-            Paging paging = new Paging(1, 100);
-            try {
-                ArrayList<Status> statuses = (ArrayList<Status>) twitter.getUserTimeline(this.getResources().getString(R.string.twitter_jdg_id), paging);
-                feed = (ListView) findViewById(R.id.jdg_feed);
-                updateTwitterFeed(statuses);
+        // String username = mSharedPreferences.getString(PREF_USER_NAME, "");
+        // userName.setText(getResources().getString(R.string.hello) + username);
 
-                LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
+        final Twitter twitter = new TwitterFactory(cb.build()).getInstance();
+        final Paging paging = new Paging(1, 100);
+        try {
+            jdg_id = getResources().getString(R.string.twitter_jdg_id);
+            ArrayList<Status> statuses = (ArrayList<Status>) twitter.getUserTimeline(this.getResources().getString(R.string.twitter_jdg_id), paging);
+            feed = (ListView) findViewById(R.id.jdg_feed);
+            updateTwitterFeed(statuses);
 
-                LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
-                ly.setBackgroundResource(R.drawable.side_nav_bar_twitter);
+            LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
-                Status sta = statuses.get(0);
+            LinearLayout ly = (LinearLayout) findViewById(R.id.headerLinearLay);
+            ly.setBackgroundResource(R.drawable.side_nav_bar_twitter);
 
-                CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
-                Picasso.with(this).load(sta.getUser().getOriginalProfileImageURL()).into(img1);
-                TextView tv = (TextView) findViewById(R.id.channel_desc);
-                tv.setText(sta.getUser().getDescription());
-                this.changeTextViewBackground(false);
+            Status sta = statuses.get(0);
 
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
+            CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
+            Picasso.with(this).load(sta.getUser().getOriginalProfileImageURL()).into(img1);
+            TextView tv = (TextView) findViewById(R.id.channel_desc);
+            tv.setText(sta.getUser().getDescription());
+            this.changeTextViewBackground(false);
 
-        } else {
-            loginLayout.setVisibility(View.VISIBLE);
-            shareLayout.setVisibility(View.GONE);
-
-            Uri uri = getIntent().getData();
-
-            if (uri != null && uri.toString().startsWith(callbackUrl)) {
-
-                String verifier = uri.getQueryParameter(oAuthVerifier);
-
-                try {
-
-					/* Getting oAuth authentication token */
-                    AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
-
-					/* Getting user id form access token */
-                    long userID = accessToken.getUserId();
-                    final User user = twitter.showUser(userID);
-                    final String username = user.getName();
-
-					/* save updated token */
-                    saveTwitterInfo(accessToken);
-
-                    loginLayout.setVisibility(View.GONE);
-                    shareLayout.setVisibility(View.VISIBLE);
-
-                } catch (Exception e) {
-                    Log.e("Failed to login Twitter", e.getMessage());
-                }
-            }
-
+        } catch (TwitterException e) {
+            e.printStackTrace();
         }
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_twitter);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                if (isNetworkAvailable()) {
+                    ArrayList<Status> statuses = null;
+                    try {
+                        statuses = (ArrayList<Status>) twitter.getUserTimeline(jdg_id, paging);
+                    } catch (TwitterException e) {
+                        e.printStackTrace();
+                    }
+                    feed = (ListView) findViewById(R.id.jdg_feed);
+                    updateTwitterFeed(statuses);
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     private void updateTwitterFeed(final ArrayList<Status> array) {

@@ -1,7 +1,7 @@
 JDG
 =====
 
-* v1.7 : Bottom navigation
+* v1.7 : Bottom navigation + pull to refresh
 * v1.6 : Website news feed
 * v1.5 : Video description and stats on player page
 * v1.4.1 : Scroll issue because of next page token null
