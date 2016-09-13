@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_below="@+id/channel_banner"
     android:gravity="center"
+    android:layout_above="@+id/bottomBar"
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"

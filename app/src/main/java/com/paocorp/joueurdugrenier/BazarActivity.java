@@ -207,6 +207,7 @@ public class BazarActivity extends ParentActivity {
                     findViewById(R.id.first_list).setVisibility(View.GONE);
                     findViewById(R.id.second_list).setVisibility(View.GONE);
                     findViewById(R.id.third_list).setVisibility(View.GONE);
+                    findViewById(R.id.bottomBar).setVisibility(View.GONE);
                     videosFound = (ListView) findViewById(R.id.videos_search_found);
                     final ArrayList<YoutubeVideo> searchResults = searchVideos(query, 15);
                     final SearchAdapter searchAdapter = new SearchAdapter(getApplicationContext(), R.layout.video_item, searchResults);
@@ -271,6 +272,7 @@ public class BazarActivity extends ParentActivity {
                     findViewById(R.id.first_list).setVisibility(View.VISIBLE);
                     findViewById(R.id.second_list).setVisibility(View.GONE);
                     findViewById(R.id.third_list).setVisibility(View.GONE);
+                    findViewById(R.id.bottomBar).setVisibility(View.VISIBLE);
                 }
                 return true;
             }
