@@ -117,6 +117,8 @@ public class JDGActivity extends ParentActivity {
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
+            } else {
+                findViewById(R.id.bottomBar).setVisibility(View.GONE);
             }
 
         }
