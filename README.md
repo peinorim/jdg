@@ -1,6 +1,7 @@
 JDG
 =====
 
+* v1.8 : Android N support & minor bug fixes
 * v1.7 : Bottom navigation + pull to refresh
 * v1.6 : Website news feed
 * v1.5 : Video description and stats on player page

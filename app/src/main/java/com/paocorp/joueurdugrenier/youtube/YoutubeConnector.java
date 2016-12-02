@@ -20,7 +20,6 @@ import com.google.api.services.youtube.model.VideoStatistics;
 import com.paocorp.joueurdugrenier.R;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class YoutubeConnector {
         }
     }
 
-    public void initChannel() {
+    private void initChannel() {
 
         ChannelListResponse response = null;
         try {

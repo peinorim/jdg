@@ -178,7 +178,7 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
 
             /************************************FIRST LIST****************************************/
             listViewFirst = (ListView) findViewById(R.id.first_list);
-            adapter1 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.lastResults);
+            adapter1 = new VideosListAdapter(this, R.layout.video_item, this.lastResults);
             listViewFirst.setAdapter(adapter1);
 
             if (adapter1.getCount() > 0) {
@@ -190,7 +190,7 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
 
             /***********************************SECOND LIST****************************************/
             listViewSecond = (ListView) findViewById(R.id.second_list);
-            adapter2 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.second);
+            adapter2 = new VideosListAdapter(this, R.layout.video_item, this.second);
             listViewSecond.setAdapter(adapter2);
 
             if (adapter2.getCount() > 0) {
@@ -202,7 +202,7 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
 
             /************************************THIRD LIST****************************************/
             listViewThird = (ListView) findViewById(R.id.third_list);
-            adapter3 = new VideosListAdapter(getApplicationContext(), R.layout.video_item, this.third);
+            adapter3 = new VideosListAdapter(this, R.layout.video_item, this.third);
             listViewThird.setAdapter(adapter3);
 
             if (adapter3.getCount() > 0) {
