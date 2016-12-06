@@ -3,11 +3,13 @@ package com.paocorp.joueurdugrenier;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -96,9 +98,15 @@ public class BazarActivity extends ParentActivity {
 
                 yc = new YoutubeConnector(this, channel_id, null);
 
-                this.lastResults = searchVideos(null, 10);
-                this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
-                this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
+                this.lastResults = getIntent().getParcelableArrayListExtra("lastResults");
+                this.second = getIntent().getParcelableArrayListExtra("second");
+                this.third = getIntent().getParcelableArrayListExtra("third");
+
+                if (lastResults == null || second == null || third == null) {
+                    this.lastResults = searchVideos(null, 10);
+                    this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
+                    this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
+                }
 
                 LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
@@ -117,7 +125,7 @@ public class BazarActivity extends ParentActivity {
                 final ShowAdsApplication hideAdObj = ((ShowAdsApplication) getApplicationContext());
                 boolean hideAd = hideAdObj.getHideAd();
 
-                if (!hideAd) {
+                if (!hideAd || getIntent().getBooleanExtra("SHOWAD", false)) {
                     mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
                     requestNewInterstitial();
                     mInterstitialAd.setAdListener(new AdListener() {
@@ -127,6 +135,16 @@ public class BazarActivity extends ParentActivity {
                             hideAdObj.setHideAd(true);
                         }
                     });
+                }
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                boolean notifJDG = prefs.getBoolean(getResources().getString(R.string.notifJDG), true);
+                boolean notifBazar = prefs.getBoolean(getResources().getString(R.string.notifBazar), true);
+
+                if (notifJDG || notifBazar) {
+                    scheduleAlarm();
+                } else {
+                    cancelAlarm();
                 }
 
             }
@@ -291,6 +309,8 @@ public class BazarActivity extends ParentActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
             return true;
+        } else if (id == R.id.action_settings) {
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

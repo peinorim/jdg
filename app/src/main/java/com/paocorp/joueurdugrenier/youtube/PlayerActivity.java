@@ -23,7 +23,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_player);
-        playerView = (YouTubePlayerView)findViewById(R.id.player_view);
+        playerView = (YouTubePlayerView) findViewById(R.id.player_view);
         playerView.initialize(getResources().getString(R.string.api_key), this);
         yc = new YoutubeConnector(this, null, getIntent().getStringExtra("VIDEO_ID"));
         video = yc.getVideo();
@@ -40,7 +40,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
         TextView tx_desc = (TextView) findViewById(R.id.vid_desc);
         tx_desc.setText(vid_desc);
 
-        if(video != null) {
+        if (video != null) {
             String vid_views = getResources().getString(R.string.views, String.valueOf(NumberFormat.getInstance().format(video.getStatistics().getViewCount())));
             TextView tx_views = (TextView) findViewById(R.id.vid_views);
             tx_views.setText(vid_views);
@@ -58,7 +58,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
                                         boolean restored) {
-        if(!restored){
+        if (!restored) {
             player.cueVideo(getIntent().getStringExtra("VIDEO_ID"));
         }
     }

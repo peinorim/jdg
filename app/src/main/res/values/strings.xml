@@ -2,7 +2,7 @@
     <string name="app_name">Joueur du grenier</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Paramètres</string>
     <string name="channel_jdg">Youtube Joueur du grenier</string>
     <string name="channel_bazar">Youtube Bazar du grenier</string>
     <string name="news">News</string>
@@ -12,6 +12,10 @@
     <string name="loading">Veuillez patienter svp...</string>
     <string name="interstitial">ca-app-pub-2669557761715669/2015677235</string>
     <string name="offline">Vous devez disposer d\'une connexion internet pour utiliser cette application.</string>
+    <string name="dateStored">com.paocorp.joueurdugrenier.datestored</string>
+    <string name="new_videos">notifications_new_videos</string>
+    <string name="notifJDG">com.paocorp.joueurdugrenier.notifjdg</string>
+    <string name="notifBazar">com.paocorp.joueurdugrenier.notifbazar</string>
 
     <string name="last_videos">Dernières vidéos</string>
     <string name="all_videos">Toutes les vidéos</string>
@@ -21,8 +25,8 @@
     <string name="play">Let\'s Play !</string>
     <string name="hs_keyword">Spécial|hors|Hors</string>
     <string name="papy_keyword">Papy|papy</string>
-    <string name="aventures_keyword">Aventures|aventures|starventures|Starventures</string>
-    <string name="play_keyword">play|LP|Let|découverte|Découverte</string>
+    <string name="aventures_keyword">aventures|starventures|survivants</string>
+    <string name="play_keyword">play|lp|let|découverte</string>
 
     <string name="api_key">AIzaSyCPT3DO51yUycDF3geQBiiMJpsEuqJx4PA</string>
     <string name="api_key2">AIzaSyDsn0NM-sTvi4dE5FvO4rAnLIgrB1aENL4</string>
@@ -62,4 +66,12 @@
     <string name="twitter_consumer_secret">KXUMBOQyDjL2iQaHPIYvnEG2nx25PjZPtGJBjaSyw7vFGeFhOf</string>
     <string name="twitter_oauth_verifier">oauth_verifier</string>
     <string name="title_activity_news">News JDG</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_title_new_message_notifications">Nouvelles vidéos</string>
+    <string name="pref_jdg">Joueur du grenier</string>
+    <string name="pref_bazar">Bazar du grenier</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>

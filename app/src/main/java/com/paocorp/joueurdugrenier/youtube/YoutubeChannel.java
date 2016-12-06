@@ -1,5 +1,7 @@
 package com.paocorp.joueurdugrenier.youtube;
 
+import java.math.BigInteger;
+
 public class YoutubeChannel {
 
     protected String channel_id;
@@ -7,6 +9,9 @@ public class YoutubeChannel {
     protected String description;
     protected String thumbnailURL;
     protected String bannerURL;
+    protected BigInteger viewCount;
+    protected BigInteger subscriberCount;
+    protected BigInteger videoCount;
 
     public YoutubeChannel() {
     }
@@ -51,4 +56,27 @@ public class YoutubeChannel {
         return channel_id;
     }
 
+    public BigInteger getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(BigInteger viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public BigInteger getSubscriberCount() {
+        return subscriberCount;
+    }
+
+    public void setSubscriberCount(BigInteger subscriberCount) {
+        this.subscriberCount = subscriberCount;
+    }
+
+    public BigInteger getVideoCount() {
+        return videoCount;
+    }
+
+    public void setVideoCount(BigInteger videoCount) {
+        this.videoCount = videoCount;
+    }
 }

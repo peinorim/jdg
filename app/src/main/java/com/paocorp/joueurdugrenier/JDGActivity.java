@@ -1,13 +1,17 @@
 package com.paocorp.joueurdugrenier;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,6 +33,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdListener;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
+import com.paocorp.joueurdugrenier.services.JDGAlarmReceiver;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
@@ -116,6 +121,16 @@ public class JDGActivity extends ParentActivity {
                     txv.setText(APPINFO);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
+                }
+
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                boolean notifJDG = prefs.getBoolean(getResources().getString(R.string.notifJDG), true);
+                boolean notifBazar = prefs.getBoolean(getResources().getString(R.string.notifBazar), true);
+
+                if (notifJDG || notifBazar) {
+                    scheduleAlarm();
+                } else {
+                    cancelAlarm();
                 }
             } else {
                 findViewById(R.id.bottomBar).setVisibility(View.GONE);
@@ -282,6 +297,8 @@ public class JDGActivity extends ParentActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
             return true;
+        } else if (id == R.id.action_settings) {
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

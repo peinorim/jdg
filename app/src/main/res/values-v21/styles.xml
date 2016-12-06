@@ -59,4 +59,12 @@
         <item name="android:navigationBarColor">@color/red_darken4</item>
     </style>
 
+    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green_darken4</item>
+        <item name="colorPrimaryDark">@color/green_darken4</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
 </resources>

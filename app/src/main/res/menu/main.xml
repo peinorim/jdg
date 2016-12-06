@@ -4,10 +4,18 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@drawable/ic_search_24dp"
         android:orderInCategory="100"
         android:title="@string/search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
-
+    <group
+        android:id="@+id/menu_group"
+        android:icon="@drawable/ic_more_vert_black_24dp"
+        android:orderInCategory="101"
+        app:showAsAction="ifRoom">
+        <item
+            android:id="@+id/action_settings"
+            android:title="@string/action_settings" />
+    </group>
 </menu>

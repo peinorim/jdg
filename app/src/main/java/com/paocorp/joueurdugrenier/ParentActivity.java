@@ -1,10 +1,13 @@
 package com.paocorp.joueurdugrenier;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.paocorp.joueurdugrenier.models.VideosListAdapter;
+import com.paocorp.joueurdugrenier.services.JDGAlarmReceiver;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
@@ -213,5 +217,27 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
             setupList(listViewThird, nextPageToken, keyword2, this.third, adapter3, preLast);
         }
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    // Setup a recurring alarm every half hour
+    public void scheduleAlarm() {
+        // Construct an intent that will execute the AlarmReceiver
+        Intent intent = new Intent(getApplicationContext(), JDGAlarmReceiver.class);
+
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, JDGAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, SystemClock.elapsedRealtime() + 3600 * 1000 * 6, pIntent);
+    }
+
+    public void cancelAlarm() {
+        Intent intent = new Intent(getApplicationContext(), JDGAlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, JDGAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
     }
 }
