@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -225,12 +224,11 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
         Intent intent = new Intent(getApplicationContext(), JDGAlarmReceiver.class);
 
         // Create a PendingIntent to be triggered when the alarm goes off
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, JDGAlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, SystemClock.elapsedRealtime() + 3600 * 1000 * 6, pIntent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 3600 * 1000 * 3, pIntent);
     }
 
     public void cancelAlarm() {

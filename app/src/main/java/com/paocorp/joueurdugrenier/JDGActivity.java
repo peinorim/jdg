@@ -1,7 +1,5 @@
 package com.paocorp.joueurdugrenier;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +31,6 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdListener;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
-import com.paocorp.joueurdugrenier.services.JDGAlarmReceiver;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
@@ -102,7 +99,7 @@ public class JDGActivity extends ParentActivity {
                 final ShowAdsApplication hideAdObj = ((ShowAdsApplication) getApplicationContext());
                 boolean hideAd = hideAdObj.getHideAd();
 
-                if (!hideAd) {
+                if (!hideAd || getIntent().getBooleanExtra("SHOWAD", false)) {
                     mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
                     requestNewInterstitial();
                     mInterstitialAd.setAdListener(new AdListener() {
