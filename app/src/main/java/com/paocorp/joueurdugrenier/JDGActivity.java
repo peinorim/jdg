@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
-import com.paocorp.joueurdugrenier.models.ShowAdsApplication;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
@@ -96,20 +95,14 @@ public class JDGActivity extends ParentActivity {
                 ImageView ban = (ImageView) findViewById(R.id.channel_banner);
                 Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);
 
-                final ShowAdsApplication hideAdObj = ((ShowAdsApplication) getApplicationContext());
-                boolean hideAd = hideAdObj.getHideAd();
-
-                if (!hideAd || getIntent().getBooleanExtra("SHOWAD", false)) {
-                    mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
-                    requestNewInterstitial();
-                    mInterstitialAd.setAdListener(new AdListener() {
-                        @Override
-                        public void onAdLoaded() {
-                            showInterstitial();
-                            hideAdObj.setHideAd(true);
-                        }
-                    });
-                }
+                mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
+                requestNewInterstitial();
+                mInterstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        showInterstitial();
+                    }
+                });
 
                 try {
                     pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
