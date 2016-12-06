@@ -16,7 +16,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.SplashActivity;
-import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 
@@ -72,7 +71,7 @@ public class JDGService extends IntentService {
             try {
                 Date lastFetched = getDateFormat().parse(sharedPref.getString(getResources().getString(R.string.dateStored), getDateFormat().format(now)));
 
-                if (lastFetched.before(video.getDate())) {
+                if (true || lastFetched.before(video.getDate())) {
                     showNotif(video, channelId);
                     editor.putString(getResources().getString(R.string.dateStored), getDateFormat().format(video.getDate()));
                 } else {

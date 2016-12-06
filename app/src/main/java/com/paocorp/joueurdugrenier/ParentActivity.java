@@ -228,7 +228,7 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
 
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 3600 * 1000 * 3, pIntent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 60 * 1000 * 1, pIntent);
     }
 
     public void cancelAlarm() {
