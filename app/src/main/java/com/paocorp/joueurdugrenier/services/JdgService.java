@@ -71,7 +71,7 @@ public class JDGService extends IntentService {
             try {
                 Date lastFetched = getDateFormat().parse(sharedPref.getString(getResources().getString(R.string.dateStored), getDateFormat().format(now)));
 
-                if (true || lastFetched.before(video.getDate())) {
+                if (lastFetched.before(video.getDate())) {
                     showNotif(video, channelId);
                     editor.putString(getResources().getString(R.string.dateStored), getDateFormat().format(video.getDate()));
                 } else {
