@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier;
+package com.paocorp.joueurdugrenier.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.models.VideosListAdapter;
 import com.paocorp.joueurdugrenier.services.JDGAlarmReceiver;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
@@ -145,9 +146,11 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
                         preLast = lastItem;
                     } else {
                         ArrayList<YoutubeVideo> more = customLoadMoreDataFromApi(nextPageToken, keyword);
-                        nextPageToken = more.get(more.size() - 1).getNextPageToken();
-                        for (int i = 0; i < more.size(); i++) {
-                            adapter.add(more.get(i));
+                        if (more.size() > 0) {
+                            nextPageToken = more.get(more.size() - 1).getNextPageToken();
+                            for (int i = 0; i < more.size(); i++) {
+                                adapter.add(more.get(i));
+                            }
                         }
                     }
                 }

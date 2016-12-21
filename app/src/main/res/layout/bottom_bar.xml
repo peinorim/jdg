@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.roughike.bottombar.BottomBar xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottomBar"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:layout_alignParentBottom="true"
-    app:bb_tabXmlResource="@xml/bottombar_tabs"/>
+    android:layout_height="match_parent">
+
+    <!-- Content Container -->
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/yellow_darken2"
+        app:itemIconTint="@drawable/selected_bottom"
+        app:itemTextColor="@drawable/selected_bottom"
+        app:menu="@menu/bottom" />
+
+</RelativeLayout>

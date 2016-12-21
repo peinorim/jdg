@@ -1,7 +1,6 @@
-package com.paocorp.joueurdugrenier;
+package com.paocorp.joueurdugrenier.activities;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -10,7 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,34 +29,30 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
+import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class BazarActivity extends ParentActivity {
+public class JDGActivity extends ParentActivity {
 
     private ListView videosFound;
-    private int preLast;
-    private String nextPageToken;
     PackageInfo pInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_bazar);
+        setContentView(R.layout.activity_main);
 
-        String channel_id = getResources().getString(R.string.channel_bazar_id);
-        String channel_name = getResources().getString(R.string.channel_bazar);
+        channel_id = getResources().getString(R.string.channel_jdg_id);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,23 +65,9 @@ public class BazarActivity extends ParentActivity {
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().findItem(R.id.channel_bazar).setChecked(true);
+        navigationView.getMenu().findItem(R.id.channel_jdg).setChecked(true);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                fetchVideos(false, getResources().getString(R.string.aventures_keyword), getResources().getString(R.string.play_keyword));
-            }
-
-        });
-
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -101,16 +83,6 @@ public class BazarActivity extends ParentActivity {
                 this.second = getIntent().getParcelableArrayListExtra("second");
                 this.third = getIntent().getParcelableArrayListExtra("third");
 
-                if (lastResults == null || second == null || third == null) {
-                    this.lastResults = searchVideos(null, 10);
-                    this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
-                    this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
-                }
-
-                LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
-
-                changeTextViewBackground(true);
-
                 setTitle(yc.getChannel().getTitle());
 
                 CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
@@ -121,16 +93,14 @@ public class BazarActivity extends ParentActivity {
                 ImageView ban = (ImageView) findViewById(R.id.channel_banner);
                 Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);
 
-                if (getIntent().getBooleanExtra("SHOWAD", false)) {
-                    mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
-                    requestNewInterstitial();
-                    mInterstitialAd.setAdListener(new AdListener() {
-                        @Override
-                        public void onAdLoaded() {
-                            showInterstitial();
-                        }
-                    });
-                }
+                mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
+                requestNewInterstitial();
+                mInterstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        showInterstitial();
+                    }
+                });
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
                 boolean notifJDG = prefs.getBoolean(getResources().getString(R.string.notifJDG), true);
@@ -141,58 +111,76 @@ public class BazarActivity extends ParentActivity {
                 } else {
                     cancelAlarm();
                 }
+            } else {
+                findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
+            }
 
+            try {
+                pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                TextView txv = (TextView) findViewById(R.id.app_desc);
+                String APPINFO = txv.getText() + " v" + pInfo.versionName;
+                txv.setText(APPINFO);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
             }
 
         }
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                fetchVideos(false, getResources().getString(R.string.papy_keyword), getResources().getString(R.string.hs_keyword));
+            }
+
+        });
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         if (savedInstanceState == null && isNetworkAvailable()) {
 
-            fetchVideos(false, getResources().getString(R.string.aventures_keyword), getResources().getString(R.string.play_keyword));
+            fetchVideos(true, getResources().getString(R.string.papy_keyword), getResources().getString(R.string.hs_keyword));
 
-            BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBarBazar);
-            bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-                @Override
-                public void onTabSelected(@IdRes int tabId) {
-                    if (tabId == R.id.tab_first) {
-                        findViewById(R.id.first_list).setVisibility(View.VISIBLE);
-                        findViewById(R.id.second_list).setVisibility(View.GONE);
-                        findViewById(R.id.third_list).setVisibility(View.GONE);
-                    } else if (tabId == R.id.tab_second) {
-                        findViewById(R.id.first_list).setVisibility(View.GONE);
-                        findViewById(R.id.second_list).setVisibility(View.VISIBLE);
-                        findViewById(R.id.third_list).setVisibility(View.GONE);
-                    } else if (tabId == R.id.tab_third) {
-                        findViewById(R.id.first_list).setVisibility(View.GONE);
-                        findViewById(R.id.second_list).setVisibility(View.GONE);
-                        findViewById(R.id.third_list).setVisibility(View.VISIBLE);
-                    }
-                }
-            });
-        }
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            TextView txv = (TextView) findViewById(R.id.app_desc);
-            String APPINFO = txv.getText() + " v" + pInfo.versionName;
-            txv.setText(APPINFO);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                    findViewById(R.id.bottom_navigation);
+
+            bottomNavigationView.setOnNavigationItemSelectedListener(
+                    new BottomNavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.tab_first:
+                                    findViewById(R.id.first_list).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.second_list).setVisibility(View.GONE);
+                                    findViewById(R.id.third_list).setVisibility(View.GONE);
+                                    break;
+                                case R.id.tab_second:
+                                    findViewById(R.id.first_list).setVisibility(View.GONE);
+                                    findViewById(R.id.second_list).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.third_list).setVisibility(View.GONE);
+                                    break;
+                                case R.id.tab_third:
+                                    findViewById(R.id.first_list).setVisibility(View.GONE);
+                                    findViewById(R.id.second_list).setVisibility(View.GONE);
+                                    findViewById(R.id.third_list).setVisibility(View.VISIBLE);
+                                    break;
+                            }
+                            return true;
+                        }
+                    });
         }
     }
 
     public void refreshApp(View v) {
-        Intent intent = new Intent(this, BazarActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if (isNetworkAvailable()) {
+            Intent intent = new Intent(this, SplashActivity.class);
+            finish();
+            startActivity(intent);
         }
     }
 
@@ -200,7 +188,7 @@ public class BazarActivity extends ParentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchManager manager = (SearchManager) getSystemService(SEARCH_SERVICE);
 
         SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
         search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
@@ -215,12 +203,13 @@ public class BazarActivity extends ParentActivity {
             @Override
             public boolean onQueryTextChange(final String query) {
                 if (query.length() >= 3 && isNetworkAvailable()) {
+                    //findViewById(R.id.sample_content_fragment).setVisibility(View.GONE);
                     findViewById(R.id.channel_banner).setVisibility(View.GONE);
                     findViewById(R.id.videos_search_container).setVisibility(View.VISIBLE);
                     findViewById(R.id.first_list).setVisibility(View.GONE);
                     findViewById(R.id.second_list).setVisibility(View.GONE);
                     findViewById(R.id.third_list).setVisibility(View.GONE);
-                    findViewById(R.id.bottomBar).setVisibility(View.GONE);
+                    findViewById(R.id.bottom_navigation).setVisibility(View.GONE);
                     videosFound = (ListView) findViewById(R.id.videos_search_found);
                     final ArrayList<YoutubeVideo> searchResults = searchVideos(query, 15);
                     final SearchAdapter searchAdapter = new SearchAdapter(getApplicationContext(), R.layout.video_item, searchResults);
@@ -285,7 +274,7 @@ public class BazarActivity extends ParentActivity {
                     findViewById(R.id.first_list).setVisibility(View.VISIBLE);
                     findViewById(R.id.second_list).setVisibility(View.GONE);
                     findViewById(R.id.third_list).setVisibility(View.GONE);
-                    findViewById(R.id.bottomBar).setVisibility(View.VISIBLE);
+                    findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
                 }
                 return true;
             }
@@ -317,11 +306,11 @@ public class BazarActivity extends ParentActivity {
         // Handle navigation view item clicks here.
         if (isNetworkAvailable()) {
             int id = item.getItemId();
-            Intent intent = new Intent(this, BazarActivity.class);
+            Intent intent = new Intent(this, JDGActivity.class);
 
             if (id == R.id.channel_jdg) {
-                intent = new Intent(this, JDGActivity.class);
             } else if (id == R.id.channel_bazar) {
+                intent = new Intent(this, BazarActivity.class);
             } else if (id == R.id.news) {
                 intent = new Intent(this, NewsActivity.class);
             } else if (id == R.id.site_jdg) {

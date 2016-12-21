@@ -1,9 +1,13 @@
 package com.paocorp.joueurdugrenier.youtube;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -18,6 +22,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     private YouTubePlayerView playerView;
     protected YoutubeConnector yc;
     private Video video;
+    AdView adView;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -47,6 +52,10 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
             tx_views.setVisibility(TextView.VISIBLE);
             tx_desc.setText(video.getSnippet().getDescription());
         }
+
+        if (isNetworkAvailable()) {
+            loadBanner();
+        }
     }
 
     @Override
@@ -62,4 +71,18 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
             player.cueVideo(getIntent().getStringExtra("VIDEO_ID"));
         }
     }
+
+    protected boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void loadBanner() {
+        adView = (AdView) this.findViewById(R.id.banner_bottom);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
 }

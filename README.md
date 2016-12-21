@@ -1,6 +1,7 @@
 JDG
 =====
 
+* v1.10 : Bottom bar rework
 * v1.9 : Notifications on new videos
 * v1.8 : Android N support & minor bug fixes
 * v1.7 : Bottom navigation + pull to refresh

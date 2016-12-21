@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier;
+package com.paocorp.joueurdugrenier.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.models.NewsConnector;
 import com.paocorp.joueurdugrenier.models.NewsItem;
 import com.paocorp.joueurdugrenier.models.NewsListAdapter;

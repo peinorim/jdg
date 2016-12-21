@@ -3,7 +3,7 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.paocorp.joueurdugrenier.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="com.paocorp.joueurdugrenier.activities.SettingsActivity$NotificationPreferenceFragment"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/pref_header_notifications" />
 

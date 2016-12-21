@@ -11,6 +11,7 @@
     <string name="failed">Erreur dans le chargement de la vidéo</string>
     <string name="loading">Veuillez patienter svp...</string>
     <string name="interstitial">ca-app-pub-2669557761715669/2015677235</string>
+    <string name="banner">ca-app-pub-2669557761715669/2361438035</string>
     <string name="offline">Vous devez disposer d\'une connexion internet pour utiliser cette application.</string>
     <string name="dateStored">com.paocorp.joueurdugrenier.datestored</string>
     <string name="new_videos">notifications_new_videos</string>
