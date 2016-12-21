@@ -132,6 +132,6 @@ public class YoutubeVideo implements Parcelable {
     };
 
     private SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("dd MMMM yyyy à HH'h'mm", Locale.getDefault());
+        return new SimpleDateFormat("EEEE d MMMM yyyy à HH'h'mm", Locale.getDefault());
     }
 }

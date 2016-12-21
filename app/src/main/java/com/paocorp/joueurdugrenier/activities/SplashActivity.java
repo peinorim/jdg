@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.paocorp.joueurdugrenier.R;
@@ -108,5 +110,10 @@ public class SplashActivity extends ParentActivity {
             finish();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

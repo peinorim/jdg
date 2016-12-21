@@ -23,7 +23,6 @@ import com.paocorp.joueurdugrenier.models.NewsConnector;
 import com.paocorp.joueurdugrenier.models.NewsItem;
 import com.paocorp.joueurdugrenier.models.NewsListAdapter;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
-import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.squareup.picasso.Picasso;
 
@@ -133,11 +132,9 @@ public class NewsActivity extends ParentActivity
                 intent = new Intent(this, BazarActivity.class);
             } else if (id == R.id.news) {
             } else if (id == R.id.site_jdg) {
-                intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.site_jdg_url)));
             } else if (id == R.id.site_aventures) {
-                intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.site_aventures_url)));
             } else if (id == R.id.nav_fb_jdg) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
             } else if (id == R.id.nav_tw_jdg) {
@@ -165,7 +162,7 @@ public class NewsActivity extends ParentActivity
         if (isNetworkAvailable()) {
             nc = new NewsConnector(getBaseContext());
             listItems = nc.getItemsList();
-            if(listItems.size() > 0) {
+            if (listItems.size() > 0) {
                 listViewNews = (ListView) findViewById(R.id.list_view_news);
                 adapter = new NewsListAdapter(getBaseContext(), R.layout.list_item_news, listItems);
                 listViewNews.setAdapter(adapter);

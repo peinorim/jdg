@@ -61,13 +61,14 @@ public class VideosListAdapter extends ArrayAdapter {
 
         Picasso.with(context).load(yt.getThumbnailURL()).into(thumbnail);
         title.setText(yt.getTitle());
-        date.setText(getDateFormat().format(yt.getDate()));
+        String sDate = getDateFormat().format(yt.getDate()).substring(0, 1).toUpperCase() + getDateFormat().format(yt.getDate()).substring(1);
+        date.setText(sDate);
         description.setText(yt.getDescription());
 
         return convertView;
     }
 
     private SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("dd MMMM yyyy à HH'h'mm", Locale.getDefault());
+        return new SimpleDateFormat("EEEE d MMMM yyyy à HH'h'mm", Locale.getDefault());
     }
 }

@@ -35,5 +35,8 @@
     <color name="teal_darken2">#00796b</color>
     <color name="teal_darken3">#00695c</color>
     <color name="teal_darken4">#004d40</color>
+    <color name="grey_darken1">#757575</color>
     <color name="grey_darken2">#616161</color>
+    <color name="grey_darken3">#424242</color>
+    <color name="grey_darken4">#212121</color>
 </resources>

@@ -41,26 +41,28 @@ public class YoutubeConnector {
 
     public YoutubeConnector(final Context context, final String channel_id, final String video_id) {
 
-        this.KEY = context.getString(R.string.api_key);
-        this.context = context;
+        this.KEY = context.getResources().getString(R.string.api_key);
+        this.context = context.getApplicationContext();
 
         youtube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), new HttpRequestInitializer() {
             @Override
             public void initialize(HttpRequest hr) throws IOException {
             }
-        }).setApplicationName(context.getString(R.string.app_name)).build();
+        }).setApplicationName(context.getResources().getString(R.string.app_name)).build();
 
         if (channel_id != null) {
             this.channel_id = channel_id;
-            initChannel();
+            if (!initChannel()) {
+                this.youtube = null;
+            }
         }
         if (video_id != null) {
             this.video_id = video_id;
         }
     }
 
-    private void initChannel() {
+    private boolean initChannel() {
 
         ChannelListResponse response = null;
         try {
@@ -78,7 +80,7 @@ public class YoutubeConnector {
             Log.d("YC", "Could not search: " + e.getMessage());
             switch (e.getStatusCode()) {
                 case 403:
-                    this.KEY = this.context.getString(R.string.api_key2);
+                    this.KEY = this.context.getResources().getString(R.string.api_key2);
                     channelQuery.setKey(this.KEY);
                     try {
                         response = channelQuery.execute();
@@ -88,6 +90,7 @@ public class YoutubeConnector {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
         List<Channel> results = response.getItems();
 
@@ -105,6 +108,7 @@ public class YoutubeConnector {
             channel.setVideoCount(result.getStatistics().getVideoCount());
             channel.setSubscriberCount(result.getStatistics().getSubscriberCount());
         }
+        return true;
     }
 
     public ArrayList<YoutubeVideo> search(String keywords, int max) {
@@ -130,7 +134,7 @@ public class YoutubeConnector {
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
                 case 403:
-                    this.KEY = this.context.getString(R.string.api_key2);
+                    this.KEY = this.context.getResources().getString(R.string.api_key2);
                     query.setKey(this.KEY);
                     try {
                         response = query.execute();
@@ -191,7 +195,7 @@ public class YoutubeConnector {
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
                 case 403:
-                    this.KEY = this.context.getString(R.string.api_key2);
+                    this.KEY = this.context.getResources().getString(R.string.api_key2);
                     query.setKey(this.KEY);
                     try {
                         response = query.execute();
@@ -278,7 +282,7 @@ public class YoutubeConnector {
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
                 case 403:
-                    this.KEY = this.context.getString(R.string.api_key2);
+                    this.KEY = this.context.getResources().getString(R.string.api_key2);
                     query.setKey(this.KEY);
                     try {
                         response = query.execute();
@@ -326,6 +330,10 @@ public class YoutubeConnector {
         SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return isoFormat;
+    }
+
+    public YouTube getYoutube() {
+        return youtube;
     }
 }
 

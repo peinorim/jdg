@@ -72,7 +72,7 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -111,10 +111,17 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
         TextView tv_credits = (TextView) findViewById(R.id.credits);
         tv_credits.setTextColor(this.getResources().getColor(R.color.white));
         tv_credits.setLinkTextColor(this.getResources().getColor(R.color.white));
+
+        TextView videoCount = (TextView) findViewById(R.id.channel_videoCount);
+        videoCount.setTextColor(this.getResources().getColor(R.color.white));
+        TextView viewCount = (TextView) findViewById(R.id.channel_viewCount);
+        viewCount.setTextColor(this.getResources().getColor(R.color.white));
+        TextView subsCount = (TextView) findViewById(R.id.channel_subscriberCount);
+        subsCount.setTextColor(this.getResources().getColor(R.color.white));
     }
 
     protected SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("dd MMMM yyyy à HH'h'mm", Locale.getDefault());
+        return new SimpleDateFormat("EEEE d MMMM yyyy à HH'h'mm", Locale.getDefault());
     }
 
     public ArrayList<YoutubeVideo> customLoadMoreDataFromApi(String offset, String keyword) {
@@ -125,8 +132,8 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
     protected void setupList(final ListView listview, final String nnextPageToken, final String keyword, final ArrayList<YoutubeVideo> results, final VideosListAdapter adapter, final int ppreLast) {
 
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
-            public int preLast = ppreLast;
-            public String nextPageToken = nnextPageToken;
+            int preLast = ppreLast;
+            String nextPageToken = nnextPageToken;
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {

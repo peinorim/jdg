@@ -93,16 +93,11 @@
                 android:host="t4jsample"
                 android:scheme="oauth" />
         </activity>
-        <activity
-            android:name=".twitter.WebViewActivity"
-            android:label="@string/login_instructions"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateVisible|stateAlwaysHidden" />
 
         <receiver
             android:name=".services.JDGAlarmReceiver"
-            android:process=":remote"
-            android:enabled="true">
+            android:enabled="true"
+            android:process=":remote">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -114,8 +109,29 @@
 
         <activity
             android:name=".activities.SettingsActivity"
-            android:theme="@style/SettingsTheme"
-            android:label="@string/action_settings"/>
+            android:label="@string/action_settings"
+            android:theme="@style/SettingsTheme" />
+
+        <receiver android:name=".widgets.JDGWidgetProvider"
+            android:label="@string/pref_jdg">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/jdg_widget" />
+        </receiver>
+
+        <receiver android:name=".widgets.BazarWidgetProvider"
+            android:label="@string/pref_bazar">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/bazar_widget" />
+        </receiver>
+
     </application>
 
 </manifest>

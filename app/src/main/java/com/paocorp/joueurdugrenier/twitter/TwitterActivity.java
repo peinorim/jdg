@@ -237,11 +237,9 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                 intent = new Intent(this, NewsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             } else if (id == R.id.site_jdg) {
-                intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.site_jdg_url)));
             } else if (id == R.id.site_aventures) {
-                intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.site_aventures_url)));
             } else if (id == R.id.nav_fb_jdg) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
             } else if (id == R.id.nav_tw_jdg) {

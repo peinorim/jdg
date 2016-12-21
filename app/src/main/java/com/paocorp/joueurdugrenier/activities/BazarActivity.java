@@ -32,12 +32,12 @@ import com.google.android.gms.ads.AdListener;
 import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
 import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
-import com.paocorp.joueurdugrenier.twitter.WebViewActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -116,6 +116,15 @@ public class BazarActivity extends ParentActivity {
                 TextView tv = (TextView) findViewById(R.id.channel_desc);
                 tv.setText(yc.getChannel().getDescription());
 
+                TextView videoCount = (TextView) findViewById(R.id.channel_videoCount);
+                videoCount.setText(getResources().getString(R.string.video_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getVideoCount()))));
+
+                TextView viewCount = (TextView) findViewById(R.id.channel_viewCount);
+                viewCount.setText(getResources().getString(R.string.view_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getViewCount()))));
+
+                TextView subsCount = (TextView) findViewById(R.id.channel_subscriberCount);
+                subsCount.setText(getResources().getString(R.string.subs_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getSubscriberCount()))));
+
                 ImageView ban = (ImageView) findViewById(R.id.channel_banner);
                 Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);
 
@@ -179,8 +188,10 @@ public class BazarActivity extends ParentActivity {
         try {
             pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             TextView txv = (TextView) findViewById(R.id.app_desc);
-            String APPINFO = txv.getText() + " v" + pInfo.versionName;
-            txv.setText(APPINFO);
+            if (txv != null) {
+                String APPINFO = txv.getText() + " v" + pInfo.versionName;
+                txv.setText(APPINFO);
+            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -291,7 +302,9 @@ public class BazarActivity extends ParentActivity {
                     findViewById(R.id.first_list).setVisibility(View.VISIBLE);
                     findViewById(R.id.second_list).setVisibility(View.GONE);
                     findViewById(R.id.third_list).setVisibility(View.GONE);
-                    findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
+                    BottomNavigationView bottomBar = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+                    bottomBar.setVisibility(View.VISIBLE);
+                    bottomBar.getMenu().getItem(0).setChecked(true);
                 }
                 return true;
             }
@@ -331,11 +344,9 @@ public class BazarActivity extends ParentActivity {
             } else if (id == R.id.news) {
                 intent = new Intent(this, NewsActivity.class);
             } else if (id == R.id.site_jdg) {
-                intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_jdg_url));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.site_jdg_url)));
             } else if (id == R.id.site_aventures) {
-                intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.EXTRA_URL, getResources().getString(R.string.site_aventures_url));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.site_aventures_url)));
             } else if (id == R.id.nav_fb_jdg) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_jdg_url)));
             } else if (id == R.id.nav_tw_jdg) {

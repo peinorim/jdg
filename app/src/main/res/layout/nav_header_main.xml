@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/headerLinearLay"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/side_nav_bar"
@@ -9,7 +10,6 @@
     android:paddingLeft="16sp"
     android:paddingRight="16sp"
     android:paddingTop="16sp"
-    android:id="@+id/headerLinearLay"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:maxHeight="96dp"
             android:maxWidth="96dp"
             android:minHeight="96dp"
-            android:minWidth="96dp"/>
+            android:minWidth="96dp" />
 
         <TextView
             android:id="@+id/channel_desc"
@@ -34,27 +34,53 @@
             android:layout_gravity="right"
             android:layout_marginLeft="16sp"
             android:layout_marginStart="16sp"
-            android:textColor="@color/black"
+            android:paddingTop="16sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:paddingTop="16sp"/>
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/app_desc"
-        android:layout_width="match_parent"
+        android:id="@+id/channel_videoCount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="16sp"
+        android:paddingTop="10sp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/reduced_text_size" />
+
+    <TextView
+        android:id="@+id/channel_viewCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2sp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/reduced_text_size" />
+
+    <TextView
+        android:id="@+id/channel_subscriberCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2sp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/reduced_text_size" />
+
+    <TextView
+        android:id="@+id/app_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5sp"
         android:text="@string/app_desc"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="@dimen/reduced_text_size" />
 
     <TextView
         android:id="@+id/credits"
-        android:paddingTop="5sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autoLink="web"
+        android:paddingTop="2sp"
         android:text="@string/app_url"
+        android:textColor="@color/black"
         android:textColorLink="@color/black"
-        android:textColor="@color/black"/>
+        android:textSize="@dimen/reduced_text_size" />
 
 </LinearLayout>

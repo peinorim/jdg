@@ -59,6 +59,9 @@
     <string name="social_title">Réseaux sociaux</string>
     <string name="rate_app">Noter cette application</string>
     <string name="store_url">https://play.google.com/store/apps/details?id=com.paocorp.joueurdugrenier</string>
+    <string name="video_count">%1$s vidéos mises en ligne</string>
+    <string name="view_count">%1$s vues</string>
+    <string name="subs_count">%1$s abonnés</string>
 
     <!-- Twitter Configurations -->
     <string name="twitter_jdg_id">frederic_molas</string>
