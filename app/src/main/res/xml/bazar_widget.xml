@@ -2,7 +2,7 @@
     android:minWidth="250dp"
     android:minHeight="40dp"
     android:updatePeriodMillis="10800000"
-    android:previewImage="@drawable/logo_jdg"
+    android:previewImage="@drawable/logo_bazar"
     android:initialLayout="@layout/widget_lastvideo"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">

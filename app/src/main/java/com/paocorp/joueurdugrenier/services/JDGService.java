@@ -15,7 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.SplashActivity;
+import com.paocorp.joueurdugrenier.activities.SplashActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
 
