@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/yellow_darken2"
         app:itemBackground="@color/yellow_darken2"
         app:itemIconTint="@drawable/selected_bottom"
         app:itemTextColor="@drawable/selected_bottom"

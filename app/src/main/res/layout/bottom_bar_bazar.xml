@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/green_darken2"
+        android:background="@color/green_darken3"
+        app:itemBackground="@color/green_darken3"
         app:itemIconTint="@drawable/selected_bottom_bazar"
         app:itemTextColor="@drawable/selected_bottom_bazar"
         app:menu="@menu/bottom" />

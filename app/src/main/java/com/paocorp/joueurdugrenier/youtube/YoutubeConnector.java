@@ -2,6 +2,7 @@ package com.paocorp.joueurdugrenier.youtube;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -75,7 +76,11 @@ public class YoutubeConnector {
         }
 
         try {
-            response = channelQuery.execute();
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                response = channelQuery.execute();
+            }
         } catch (GoogleJsonResponseException e) {
             Log.d("YC", "Could not search: " + e.getMessage());
             switch (e.getStatusCode()) {
@@ -129,7 +134,11 @@ public class YoutubeConnector {
 
         SearchListResponse response = null;
         try {
-            response = query.execute();
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                response = query.execute();
+            }
 
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
@@ -190,7 +199,11 @@ public class YoutubeConnector {
 
         SearchListResponse response = null;
         try {
-            response = query.execute();
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                response = query.execute();
+            }
 
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
@@ -242,15 +255,20 @@ public class YoutubeConnector {
             }
 
             VideoListResponse response;
+            List<Video> videos = null;
 
-            try {
-                response = videoQuery.execute();
-            } catch (IOException e) {
-                Log.d("Videos.List", "Could not get video: " + e.getMessage());
-                return null;
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                try {
+                    response = videoQuery.execute();
+                } catch (IOException e) {
+                    Log.d("Videos.List", "Could not get video: " + e.getMessage());
+                    return null;
+                }
+
+                videos = response.getItems();
             }
-
-            List<Video> videos = response.getItems();
 
             for (Video video : videos) {
                 VideoStatistics stats = video.getStatistics();
@@ -277,7 +295,11 @@ public class YoutubeConnector {
 
         SearchListResponse response = null;
         try {
-            response = query.execute();
+            if (android.os.Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                response = query.execute();
+            }
 
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
