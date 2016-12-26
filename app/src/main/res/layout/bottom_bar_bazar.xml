@@ -16,6 +16,6 @@
         app:itemBackground="@color/green_darken3"
         app:itemIconTint="@drawable/selected_bottom_bazar"
         app:itemTextColor="@drawable/selected_bottom_bazar"
-        app:menu="@menu/bottom" />
+        app:menu="@menu/bottom_bazar" />
 
 </RelativeLayout>

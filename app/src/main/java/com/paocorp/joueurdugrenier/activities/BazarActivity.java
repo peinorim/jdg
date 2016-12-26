@@ -54,7 +54,7 @@ public class BazarActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_bazar);
 
-        String channel_id = getResources().getString(R.string.channel_bazar_id);
+        channel_id = getResources().getString(R.string.channel_bazar_id);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
