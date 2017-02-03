@@ -1,6 +1,7 @@
 JDG
 =====
 
+* v1.11 : Bottom bar hide on scroll
 * v1.10 : Bottom bar rework + widget creation
 * v1.9 : Notifications on new videos
 * v1.8 : Android N support & minor bug fixes

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -137,7 +139,13 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
+                if (bottomNavigationView != null && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    bottomNavigationView.animate().translationY(0);
+                } else {
+                    bottomNavigationView.animate().translationY(bottomNavigationView.getHeight());
+                }
             }
 
             @Override
