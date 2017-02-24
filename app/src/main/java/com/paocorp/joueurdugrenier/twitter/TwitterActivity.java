@@ -43,6 +43,7 @@ import com.paocorp.joueurdugrenier.activities.ParentActivity;
 import com.paocorp.joueurdugrenier.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -94,7 +95,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -127,8 +128,16 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
 
             CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
             Picasso.with(this).load(sta.getUser().getOriginalProfileImageURL()).into(img1);
+
             TextView tv = (TextView) findViewById(R.id.channel_desc);
             tv.setText(sta.getUser().getDescription());
+
+            TextView tv3 = (TextView) findViewById(R.id.channel_videoCount);
+            tv3.setText("@" + sta.getUser().getScreenName());
+
+            TextView tv2 = (TextView) findViewById(R.id.channel_viewCount);
+            tv2.setText(getResources().getString(R.string.followers_count, String.valueOf(NumberFormat.getInstance().format(sta.getUser().getFollowersCount()))));
+
             this.changeTextViewBackground(false);
 
         } catch (TwitterException e) {

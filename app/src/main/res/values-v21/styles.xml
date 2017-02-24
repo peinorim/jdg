@@ -67,4 +67,9 @@
         <item name="android:textColorPrimary">@color/black</item>
     </style>
 
+    <style name="LinearProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/green_darken1</item>
+        <item name="android:progressBackgroundTint">@color/grey_darken1</item>
+    </style>
+
 </resources>

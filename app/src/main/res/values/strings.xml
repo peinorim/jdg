@@ -62,6 +62,7 @@
     <string name="video_count">%1$s vidéos mises en ligne</string>
     <string name="view_count">%1$s vues</string>
     <string name="subs_count">%1$s abonnés</string>
+    <string name="followers_count">%1$s followers</string>
 
     <!-- Twitter Configurations -->
     <string name="twitter_jdg_id">frederic_molas</string>

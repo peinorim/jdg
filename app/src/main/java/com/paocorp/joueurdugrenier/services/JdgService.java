@@ -99,12 +99,20 @@ public class JDGService extends IntentService {
             e.printStackTrace();
         }
 
+        int len;
+
+        if (video.getDescription().length() >= 100) {
+            len = 100;
+        } else {
+            len = video.getDescription().length();
+        }
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
                         .setLargeIcon(myBitmap)
                         .setContentTitle(video.getTitle())
-                        .setContentText(video.getDescription().substring(0, 100) + "...");
+                        .setContentText(video.getDescription().substring(0, len) + "...");
 
         // Sets an ID for the notification
         int mNotificationId = 001;
