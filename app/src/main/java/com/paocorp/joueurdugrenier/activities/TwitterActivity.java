@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.twitter;
+package com.paocorp.joueurdugrenier.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -36,10 +36,6 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
-import com.paocorp.joueurdugrenier.activities.BazarActivity;
-import com.paocorp.joueurdugrenier.activities.JDGActivity;
-import com.paocorp.joueurdugrenier.activities.NewsActivity;
-import com.paocorp.joueurdugrenier.activities.ParentActivity;
 import com.paocorp.joueurdugrenier.R;
 import com.squareup.picasso.Picasso;
 
@@ -189,7 +185,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                 username.setText(" - " + sta.getUser().getName());
 
                 TextView date = (TextView) convertView.findViewById(R.id.tweet_date);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM - H:mm", Locale.getDefault());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy - HH:mm", Locale.getDefault());
                 dateFormat.setTimeZone(TimeZone.getDefault());
                 date.setText(dateFormat.format(sta.getCreatedAt()));
 
@@ -236,7 +232,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
         if (isNetworkAvailable()) {
             // Handle navigation view item clicks here.
             int id = item.getItemId();
-            Intent intent = new Intent(TwitterActivity.this, JDGActivity.class);
+            Intent intent = new Intent(TwitterActivity.this, TwitterActivity.class);
 
             if (id == R.id.channel_jdg) {
                 intent = new Intent(this, JDGActivity.class);
@@ -256,6 +252,8 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
             } else if (id == R.id.nav_rate) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.store_url)));
+            } else if (id == R.id.nav_settings) {
+                intent = new Intent(this, SettingsActivity.class);
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

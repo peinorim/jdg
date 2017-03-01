@@ -1,34 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu android:id="@+id/menu_drawer" xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu_drawer">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/channel_jdg"
+        <item
+            android:id="@+id/channel_jdg"
             android:title="@string/channel_jdg" />
-        <item android:id="@+id/channel_bazar"
+        <item
+            android:id="@+id/channel_bazar"
             android:title="@string/channel_bazar" />
-        <item android:id="@+id/news"
+        <item
+            android:id="@+id/news"
             android:title="@string/news" />
     </group>
 
     <item android:title="@string/internet_title">
         <menu>
-            <item android:id="@+id/site_jdg"
+            <item
+                android:id="@+id/site_jdg"
                 android:title="@string/site_jdg" />
-            <item android:id="@+id/site_aventures"
+            <item
+                android:id="@+id/site_aventures"
                 android:title="@string/site_aventures" />
         </menu>
     </item>
 
     <item android:title="@string/social_title">
         <menu>
-            <item android:id="@+id/nav_fb_jdg" android:icon="@drawable/com_facebook_button_icon"
+            <item
+                android:id="@+id/nav_fb_jdg"
+                android:icon="@drawable/com_facebook_button_icon"
                 android:title="@string/fb_jdg" />
-            <item android:id="@+id/nav_tw_jdg" android:icon="@drawable/twitter"
+            <item
+                android:id="@+id/nav_tw_jdg"
+                android:icon="@drawable/twitter"
                 android:title="@string/twitter_jdg" />
-            <item android:id="@+id/nav_fb_aventures" android:icon="@drawable/com_facebook_button_icon"
+            <item
+                android:id="@+id/nav_fb_aventures"
+                android:icon="@drawable/com_facebook_button_icon"
                 android:title="@string/fb_aventures" />
-            <item android:id="@+id/nav_rate" android:icon="@drawable/ic_star_black_24dp"
+        </menu>
+    </item>
+
+    <item android:title="@string/application">
+        <menu>
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_star_black_24dp"
                 android:title="@string/rate_app" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/action_settings" />
         </menu>
     </item>
 

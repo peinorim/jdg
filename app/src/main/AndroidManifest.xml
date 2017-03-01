@@ -85,7 +85,7 @@
             android:theme="@style/AppTheme.Youtube"
             android:windowSoftInputMode="adjustResize|stateVisible|stateAlwaysHidden" />
         <activity
-            android:name=".twitter.TwitterActivity"
+            android:name=".activities.TwitterActivity"
             android:label="@string/twitter_jdg"
             android:theme="@style/AppTheme.Twitter.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateVisible|stateAlwaysHidden">

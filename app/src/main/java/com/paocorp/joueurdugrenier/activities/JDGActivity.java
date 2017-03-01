@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdListener;
 import com.paocorp.joueurdugrenier.R;
 import com.paocorp.joueurdugrenier.models.SearchAdapter;
-import com.paocorp.joueurdugrenier.twitter.TwitterActivity;
 import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
 import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
 import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
@@ -343,6 +342,8 @@ public class JDGActivity extends ParentActivity {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.fb_aventures_url)));
             } else if (id == R.id.nav_rate) {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.store_url)));
+            } else if (id == R.id.nav_settings) {
+                intent = new Intent(this, SettingsActivity.class);
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
