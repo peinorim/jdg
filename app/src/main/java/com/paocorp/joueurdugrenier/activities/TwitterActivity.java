@@ -47,21 +47,15 @@ import java.util.TimeZone;
 
 public class TwitterActivity extends ParentActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    /* Any number for uniquely distinguish your request */
-    public static final int WEBVIEW_REQUEST_CODE = 100;
-
-    private ProgressDialog pDialog;
-
-    private static Twitter twitter;
-    private static RequestToken requestToken;
-
-    private View shareLayout;
-    private String consumerKey = null;
-    private String consumerSecret = null;
-    private String callbackUrl = null;
-    private String oAuthVerifier = null;
-    private ArrayAdapter<Status> adapter;
-    private ListView feed;
+    Twitter twitter;
+    RequestToken requestToken;
+    View shareLayout;
+    String consumerKey = null;
+    String consumerSecret = null;
+    String callbackUrl = null;
+    String oAuthVerifier = null;
+    ArrayAdapter<Status> adapter;
+    ListView feed;
     String jdg_id;
 
     @SuppressLint("NewApi")
@@ -107,7 +101,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
             return;
         }
 
-        final Twitter twitter = new TwitterFactory(cb.build()).getInstance();
+        twitter = new TwitterFactory(cb.build()).getInstance();
         final Paging paging = new Paging(1, 100);
         try {
             jdg_id = getResources().getString(R.string.twitter_jdg_id);
@@ -232,7 +226,7 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
         if (isNetworkAvailable()) {
             // Handle navigation view item clicks here.
             int id = item.getItemId();
-            Intent intent = new Intent(TwitterActivity.this, TwitterActivity.class);
+            Intent intent = new Intent(this, TwitterActivity.class);
 
             if (id == R.id.channel_jdg) {
                 intent = new Intent(this, JDGActivity.class);
