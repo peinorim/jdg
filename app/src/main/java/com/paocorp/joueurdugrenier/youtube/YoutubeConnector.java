@@ -76,11 +76,9 @@ public class YoutubeConnector {
         }
 
         try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                response = channelQuery.execute();
-            }
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            response = channelQuery.execute();
         } catch (GoogleJsonResponseException e) {
             Log.d("YC", "Could not search: " + e.getMessage());
             switch (e.getStatusCode()) {
@@ -134,12 +132,9 @@ public class YoutubeConnector {
 
         SearchListResponse response = null;
         try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                response = query.execute();
-            }
-
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            response = query.execute();
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
                 case 403:
@@ -199,11 +194,9 @@ public class YoutubeConnector {
 
         SearchListResponse response = null;
         try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                response = query.execute();
-            }
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            response = query.execute();
 
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
@@ -255,20 +248,18 @@ public class YoutubeConnector {
             }
 
             VideoListResponse response;
-            List<Video> videos = null;
+            List<Video> videos;
 
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                try {
-                    response = videoQuery.execute();
-                } catch (IOException e) {
-                    Log.d("Videos.List", "Could not get video: " + e.getMessage());
-                    return null;
-                }
-
-                videos = response.getItems();
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            try {
+                response = videoQuery.execute();
+            } catch (IOException e) {
+                Log.d("Videos.List", "Could not get video: " + e.getMessage());
+                return null;
             }
+
+            videos = response.getItems();
 
             for (Video video : videos) {
                 VideoStatistics stats = video.getStatistics();
@@ -295,11 +286,9 @@ public class YoutubeConnector {
 
         SearchListResponse response = null;
         try {
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                response = query.execute();
-            }
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            response = query.execute();
 
         } catch (GoogleJsonResponseException e) {
             switch (e.getStatusCode()) {
@@ -342,7 +331,7 @@ public class YoutubeConnector {
         return channel;
     }
 
-    public static boolean isTablet(Context context) {
+    private static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;

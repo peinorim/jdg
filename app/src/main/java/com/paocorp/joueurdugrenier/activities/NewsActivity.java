@@ -57,53 +57,51 @@ public class NewsActivity extends ParentActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().findItem(R.id.news).setChecked(true);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
 
-            if (isNetworkAvailable()) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-                findViewById(R.id.content_offline).setVisibility(View.GONE);
+        if (isNetworkAvailable()) {
 
-                yc = new YoutubeConnector(this, channel_id, null);
+            findViewById(R.id.content_offline).setVisibility(View.GONE);
 
-                setTitle(getResources().getString(R.string.title_activity_news));
+            yc = new YoutubeConnector(this, channel_id, null);
 
-                LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
+            setTitle(getResources().getString(R.string.title_activity_news));
 
-                CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
-                Picasso.with(this).load(yc.getChannel().getThumbnailURL()).noFade().into(img1);
-                TextView tv = (TextView) findViewById(R.id.channel_desc);
-                tv.setText(yc.getChannel().getDescription());
+            LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
-                swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_news);
+            CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
+            Picasso.with(this).load(yc.getChannel().getThumbnailURL()).noFade().into(img1);
+            TextView tv = (TextView) findViewById(R.id.channel_desc);
+            tv.setText(yc.getChannel().getDescription());
 
-                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout_news);
 
-                    @Override
-                    public void onRefresh() {
-                        fetchNews();
-                    }
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
-                });
-
-                swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                        android.R.color.holo_green_light,
-                        android.R.color.holo_orange_light,
-                        android.R.color.holo_red_light);
-
-                fetchNews();
-
-                try {
-                    pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-                    TextView txv = (TextView) findViewById(R.id.app_desc);
-                    String APPINFO = txv.getText() + " v" + pInfo.versionName;
-                    txv.setText(APPINFO);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
+                @Override
+                public void onRefresh() {
+                    fetchNews();
                 }
-            }
 
+            });
+
+            swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
+            fetchNews();
+
+            try {
+                pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                TextView txv = (TextView) findViewById(R.id.app_desc);
+                String APPINFO = txv.getText() + " v" + pInfo.versionName;
+                txv.setText(APPINFO);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

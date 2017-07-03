@@ -84,70 +84,67 @@ public class BazarActivity extends ParentActivity {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-            if (isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
 
-                findViewById(R.id.content_offline).setVisibility(View.GONE);
+            findViewById(R.id.content_offline).setVisibility(View.GONE);
 
-                yc = new YoutubeConnector(this, channel_id, null);
+            yc = new YoutubeConnector(this, channel_id, null);
 
-                this.lastResults = getIntent().getParcelableArrayListExtra("lastResults");
-                this.second = getIntent().getParcelableArrayListExtra("second");
-                this.third = getIntent().getParcelableArrayListExtra("third");
+            this.lastResults = getIntent().getParcelableArrayListExtra("lastResults");
+            this.second = getIntent().getParcelableArrayListExtra("second");
+            this.third = getIntent().getParcelableArrayListExtra("third");
 
-                if (lastResults == null || second == null || third == null) {
-                    this.lastResults = searchVideos(null, 10);
-                    this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
-                    this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
-                }
+            if (lastResults == null || second == null || third == null) {
+                this.lastResults = searchVideos(null, 10);
+                this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
+                this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
+            }
 
-                LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
+            LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView);
 
-                changeTextViewBackground(true);
+            changeTextViewBackground(true);
 
-                setTitle(yc.getChannel().getTitle());
+            setTitle(yc.getChannel().getTitle());
 
-                CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
-                Picasso.with(this).load(yc.getChannel().getThumbnailURL()).noFade().into(img1);
-                TextView tv = (TextView) findViewById(R.id.channel_desc);
-                tv.setText(yc.getChannel().getDescription());
+            CircleImageView img1 = (CircleImageView) findViewById(R.id.channel_img);
+            Picasso.with(this).load(yc.getChannel().getThumbnailURL()).noFade().into(img1);
+            TextView tv = (TextView) findViewById(R.id.channel_desc);
+            tv.setText(yc.getChannel().getDescription());
 
-                TextView videoCount = (TextView) findViewById(R.id.channel_videoCount);
-                videoCount.setText(getResources().getString(R.string.video_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getVideoCount()))));
+            TextView videoCount = (TextView) findViewById(R.id.channel_videoCount);
+            videoCount.setText(getResources().getString(R.string.video_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getVideoCount()))));
 
-                TextView viewCount = (TextView) findViewById(R.id.channel_viewCount);
-                viewCount.setText(getResources().getString(R.string.view_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getViewCount()))));
+            TextView viewCount = (TextView) findViewById(R.id.channel_viewCount);
+            viewCount.setText(getResources().getString(R.string.view_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getViewCount()))));
 
-                TextView subsCount = (TextView) findViewById(R.id.channel_subscriberCount);
-                subsCount.setText(getResources().getString(R.string.subs_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getSubscriberCount()))));
+            TextView subsCount = (TextView) findViewById(R.id.channel_subscriberCount);
+            subsCount.setText(getResources().getString(R.string.subs_count, String.valueOf(NumberFormat.getInstance().format(yc.getChannel().getSubscriberCount()))));
 
-                ImageView ban = (ImageView) findViewById(R.id.channel_banner);
-                Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);
+            ImageView ban = (ImageView) findViewById(R.id.channel_banner);
+            Picasso.with(this).load(yc.getChannel().getBannerURL()).into(ban);
 
-                if (getIntent().getBooleanExtra("SHOWAD", false)) {
-                    mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
-                    requestNewInterstitial();
-                    mInterstitialAd.setAdListener(new AdListener() {
-                        @Override
-                        public void onAdLoaded() {
-                            showInterstitial();
-                        }
-                    });
-                }
+            if (getIntent().getBooleanExtra("SHOWAD", false)) {
+                mInterstitialAd.setAdUnitId(this.getResources().getString(R.string.interstitial));
+                requestNewInterstitial();
+                mInterstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        showInterstitial();
+                    }
+                });
+            }
 
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                boolean notifJDG = prefs.getBoolean(getResources().getString(R.string.notifJDG), true);
-                boolean notifBazar = prefs.getBoolean(getResources().getString(R.string.notifBazar), true);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean notifJDG = prefs.getBoolean(getResources().getString(R.string.notifJDG), true);
+            boolean notifBazar = prefs.getBoolean(getResources().getString(R.string.notifBazar), true);
 
-                if (notifJDG || notifBazar) {
-                    scheduleAlarm();
-                } else {
-                    cancelAlarm();
-                }
-
+            if (notifJDG || notifBazar) {
+                scheduleAlarm();
+            } else {
+                cancelAlarm();
             }
 
         }

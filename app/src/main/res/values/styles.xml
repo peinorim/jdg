@@ -67,8 +67,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="LinearProgress" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/green_darken1</item>
+    <style name="Progress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/yellow</item>
+    </style>
+
+    <style name="ProgressWhite" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/green_darken2</item>
     </style>
 
 </resources>

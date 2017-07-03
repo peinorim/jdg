@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -243,9 +244,13 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-        long firstMillis = System.currentTimeMillis(); // alarm is set right away
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, firstMillis, 3600 * 1000 * 3, pIntent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pIntent);
+        } else {
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 3600 * 1000 * 3, pIntent);
+        }
     }
 
     public void cancelAlarm() {

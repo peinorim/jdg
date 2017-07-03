@@ -2,6 +2,8 @@ package com.paocorp.joueurdugrenier.activities;
 
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 import com.paocorp.joueurdugrenier.R;
+import com.paocorp.joueurdugrenier.services.JDGAlarmReceiver;
 
 import java.util.List;
 
@@ -48,6 +51,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     editor.putBoolean(preference.getContext().getString(R.string.notifJDG), false);
                     editor.putBoolean(preference.getContext().getString(R.string.notifBazar), false);
                     editor.apply();
+                    cancelAlarm(preference.getContext());
+                } else {
+                    scheduleAlarm(preference.getContext());
                 }
             } else {
                 // For all other preferences, set the summary to the value's
@@ -139,6 +145,31 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static void scheduleAlarm(Context context) {
+        // Construct an intent that will execute the AlarmReceiver
+        Intent intent = new Intent(context, JDGAlarmReceiver.class);
+
+        // Create a PendingIntent to be triggered when the alarm goes off
+        final PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pIntent);
+        } else {
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                    3600 * 1000 * 3, pIntent);
+        }
+    }
+
+    public static void cancelAlarm(Context context) {
+        Intent intent = new Intent(context, JDGAlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(context, JDGAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
     }
 
     /**

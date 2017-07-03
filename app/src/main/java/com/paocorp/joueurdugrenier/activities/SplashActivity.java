@@ -56,27 +56,25 @@ public class SplashActivity extends ParentActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            if (android.os.Build.VERSION.SDK_INT > 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                String channel_id;
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String channel_id;
 
-                if (isNetworkAvailable()) {
-                    if (getIntent().getBooleanExtra("NOTIF", false)) {
-                        channel_id = getResources().getString(R.string.channel_bazar_id);
-                        yc = new YoutubeConnector(SplashActivity.this, channel_id, null);
+            if (isNetworkAvailable()) {
+                if (getIntent().getBooleanExtra("NOTIF", false)) {
+                    channel_id = getResources().getString(R.string.channel_bazar_id);
+                    yc = new YoutubeConnector(SplashActivity.this, channel_id, null);
 
-                        this.lastResults = searchVideos(null, 10);
-                        this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
-                        this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
-                    } else {
-                        channel_id = getResources().getString(R.string.channel_jdg_id);
-                        yc = new YoutubeConnector(SplashActivity.this, channel_id, null);
+                    this.lastResults = searchVideos(null, 10);
+                    this.second = searchVideos(getResources().getString(R.string.aventures_keyword), 10);
+                    this.third = searchVideos(getResources().getString(R.string.play_keyword), 10);
+                } else {
+                    channel_id = getResources().getString(R.string.channel_jdg_id);
+                    yc = new YoutubeConnector(SplashActivity.this, channel_id, null);
 
-                        this.lastResults = searchVideos(null, 10);
-                        this.second = searchVideos(getResources().getString(R.string.papy_keyword), 10);
-                        this.third = searchVideos(getResources().getString(R.string.hs_keyword), 10);
-                    }
+                    this.lastResults = searchVideos(null, 10);
+                    this.second = searchVideos(getResources().getString(R.string.papy_keyword), 10);
+                    this.third = searchVideos(getResources().getString(R.string.hs_keyword), 10);
                 }
             }
 
