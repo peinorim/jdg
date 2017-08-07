@@ -1,10 +1,10 @@
 package com.paocorp.joueurdugrenier.services;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.WakefulBroadcastReceiver;
 
-public class JDGAlarmReceiver extends BroadcastReceiver {
+public class JDGAlarmReceiver extends WakefulBroadcastReceiver {
     public static final int REQUEST_CODE = 12345;
     public static final String ACTION = "com.paocorp.joueurdugrenier.alarm";
 

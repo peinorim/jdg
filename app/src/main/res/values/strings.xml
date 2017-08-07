@@ -13,7 +13,8 @@
     <string name="interstitial">ca-app-pub-2669557761715669/2015677235</string>
     <string name="banner">ca-app-pub-2669557761715669/2361438035</string>
     <string name="offline">Vous devez disposer d\'une connexion internet pour utiliser cette application.</string>
-    <string name="dateStored">com.paocorp.joueurdugrenier.datestored</string>
+    <string name="jdgDateStored">com.paocorp.joueurdugrenier.jdgdatestored</string>
+    <string name="bazarDateStored">com.paocorp.joueurdugrenier.datestored</string>
     <string name="new_videos">notifications_new_videos</string>
     <string name="notifJDG">com.paocorp.joueurdugrenier.notifjdg</string>
     <string name="notifBazar">com.paocorp.joueurdugrenier.notifbazar</string>

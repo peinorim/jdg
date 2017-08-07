@@ -240,17 +240,13 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
     public void scheduleAlarm() {
         // Construct an intent that will execute the AlarmReceiver
         Intent intent = new Intent(getApplicationContext(), JDGAlarmReceiver.class);
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pIntent);
-        } else {
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 3600 * 1000 * 3, pIntent);
-        }
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_HALF_DAY, pIntent);
     }
 
     public void cancelAlarm() {

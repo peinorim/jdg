@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <supports-screens
         android:anyDensity="true"
@@ -100,6 +101,7 @@
             android:process=":remote">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
 
@@ -112,7 +114,8 @@
             android:label="@string/action_settings"
             android:theme="@style/SettingsTheme" />
 
-        <receiver android:name=".widgets.JDGWidgetProvider"
+        <receiver
+            android:name=".widgets.JDGWidgetProvider"
             android:label="@string/pref_jdg">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -122,7 +125,8 @@
                 android:resource="@xml/jdg_widget" />
         </receiver>
 
-        <receiver android:name=".widgets.BazarWidgetProvider"
+        <receiver
+            android:name=".widgets.BazarWidgetProvider"
             android:label="@string/pref_bazar">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
