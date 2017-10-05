@@ -66,16 +66,23 @@ public class JDGService extends IntentService {
         if (video != null) {
             Date now = new Date();
 
-            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.dateStored), Context.MODE_PRIVATE);
+            String setting;
+            if (channelId.equals(getResources().getString(R.string.channel_bazar_id))) {
+                setting = getString(R.string.bazarDateStored);
+            } else {
+                setting = getString(R.string.jdgDateStored);
+            }
+
+            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(setting, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             try {
-                Date lastFetched = getDateFormat().parse(sharedPref.getString(getResources().getString(R.string.dateStored), getDateFormat().format(now)));
+                Date lastFetched = getDateFormat().parse(sharedPref.getString(setting, getDateFormat().format(now)));
 
                 if (lastFetched.before(video.getDate())) {
                     showNotif(video, channelId);
-                    editor.putString(getResources().getString(R.string.dateStored), getDateFormat().format(video.getDate()));
+                    editor.putString(setting, getDateFormat().format(video.getDate()));
                 } else {
-                    editor.putString(getResources().getString(R.string.dateStored), getDateFormat().format(now));
+                    editor.putString(setting, getDateFormat().format(now));
                 }
                 editor.apply();
             } catch (ParseException e) {
@@ -123,6 +130,7 @@ public class JDGService extends IntentService {
         Intent resultIntent = new Intent(this, SplashActivity.class);
         if (channelId.equals(getResources().getString(R.string.channel_bazar_id))) {
             resultIntent.putExtra("NOTIF", "bazar");
+            mNotificationId = 002;
         } else {
             resultIntent.putExtra("NOTIF", "jdg");
         }
