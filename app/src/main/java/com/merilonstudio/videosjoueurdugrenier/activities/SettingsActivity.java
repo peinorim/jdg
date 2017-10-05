@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.activities;
+package com.merilonstudio.videosjoueurdugrenier.activities;
 
 
 import android.annotation.TargetApi;
@@ -17,8 +17,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
-import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.services.JDGAlarmReceiver;
+import com.merilonstudio.videosjoueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.services.JDGAlarmReceiver;
 
 import java.util.List;
 
@@ -155,13 +155,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         final PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pIntent);
-        } else {
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                    3600 * 1000 * 3, pIntent);
-        }
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pIntent);
     }
 
     public static void cancelAlarm(Context context) {

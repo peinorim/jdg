@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.activities;
+package com.merilonstudio.videosjoueurdugrenier.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,9 +7,9 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
-import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
-import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.merilonstudio.videosjoueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeConnector;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeVideo;
 
 import java.util.ArrayList;
 

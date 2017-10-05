@@ -7,16 +7,16 @@
     <string name="channel_bazar">Youtube Bazar du grenier</string>
     <string name="news">News</string>
     <string name="app_desc">Fan App Joueur du grenier</string>
-    <string name="app_url">paocorp.com</string>
+    <string name="app_url">merilonstudio.github.io</string>
     <string name="failed">Erreur dans le chargement de la vidéo</string>
-    <string name="loading">Veuillez patienter svp...</string>
-    <string name="interstitial">ca-app-pub-2669557761715669/2015677235</string>
-    <string name="banner">ca-app-pub-2669557761715669/2361438035</string>
+    <string name="loading">Veuillez patienter svp…</string>
+    <string name="interstitial">ca-app-pub-9605677164645933/6652860617</string>
+    <string name="banner">ca-app-pub-9605677164645933/9087452265</string>
     <string name="offline">Vous devez disposer d\'une connexion internet pour utiliser cette application.</string>
-    <string name="dateStored">com.paocorp.joueurdugrenier.datestored</string>
+    <string name="dateStored">com.merilonstudio.videosjoueurdugrenier.datestored</string>
     <string name="new_videos">notifications_new_videos</string>
-    <string name="notifJDG">com.paocorp.joueurdugrenier.notifjdg</string>
-    <string name="notifBazar">com.paocorp.joueurdugrenier.notifbazar</string>
+    <string name="notifJDG">com.merilonstudio.videosjoueurdugrenier.notifjdg</string>
+    <string name="notifBazar">com.merilonstudio.videosjoueurdugrenier.notifbazar</string>
 
     <string name="last_videos">Dernières vidéos</string>
     <string name="all_videos">Toutes les vidéos</string>
@@ -59,7 +59,9 @@
     <string name="social_title">Réseaux sociaux</string>
     <string name="application">Application</string>
     <string name="rate_app">Noter cette application</string>
-    <string name="store_url">https://play.google.com/store/apps/details?id=com.paocorp.joueurdugrenier</string>
+    <string name="dev_page">Notre page développeur</string>
+    <string name="dev_url">https://play.google.com/store/apps/dev?id=5564318794958031946</string>
+    <string name="store_url">https://play.google.com/store/apps/details?id=com.merilonstudio.videosjoueurdugrenier</string>
     <string name="video_count">%1$s vidéos mises en ligne</string>
     <string name="view_count">%1$s vues</string>
     <string name="subs_count">%1$s abonnés</string>
@@ -67,7 +69,7 @@
 
     <!-- Twitter Configurations -->
     <string name="twitter_jdg_id">frederic_molas</string>
-    <string name="twitter_callback">http://paocorp.com</string>
+    <string name="twitter_callback">https://merilon.github.io</string>
     <string name="twitter_consumer_key">AKMOt4FJn3fPRwbsFL6L52X0j</string>
     <string name="twitter_consumer_secret">KXUMBOQyDjL2iQaHPIYvnEG2nx25PjZPtGJBjaSyw7vFGeFhOf</string>
     <string name="twitter_oauth_verifier">oauth_verifier</string>

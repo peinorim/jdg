@@ -1,11 +1,11 @@
-package com.paocorp.joueurdugrenier.models;
+package com.merilonstudio.videosjoueurdugrenier.models;
 
 import android.content.Context;
 
 import com.einmalfel.earl.EarlParser;
 import com.einmalfel.earl.Feed;
 import com.einmalfel.earl.Item;
-import com.paocorp.joueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.R;
 
 import org.xmlpull.v1.XmlPullParserException;
 

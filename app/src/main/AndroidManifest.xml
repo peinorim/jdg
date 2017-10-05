@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.paocorp.joueurdugrenier">
+    package="com.merilonstudio.videosjoueurdugrenier">
 
     <!-- Include required permissions for Google Mobile Ads to run -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <supports-screens
         android:anyDensity="true"
@@ -21,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.merilonstudio.videosjoueurdugrenier.activities.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Theme.Transparent">
@@ -32,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.JDGActivity"
+            android:name="com.merilonstudio.videosjoueurdugrenier.activities.JDGActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
@@ -52,7 +53,7 @@
                 android:theme="@style/AppTheme" />
         </activity>
         <activity
-            android:name=".activities.BazarActivity"
+            android:name="com.merilonstudio.videosjoueurdugrenier.activities.BazarActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_bazar"
             android:launchMode="singleInstance"
@@ -72,20 +73,20 @@
                 android:theme="@style/AppTheme" />
         </activity>
         <activity
-            android:name=".activities.NewsActivity"
+            android:name="com.merilonstudio.videosjoueurdugrenier.activities.NewsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/news"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateVisible|stateAlwaysHidden" />
         <activity
-            android:name=".youtube.PlayerActivity"
+            android:name="com.merilonstudio.videosjoueurdugrenier.youtube.PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_player"
             android:theme="@style/AppTheme.Youtube"
             android:windowSoftInputMode="adjustResize|stateVisible|stateAlwaysHidden" />
         <activity
-            android:name=".activities.TwitterActivity"
+            android:name="com.merilonstudio.videosjoueurdugrenier.activities.TwitterActivity"
             android:label="@string/twitter_jdg"
             android:theme="@style/AppTheme.Twitter.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateVisible|stateAlwaysHidden">
@@ -95,7 +96,7 @@
         </activity>
 
         <receiver
-            android:name=".services.JDGAlarmReceiver"
+            android:name="com.merilonstudio.videosjoueurdugrenier.services.JDGAlarmReceiver"
             android:enabled="true"
             android:process=":remote">
             <intent-filter>
@@ -104,15 +105,16 @@
         </receiver>
 
         <service
-            android:name=".services.JDGService"
+            android:name="com.merilonstudio.videosjoueurdugrenier.services.JDGService"
             android:exported="false" />
 
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.merilonstudio.videosjoueurdugrenier.activities.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/SettingsTheme" />
 
-        <receiver android:name=".widgets.JDGWidgetProvider"
+        <receiver
+            android:name="com.merilonstudio.videosjoueurdugrenier.widgets.JDGWidgetProvider"
             android:label="@string/pref_jdg">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -122,7 +124,8 @@
                 android:resource="@xml/jdg_widget" />
         </receiver>
 
-        <receiver android:name=".widgets.BazarWidgetProvider"
+        <receiver
+            android:name="com.merilonstudio.videosjoueurdugrenier.widgets.BazarWidgetProvider"
             android:label="@string/pref_bazar">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

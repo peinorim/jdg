@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.models;
+package com.merilonstudio.videosjoueurdugrenier.models;
 
 
 import android.app.Activity;
@@ -10,8 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.merilonstudio.videosjoueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;

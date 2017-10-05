@@ -1,8 +1,7 @@
-package com.paocorp.joueurdugrenier.activities;
+package com.merilonstudio.videosjoueurdugrenier.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,7 +35,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
-import com.paocorp.joueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.R;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -248,6 +247,8 @@ public class TwitterActivity extends ParentActivity implements View.OnClickListe
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.store_url)));
             } else if (id == R.id.nav_settings) {
                 intent = new Intent(this, SettingsActivity.class);
+            } else if (id == R.id.nav_dev) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.dev_url)));
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

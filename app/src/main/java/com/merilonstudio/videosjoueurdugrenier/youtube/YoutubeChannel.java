@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.youtube;
+package com.merilonstudio.videosjoueurdugrenier.youtube;
 
 import java.math.BigInteger;
 

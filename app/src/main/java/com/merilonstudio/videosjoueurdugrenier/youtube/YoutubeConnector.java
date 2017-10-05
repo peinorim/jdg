@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.youtube;
+package com.merilonstudio.videosjoueurdugrenier.youtube;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -18,7 +18,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
 import com.google.api.services.youtube.model.VideoListResponse;
 import com.google.api.services.youtube.model.VideoStatistics;
-import com.paocorp.joueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.R;
 
 import java.io.IOException;
 import java.text.ParseException;

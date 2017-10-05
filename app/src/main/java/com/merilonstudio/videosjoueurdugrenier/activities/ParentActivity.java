@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.activities;
+package com.merilonstudio.videosjoueurdugrenier.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -25,12 +24,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.models.VideosListAdapter;
-import com.paocorp.joueurdugrenier.services.JDGAlarmReceiver;
-import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
-import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
-import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.merilonstudio.videosjoueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.models.VideosListAdapter;
+import com.merilonstudio.videosjoueurdugrenier.services.JDGAlarmReceiver;
+import com.merilonstudio.videosjoueurdugrenier.youtube.PlayerActivity;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeConnector;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeVideo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -245,12 +244,7 @@ public abstract class ParentActivity extends AppCompatActivity implements Naviga
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pIntent);
-        } else {
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 3600 * 1000 * 3, pIntent);
-        }
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_HOUR, pIntent);
     }
 
     public void cancelAlarm() {

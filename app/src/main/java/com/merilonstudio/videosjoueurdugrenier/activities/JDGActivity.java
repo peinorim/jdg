@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.activities;
+package com.merilonstudio.videosjoueurdugrenier.activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -29,11 +29,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
-import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.models.SearchAdapter;
-import com.paocorp.joueurdugrenier.youtube.PlayerActivity;
-import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
-import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.merilonstudio.videosjoueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.models.SearchAdapter;
+import com.merilonstudio.videosjoueurdugrenier.youtube.PlayerActivity;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeConnector;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeVideo;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -342,6 +342,8 @@ public class JDGActivity extends ParentActivity {
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.store_url)));
             } else if (id == R.id.nav_settings) {
                 intent = new Intent(this, SettingsActivity.class);
+            } else if (id == R.id.nav_dev) {
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.dev_url)));
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

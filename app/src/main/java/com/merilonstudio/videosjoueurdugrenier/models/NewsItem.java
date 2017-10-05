@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.models;
+package com.merilonstudio.videosjoueurdugrenier.models;
 
 import java.util.Date;
 

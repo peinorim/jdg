@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.widgets;
+package com.merilonstudio.videosjoueurdugrenier.widgets;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -6,14 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.activities.SplashActivity;
-import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
-import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.merilonstudio.videosjoueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.activities.SplashActivity;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeConnector;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeVideo;
 
 import java.util.ArrayList;
 
-public class BazarWidgetProvider extends ParentWidgetProvider {
+public class JDGWidgetProvider extends ParentWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
         this.context = context.getApplicationContext();
@@ -21,7 +21,6 @@ public class BazarWidgetProvider extends ParentWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             // Create an Intent to launch SplashActivity
             Intent intent = new Intent(context, SplashActivity.class);
-            intent.putExtra("NOTIF", "bazar");
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
             // Get the layout for the App Widget and attach an on-click listener
@@ -32,7 +31,7 @@ public class BazarWidgetProvider extends ParentWidgetProvider {
             views.setOnClickPendingIntent(R.id.video_description, pendingIntent);
 
             if (isNetworkAvailable()) {
-                YoutubeConnector yc = new YoutubeConnector(context, context.getResources().getString(R.string.channel_bazar_id), null);
+                YoutubeConnector yc = new YoutubeConnector(context, context.getResources().getString(R.string.channel_jdg_id), null);
                 if (yc.getYoutube() != null) {
 
                     ArrayList<YoutubeVideo> lastResult = yc.search(null, 1);

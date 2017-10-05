@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.models;
+package com.merilonstudio.videosjoueurdugrenier.models;
 
 
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.paocorp.joueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

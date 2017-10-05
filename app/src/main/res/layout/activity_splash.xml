@@ -36,7 +36,7 @@
             android:layout_marginBottom="10dp"
             android:autoLink="web"
             android:gravity="center_horizontal"
-            android:text="paocorp.com"
+            android:text="@string/app_url"
             android:textColorLink="@color/black"
             android:textSize="@dimen/normal_text_size" />
 

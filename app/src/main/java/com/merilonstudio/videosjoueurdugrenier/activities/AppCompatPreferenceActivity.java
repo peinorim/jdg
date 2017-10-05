@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.activities;
+package com.merilonstudio.videosjoueurdugrenier.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

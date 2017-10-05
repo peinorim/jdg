@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.widgets;
+package com.merilonstudio.videosjoueurdugrenier.widgets;
 
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;

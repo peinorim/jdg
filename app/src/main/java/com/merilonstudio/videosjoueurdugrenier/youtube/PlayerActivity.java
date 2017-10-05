@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.youtube;
+package com.merilonstudio.videosjoueurdugrenier.youtube;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,7 +13,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.api.services.youtube.model.Video;
-import com.paocorp.joueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.R;
 
 import java.text.NumberFormat;
 

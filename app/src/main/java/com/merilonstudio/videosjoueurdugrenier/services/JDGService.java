@@ -1,4 +1,4 @@
-package com.paocorp.joueurdugrenier.services;
+package com.merilonstudio.videosjoueurdugrenier.services;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -14,10 +14,10 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
-import com.paocorp.joueurdugrenier.R;
-import com.paocorp.joueurdugrenier.activities.SplashActivity;
-import com.paocorp.joueurdugrenier.youtube.YoutubeConnector;
-import com.paocorp.joueurdugrenier.youtube.YoutubeVideo;
+import com.merilonstudio.videosjoueurdugrenier.R;
+import com.merilonstudio.videosjoueurdugrenier.activities.SplashActivity;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeConnector;
+import com.merilonstudio.videosjoueurdugrenier.youtube.YoutubeVideo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -99,12 +99,18 @@ public class JDGService extends IntentService {
             e.printStackTrace();
         }
 
+        String notifTxt = video.getDescription();
+
+        if (video.getDescription().length() <= 100) {
+            notifTxt = video.getDescription().substring(0, video.getDescription().length() - 5);
+        }
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
                         .setLargeIcon(myBitmap)
                         .setContentTitle(video.getTitle())
-                        .setContentText(video.getDescription().substring(0, 100) + "...");
+                        .setContentText(notifTxt + "...");
 
         // Sets an ID for the notification
         int mNotificationId = 001;
